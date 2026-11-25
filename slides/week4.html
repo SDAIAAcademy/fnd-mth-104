@@ -1,56 +1,236 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Week 2 measured the standard error by drawing new samples from a known population. In real work there is one sample and no population. This week's trick: let the sample stand in for the population, and resample it.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week3" data-lo="LO3">
+  <div class="kicker">Review · week 3</div>
+  <h2>Why does the overall rate mislead?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">Branches that chose a new oven burn more trays overall, but fewer within both small and large branches. Large branches chose the oven more often and burn more trays with any oven. What is branch size here?</p>
+    <div class="opts">
+      <div class="opt" data-why="Confuses a confounder with the outcome">The outcome of the comparison</div>
+      <div class="opt" data-why="Thinks size is just noise: it changes the direction of the comparison">A source of random error that averages out</div>
+      <div class="opt" data-why="Thinks it is the treatment being studied">The treatment</div>
+      <div class="opt" data-ok>A confounder: it drives both the choice and the burn rate</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Size affects who got the oven and how many trays burn, so the overall comparison mixes the two.</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="bootstrap-idea" data-lo="LO4">
+  <div class="kicker">Block A · the idea</div>
+  <h2>Treat the sample as the population, and draw new samples from it</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Resample</b>n values from the sample, <b>with replacement</b></div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Compute</b>The statistic</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Repeat</b>Thousands of times</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Read</b>The spread of the statistics</div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout note mt">With replacement, because without it every resample would be the sample itself, reordered.</div>
+  <aside class="notes"><p>Compare with week 2's flow: the same four steps, with the sample in the place of the population. The standard deviation of the bootstrap statistics estimates the standard error.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="resamples" data-lo="LO4">
+  <div class="kicker">Block A · an example</div>
+  <h2>Five delivery times, three resamples, three different means</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>Sample, in minutes: 12, 15, 18, 22, 60 (mean 25.4)</p>
+      <table class="t small">
+        <tr><th>Resample</th><th class="num">Mean</th></tr>
+        <tr><td>22, 60, 60, 18, 60</td><td class="num">44.0</td></tr>
+        <tr><td>60, 60, 12, 18, 22</td><td class="num">34.4</td></tr>
+        <tr><td>15, 15, 22, 60, 18</td><td class="num">26.0</td></tr>
+      </table>
+    </div>
+    <ul class="bullets">
+      <li>Some values appear twice or three times, some not at all</li>
+      <li>The one long delivery drives most of the variation</li>
+      <li>No resample can contain a value the sample lacks</li>
+    </ul>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From slide_numbers.py, week 4 (seed 4). The last bullet is the key to block C: the bootstrap only knows the sample.</p></aside>
+</section>
+
+<section class="slide" id="percentile-interval" data-lo="LO4">
+  <div class="kicker">Block A · the interval</div>
+  <h2>A 95% percentile interval keeps the middle 95% of the bootstrap statistics</h2>
+  <pre class="code" data-file="numpy"><code class="language-python">idx = rng.integers(0, len(x), size=(B, len(x)))   # B resamples at once
+boots = np.mean(x[idx], axis=1)
+low, high = np.percentile(boots, [2.5, 97.5])</code></pre>
+  <ul class="bullets mt">
+    <li>Works for any statistic: swap np.mean for np.median</li>
+    <li>B of 2,000 or more keeps the ends steady; report B and the seed</li>
+  </ul>
+  <aside class="notes"><p>Explain the indexing trick: one B × n matrix of random positions, then one vectorised statistic per row. Participants write this function in the lab and reuse it in week 5.</p></aside>
+</section>
+
+<section class="slide" id="check-resample" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>What can a resample contain?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A sample of six repair costs is 80, 95, 110, 120, 150, 400. Which of these can be a bootstrap resample of it?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks resamples are new draws from the population: they only reuse sample values">80, 95, 100, 120, 150, 400</div>
+      <div class="opt" data-why="Thinks a resample is smaller than the sample: it keeps the same size">95, 110, 400</div>
+      <div class="opt" data-ok>400, 400, 80, 120, 120, 95</div>
+      <div class="opt" data-why="Thinks a resample must use every value once: that is only the sample reordered">The six values in a new order only</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Same size, values from the sample, repeats allowed.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="ci-meaning" data-lo="LO2">
+  <div class="kicker">Block B · meaning</div>
+  <h2>The 95% belongs to the method, not to one interval</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Draw many samples; build an interval from each</li>
+      <li>A 95% method contains the true value in about 95% of them</li>
+      <li>Any one interval either contains it or does not; we do not know which</li>
+    </ul>
+    <div class="card c-teal"><h4>A correct sentence</h4><p class="small mb0">"Our method gives intervals that contain the true mean in about 95% of samples; from this sample the interval is A to B."</p></div>
+  </div>
+  <aside class="notes"><p>The LO2 sheet in the second test has ten statements to classify and correct; most misreadings come from forgetting that the 95% is about the method.</p></aside>
+</section>
+
+<section class="slide" id="ci-misreadings" data-lo="LO2">
+  <div class="kicker">Block B · misreadings</div>
+  <h2>Four common misreadings of a confidence interval</h2>
+  <table class="t">
+    <tr><th>Misreading</th><th>Correction</th></tr>
+    <tr><td>"95% of the values lie in the interval"</td><td>The interval is for the mean (or median), not for single values</td></tr>
+    <tr><td>"The true mean has a 95% chance of being in this interval"</td><td>The 95% describes how often the method works</td></tr>
+    <tr><td>"A wider interval means a worse method"</td><td>Width reflects the data and n; a too-narrow method under-covers</td></tr>
+    <tr class="hl"><td>"Two overlapping intervals mean no difference"</td><td>Overlap does not settle it: build an interval for the difference (week 5)</td></tr>
+  </table>
+  <aside class="notes"><p>Ask participants to say which misreading they have seen in a report. The overlap rule is wrong in both directions and is common in dashboards.</p></aside>
+</section>
+
+<section class="slide" id="check-ci" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Classify the statement</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">A report says: "The 95% interval for the mean delivery time is 27 to 33 minutes, so 95% of deliveries take between 27 and 33 minutes." What is wrong?</p>
+    <div class="opts">
+      <div class="opt" data-why="The level is fine: the problem is what the interval is about">Nothing; it should just say 90%</div>
+      <div class="opt" data-why="Thinks intervals are always symmetric around the mean">The interval should be centred exactly on 30</div>
+      <div class="opt" data-why="Thinks bootstrap intervals cannot describe means">Bootstrap intervals only describe medians</div>
+      <div class="opt" data-ok>It reads an interval for the mean as a range for single deliveries</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Single deliveries vary much more than their mean; the interval describes the mean.</div>
+  </div>
+  <aside class="notes"><p>Answer D. Ask for the corrected sentence aloud.</p></aside>
+</section>
+
+<section class="slide" id="coverage-check" data-lo="LO4">
+  <div class="kicker">Block C · coverage</div>
+  <h2>When the truth is known, count how often the intervals contain it</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>Normal population</th><th class="num">Coverage of the 95% percentile interval</th></tr>
+      <tr><td>n = 10</td><td class="num">0.900</td></tr>
+      <tr class="hl"><td>n = 40</td><td class="num">0.933</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>2,000 samples per row, 2,000 resamples each</li>
+      <li>Even on a well-behaved population, small samples give intervals a little too narrow</li>
+      <li>A long-tailed population is harder: the lab measures it</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 4 (normal population, mean 50, sd 10, seed 44). The Monte Carlo error of each coverage figure is about ±0.01. The lab does the same on the baskets, whose tail is long.</p></aside>
+</section>
+
+<section class="slide" id="assumptions" data-lo="LO4">
+  <div class="kicker">Block C · assumptions</div>
+  <h2>The bootstrap assumes the sample looks like the population, row by independent row</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Representative</h4><p class="small mb0">A biased frame gives a precise interval around the wrong value.</p></div>
+    <div class="card c-coral"><h4>Big enough</h4><p class="small mb0">A small sample from a long tail rarely shows the tail.</p></div>
+    <div class="card c-purple"><h4>Independent rows</h4><p class="small mb0">Repeated measures of the same person or branch need clustered resampling (SPC-STA-201).</p></div>
+  </div>
+  <aside class="notes"><p>Each card maps to a line in the lab note's limits. Clustered and studentised bootstraps are taught in SPC-STA-201.</p></aside>
+</section>
+
+<section class="slide" id="library-default" data-lo="LO4">
+  <div class="kicker">Block C · libraries</div>
+  <h2>Check which interval a library returns: SciPy's default is not the percentile method</h2>
+  <pre class="code" data-file="scipy"><code class="language-python">from scipy import stats
+stats.bootstrap((x,), np.mean, method="percentile")   # what you build in the lab
+stats.bootstrap((x,), np.mean)                        # default method: BCa</code></pre>
+  <div class="callout note mt">BCa (bias-corrected and accelerated) adjusts the ends; why it does is in SPC-STA-201. Name the method in every report.</div>
+  <aside class="notes"><p>Sources: SciPy documentation of scipy.stats.bootstrap, which gives method 'BCa' as the default. In R the infer package and the boot package have their own defaults; the habit is the same: read the documentation of the version you use.</p></aside>
+</section>
+
+<section class="slide" id="check-coverage" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does this coverage study show?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A coverage study of a 95% interval method on a long-tailed population gives 0.86 at n = 12 and 0.94 at n = 150, from 1,000 samples each. What is the right conclusion?</p>
+    <div class="opts">
+      <div class="opt" data-ok>The method is close to its 95% at n = 150 and too narrow at n = 12</div>
+      <div class="opt" data-why="Ignores the Monte Carlo error of about ±0.014 at 1,000 samples">The method fails at both sizes, since neither shows exactly 0.95</div>
+      <div class="opt" data-why="Thinks more resamples would fix a small sample">Use more bootstrap resamples at n = 12 and it will reach 0.95</div>
+      <div class="opt" data-why="Thinks coverage studies measure precision, not correctness">The intervals at n = 150 are more often wrong because they are narrower</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> 0.94 is within simulation error of 0.95; 0.86 is far below it.</div>
+  </div>
+  <aside class="notes"><p>Answer A. The Monte Carlo error of a coverage estimate from 1,000 samples is about ±0.014 (two standard errors).</p></aside>
 </section>
 
 <section class="slide lab" id="lab-4-1" data-auto="lab" data-lab="4.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's second lab line. Watch for: resampling without replacement; using the population's statistic inside boot_ci; a coverage loop that reuses one sample. Quick mode (STA_QUICK=1) runs 200 samples per row, so its coverage figures move by a few points.</p></aside>
+</section>
+
+<section class="slide" id="debrief-one-sample" data-lo="LO2 LO4">
+  <div class="kicker">Debrief · lab 4.1</div>
+  <h2>The first sample's interval missed the true mean: that is what 95% allows</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">14.59 to 19.94</div><div class="lbl">interval for the mean from 50 baskets</div></div>
+    <div class="stat center"><div class="big">21.93</div><div class="lbl">the true mean of the quarter</div></div>
+  </div>
+  <p class="small mt">The median's interval, 12.48 to 18.00, did contain the true median, 17.61. A rerun with a new seed moved the ends by at most 0.32.</p>
+  <aside class="notes"><p>From the solution run of lab 4.1. Turn the miss into the lesson: one interval tells you nothing about the method's success rate; the coverage table does.</p></aside>
+</section>
+
+<section class="slide" id="debrief-coverage" data-lo="LO4">
+  <div class="kicker">Debrief · lab 4.1</div>
+  <h2>On the long-tailed baskets the mean's interval reached 0.92 only at n = 100</h2>
+  <table class="t">
+    <tr><th class="num">n</th><th class="num">Mean</th><th class="num">Median</th></tr>
+    <tr><td class="num">10</td><td class="num">0.853</td><td class="num">0.937</td></tr>
+    <tr><td class="num">30</td><td class="num">0.897</td><td class="num">0.932</td></tr>
+    <tr class="hl"><td class="num">100</td><td class="num">0.920</td><td class="num">0.939</td></tr>
+  </table>
+  <p class="small mt">1,000 samples per row: each figure carries a Monte Carlo error of about ±0.014.</p>
+  <aside class="notes"><p>From the solution run of lab 4.1. The t interval did not do better (stretch: 0.877, 0.917, 0.927). The median's interval held its level better on this population.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 4 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Resample the sample</h4><p class="small mb0">Same size, with replacement, any statistic.</p></div>
+    <div class="card c-coral"><h4>95% is the method's</h4><p class="small mb0">One interval either contains the truth or not.</p></div>
+    <div class="card c-purple"><h4>Check coverage</h4><p class="small mb0">Small samples from long tails give intervals too narrow.</p></div>
   </div>
+  <aside class="notes"><p>Remind the room that the first supervised test is next: weeks 1 to 4.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 5: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 5: Intervals for differences and slopes</h2>
+  <p class="lead">Problem set 4 (50 minutes, AI off for the first attempt): labs/problem-sets/PS4.ipynb. The first supervised test, 90 minutes, AI off, follows this week.</p>
+  <aside class="notes"><p>The test's blueprint and items are in the trainer pack, not in this repository. 45 minutes on paper (the meaning of a standard error, of an interval, of a frame), 45 at the keyboard (a sampling simulation and a bootstrap interval on new data).</p></aside>
 </section>
