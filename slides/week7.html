@@ -1,56 +1,203 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>One test at α = 0.05 errs on true nulls one time in twenty. This week asks what happens when a report runs twenty tests, or one test chosen from twenty possible ones.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week6" data-lo="LO2">
+  <div class="kicker">Review · week 6</div>
+  <h2>Read the result</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: "the layout has no effect". What is the best correction?</p>
+    <div class="opts">
+      <div class="opt" data-ok>"The data cannot tell at this size; the interval for the effect is wide."</div>
+      <div class="opt" data-why="Reads p as the probability that the layout works">"There is a 79% chance the layout works."</div>
+      <div class="opt" data-why="Reads a non-significant p as proof in the other direction">"The layout makes things worse."</div>
+      <div class="opt" data-why="Thinks a smaller α fixes the reading">"Retest at α = 0.01 to confirm there is no effect."</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Not enough evidence of an effect is not evidence of no effect; the interval shows how much is still possible.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
-  </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+<section class="slide" id="many-tests" data-lo="LO6">
+  <div class="kicker">Block A · many tests</div>
+  <h2>Test enough true nulls and something will pass</h2>
+  <table class="t">
+    <tr><th class="num">Tests, all with no true effect</th><th class="num">Expected false findings</th><th class="num">Chance of at least one</th></tr>
+    <tr><td class="num">1</td><td class="num">0.05</td><td class="num">0.050</td></tr>
+    <tr><td class="num">5</td><td class="num">0.25</td><td class="num">0.226</td></tr>
+    <tr><td class="num">10</td><td class="num">0.50</td><td class="num">0.401</td></tr>
+    <tr class="hl"><td class="num">50</td><td class="num">2.50</td><td class="num">0.923</td></tr>
+  </table>
+  <aside class="notes"><p>From slide_numbers.py, week 7: 1 − 0.95^m for independent tests at α = 0.05. The row for twenty is left out on purpose: the lab measures it by simulation.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="dashboards" data-lo="LO3 LO6">
+  <div class="kicker">Block A · where it happens</div>
+  <h2>Dashboards, subgroup tables and "we also looked at" paragraphs run many tests</h2>
+  <ul class="bullets">
+    <li>One test per product line, region or customer segment</li>
+    <li>Many outcomes for one change: sales, visits, basket size, returns</li>
+    <li>Results reported only when they pass, so the reader never sees the count</li>
+  </ul>
+  <div class="callout warn mt"><b>What goes wrong.</b> A "finding" that is one of twenty tests is about as surprising as one heads in twenty coin tosses.</div>
+  <aside class="notes"><p>Ask for a dashboard the room uses that colours cells by significance. How many cells? How many coloured cells would chance alone give?</p></aside>
+</section>
+
+<section class="slide" id="check-many" data-lo="LO6">
+  <div class="kicker">Checkpoint</div>
+  <h2>How surprising is this?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6">
+    <p class="lead">A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a "significant" change. Assume the policy did nothing. How many would you expect?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks α applies to the report as a whole, not to each test">None, since α is only 5%</div>
+      <div class="opt" data-why="Divides instead of multiplying">About 0.05</div>
+      <div class="opt" data-ok>About 2</div>
+      <div class="opt" data-why="Confuses α with power">About 32</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> 40 × 0.05 = 2 false findings are expected with no effect at all.</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="two-error-rates" data-lo="LO6">
+  <div class="kicker">Block B · what to control</div>
+  <h2>Control the chance of any false finding, or the share of false findings</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Family-wise error rate</h4><p class="small mb0">The chance of at least one false finding in the family. Bonferroni: reject when p ≤ α / m. Holm: the same guarantee, step by step, more power.</p></div>
+    <div class="card c-coral"><h4>False discovery rate</h4><p class="small mb0">The expected share of false findings among all findings. Benjamini-Hochberg: largest k with p₍ₖ₎ ≤ k α / m.</p></div>
+  </div>
+  <aside class="notes"><p>Family-wise control suits a few claims that each lead to action; false-discovery control suits screening many candidates for follow-up. Choosing the family and gatekeeping between primary and secondary claims are in SPC-STA-201.</p></aside>
+</section>
+
+<section class="slide" id="six-tests" data-lo="LO6">
+  <div class="kicker">Block B · an example</div>
+  <h2>Six p-values, three procedures, three answers</h2>
+  <table class="t">
+    <tr><th>Sorted p</th><th class="num">0.001</th><th class="num">0.006</th><th class="num">0.012</th><th class="num">0.019</th><th class="num">0.044</th><th class="num">0.31</th></tr>
+    <tr><td>Bonferroni, p ≤ 0.0083</td><td>✓</td><td>✓</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Holm, 0.05 / (6, 5, 4, …)</td><td>✓</td><td>✓</td><td>✓</td><td></td><td></td><td></td></tr>
+    <tr class="hl"><td>BH, k × 0.05 / 6</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+  </table>
+  <aside class="notes"><p>From slide_numbers.py, week 7, checked against statsmodels. Holm: 0.012 ≤ 0.0125 passes, 0.019 &gt; 0.0167 stops. BH: 0.019 ≤ 0.0333 at k = 4; 0.044 &gt; 0.0417 at k = 5. The lab's hand case uses other p-values.</p></aside>
+</section>
+
+<section class="slide" id="corrections-code" data-lo="LO6">
+  <div class="kicker">Block B · in code</div>
+  <h2>Write the corrections once, then check them against a library</h2>
+  <pre class="code" data-file="statsmodels"><code class="language-python">from statsmodels.stats.multitest import multipletests
+from scipy.stats import false_discovery_control
+
+reject, p_adj, _, _ = multipletests(p, alpha=0.05, method="holm")
+q = false_discovery_control(p, method="bh")   # adjusted p-values</code></pre>
+  <aside class="notes"><p>The lab writes bonferroni, holm and bh by hand and checks them against multipletests. R users: p.adjust. Library names change; the definitions do not.</p></aside>
+</section>
+
+<section class="slide" id="check-correction" data-lo="LO6">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which procedure fits the purpose?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6">
+    <p class="lead">A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits?</p>
+    <div class="opts">
+      <div class="opt" data-why="No correction lets about 15 false picks through on noise alone">No correction: each test is at 5%</div>
+      <div class="opt" data-ok>Benjamini-Hochberg, controlling the share of false picks</div>
+      <div class="opt" data-why="Fits a few decisive claims; with 300 tests it would rarely pick anything">Bonferroni, controlling any false pick at all</div>
+      <div class="opt" data-why="A stricter single α does not account for the number of tests">Test each idea at α = 0.01 instead</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Screening for follow-up tolerates a small share of false picks; that is what the false discovery rate controls.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="forking-paths" data-lo="LO3">
+  <div class="kicker">Block C · forking paths</div>
+  <h2>One test can hide many: every choice made after seeing the data is a fork</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Which outcome: units, value, share of baskets</li>
+      <li>Which units: all branches, large ones, one sector</li>
+      <li>What to do with outliers, which weeks, which test</li>
+    </ul>
+    <div class="card c-purple"><h4>No fishing needed</h4><p class="small mb0">Each choice can be reasonable. Making them after looking still inflates the false-finding rate, even when only one test is run.</p></div>
+  </div>
+  <aside class="notes"><p>Sources: Gelman and Loken (2013), The garden of forking paths, whose point is that the problem arises even without conscious fishing. The lab measures it on noise with eight reasonable paths.</p></aside>
+</section>
+
+<section class="slide" id="pre-specify" data-lo="LO3 LO6">
+  <div class="kicker">Block C · the cure</div>
+  <h2>Write the analysis down before you look, and report every test you ran</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Before</h4><p class="small mb0">Question, outcome, groups, test, outlier rule, family of claims.</p></div>
+    <div class="card c-coral"><h4>During</h4><p class="small mb0">Any change to the plan is logged with its reason.</p></div>
+    <div class="card c-purple"><h4>After</h4><p class="small mb0">Report the planned results first; label the rest exploratory.</p></div>
+  </div>
+  <aside class="notes"><p>Week 8's lab ends with three lines of capstone plan written before any result is seen. Pre-registration in full is in SPC-EXP-201.</p></aside>
+</section>
+
+<section class="slide" id="check-forking" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Name the problem</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A summary reports that a staff-training course "significantly reduced errors among evening-shift staff over 40 (p = 0.03)". The full data covered all shifts and ages; no subgroup was planned. What is the main problem?</p>
+    <div class="opts">
+      <div class="opt" data-why="Raises a real but secondary concern; the main issue is how the subgroup was chosen">Evening staff may be less careful</div>
+      <div class="opt" data-why="Thinks a small p-value rules out chance whatever the route to it">None: p = 0.03 is below 0.05</div>
+      <div class="opt" data-why="Thinks sample size is the issue: the issue is the choice">The subgroup is too small for a permutation test</div>
+      <div class="opt" data-ok>A forking path: the subgroup was picked after seeing the data</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Many subgroups could have been reported; choosing the one that passed makes p = 0.03 far less surprising than it looks.</div>
+  </div>
+  <aside class="notes"><p>Answer D. This is the shape of the LO3 critique: name the problem and its effect on the conclusion.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-7-1" data-auto="lab" data-lab="7.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's fourth lab line and the evidence for LO6: participants keep the table of false-finding rates. Watch for: Holm continuing past the first failure; BH rejecting only the p-values that pass their own threshold rather than all up to the largest k; new shuffles drawn per line rather than shared.</p></aside>
+</section>
+
+<section class="slide" id="debrief-rates" data-lo="LO6">
+  <div class="kicker">Debrief · lab 7.1</div>
+  <h2>Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5%</h2>
+  <table class="t">
+    <tr><th>1,000 simulated dashboards, 20 lines, no effect</th><th class="num">False-finding rate</th></tr>
+    <tr><td>Single test, uncorrected</td><td class="num">0.049</td></tr>
+    <tr class="hl"><td>At least one of 20, uncorrected</td><td class="num">0.627</td></tr>
+    <tr><td>Bonferroni</td><td class="num">0.035</td></tr>
+    <tr><td>Holm</td><td class="num">0.035</td></tr>
+    <tr><td>Benjamini-Hochberg</td><td class="num">0.035</td></tr>
+  </table>
+  <aside class="notes"><p>From the solution run of lab 7.1 (Monte Carlo error about ±0.015 on the 0.627). Theory for 20 independent tests: 0.642. With every line null, any finding is false, so the three corrections coincide. The real dashboard's two findings, L07 (p = 0.030) and L10 (0.048), vanish under every correction.</p></aside>
+</section>
+
+<section class="slide" id="debrief-forking" data-lo="LO3">
+  <div class="kicker">Debrief · lab 7.1</div>
+  <h2>One planned test erred 5% of the time; the best of eight paths, 19%</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">0.050</div><div class="lbl">one planned test, 300 noise lines</div></div>
+    <div class="stat center"><div class="big">0.190</div><div class="lbl">smallest p of eight reasonable paths</div></div>
+  </div>
+  <p class="small mt">With four true effects among 20 lines (stretch), BH found more of them than Bonferroni (power 0.24 against 0.17) with few false discoveries.</p>
+  <aside class="notes"><p>From the solution run of lab 7.1. The stretch is where the two kinds of control part: with real effects present, BH buys power at the cost of a controlled share of false findings.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 7 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Count the tests</h4><p class="small mb0">Twenty true nulls give a finding most of the time.</p></div>
+    <div class="card c-coral"><h4>Correct for the family</h4><p class="small mb0">Holm for decisive claims, BH for screening.</p></div>
+    <div class="card c-purple"><h4>Fix the path first</h4><p class="small mb0">Choices made after looking are hidden tests.</p></div>
   </div>
+  <aside class="notes"><p>The responsible-use line of the course: participants have now seen how many false findings uncorrected testing produces. Ask them to say it in one sentence for their manager.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 8: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 8: Error rates, power and honest reporting</h2>
+  <p class="lead">Problem set 7 (50 minutes, AI off for the first attempt): labs/problem-sets/PS7.ipynb. Bring a public dataset idea for the capstone.</p>
+  <aside class="notes"><p>Ask participants to check the licence of the dataset they have in mind before next week (20 minutes of guided self-study are set aside for it).</p></aside>
 </section>
