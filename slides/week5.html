@@ -1,56 +1,219 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Return the first test if marked; take its two most common errors into block A. This week the bootstrap meets real, public data and two new targets: a difference between groups and a slope.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week4" data-lo="LO2">
+  <div class="kicker">Review · week 4</div>
+  <h2>What does the 95% describe?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads an interval for a median as a range for single waits">95% of waits fall inside it</div>
+      <div class="opt" data-ok>Its method contains the true median in about 95% of samples, if the method's coverage is right</div>
+      <div class="opt" data-why="Puts the probability on the fixed true median">The true median has a 95% chance of being inside this interval</div>
+      <div class="opt" data-why="Confuses the interval with the bootstrap resamples">95% of the bootstrap resamples contain the true median</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The level describes how often the method works, and only as far as its coverage holds at this n.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
-  </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+<section class="slide" id="public-data" data-lo="LO4">
+  <div class="kicker">Block A · public data</div>
+  <h2>Before any analysis of public data: source, licence, unit and what a row is</h2>
+  <table class="t">
+    <tr><th>Question</th><th>Why it matters</th></tr>
+    <tr><td>Who published it, and under which licence?</td><td>Whether you may use and share results; the source caption on every table</td></tr>
+    <tr><td>What is one row?</td><td>A person, a person-year, a household: it decides what can be resampled</td></tr>
+    <tr class="hl"><td>How were groups formed?</td><td>Random assignment, or observation (week 3)</td></tr>
+  </table>
+  <aside class="notes"><p>The lab uses two datasets bundled with statsmodels and marked public domain in its documentation: a subset of the RAND Health Insurance Experiment and Engel's food expenditure data. They are read from the installed package; nothing is downloaded or copied into the course.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="suppression" data-lo="LO4">
+  <div class="kicker">Block A · reporting rule</div>
+  <h2>Suppress small groups before any table leaves your notebook</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>The course's rule: no group of fewer than 30 rows is reported</li>
+      <li>Blank the value <b>and</b> the exact count: "under 30"</li>
+      <li>A small group's mean is imprecise, and can point to identifiable people</li>
+    </ul>
+    <pre class="code" data-file="pandas"><code class="language-python">cells = df.groupby(["plan", "health"])["visits"].agg(
+    n="size", mean="mean")
+shown = U.suppress(cells, "n", min_n=30)</code></pre>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>The threshold of 30 is this course's own rule, not a national standard. Organisations set their own; follow theirs at work. The lab's table of visits by plan and health has small cells that must disappear.</p></aside>
+</section>
+
+<section class="slide" id="check-suppress" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>What leaves the notebook?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell?</p>
+    <div class="opts">
+      <div class="opt" data-why="A warning flag still publishes the value of a group of eleven">The mean, flagged as based on few customers</div>
+      <div class="opt" data-why="Merging changes the group after seeing its value, and is a choice to report, not a default">The cell merged into its largest neighbour, without saying so</div>
+      <div class="opt" data-ok>"Suppressed", with the count shown only as under 30</div>
+      <div class="opt" data-why="The median of eleven is just as revealing">The median of the 11 instead of their mean</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The rule removes both the value and the exact size of a small group.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="difference" data-lo="LO4">
+  <div class="kicker">Block B · differences</div>
+  <h2>For a difference between two groups, resample each group separately</h2>
+  <div class="cols cols-2">
+    <pre class="code" data-file="numpy"><code class="language-python">d = [rng.choice(a, len(a)).mean()
+     - rng.choice(b, len(b)).mean()
+     for _ in range(B)]
+low, high = np.percentile(d, [2.5, 97.5])</code></pre>
+    <ul class="bullets">
+      <li>Each group keeps its own size, as it was collected</li>
+      <li>Pooling the groups would resample "no difference": that is next week's test</li>
+      <li>Any statistic: difference of means, of medians, a ratio</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Make the contrast explicit now, because week 6 shuffles the pooled values: the bootstrap estimates how big the difference is; the permutation test asks whether chance alone could make it.</p></aside>
+</section>
+
+<section class="slide" id="oven-example" data-lo="LO2 LO4">
+  <div class="kicker">Block B · an example</div>
+  <h2>Two oven settings, an interval for the difference that includes zero</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>Bake minutes</th><th class="num">Mean</th></tr>
+      <tr><td>Setting A, 60 batches</td><td class="num">18.51</td></tr>
+      <tr><td>Setting B, 50 batches</td><td class="num">17.90</td></tr>
+      <tr class="hl"><td>A − B (95% interval)</td><td class="num">0.61 (−2.71 to 3.81)</td></tr>
+    </table>
+    <div class="card c-teal"><h4>Reading</h4><p class="small mb0">The data fit a difference anywhere from B being 2.7 minutes slower to A being 3.8 slower: this sample cannot say which setting is faster.</p></div>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 5 (synthetic, seed 5). An interval that includes zero is not evidence of no difference: it is evidence that the data cannot tell, at this sample size.</p></aside>
+</section>
+
+<section class="slide" id="overlap" data-lo="LO2">
+  <div class="kicker">Block B · a misreading</div>
+  <h2>Compare groups with an interval for their difference, not by overlapping intervals</h2>
+  <ul class="bullets">
+    <li>Two 95% intervals can overlap while the interval for the difference excludes zero</li>
+    <li>The rule "no overlap means a real difference" is too strict; "overlap means none" is wrong</li>
+    <li>The question is about the difference: estimate the difference</li>
+  </ul>
+  <aside class="notes"><p>This is one of the ten-statement misreadings of LO2. The lab builds the difference's interval directly.</p></aside>
+</section>
+
+<section class="slide" id="check-difference" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>How do you resample?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits?</p>
+    <div class="opts">
+      <div class="opt" data-ok>220 calls with replacement from team one, 90 from team two</div>
+      <div class="opt" data-why="Pooling resamples the null of no difference">310 calls from the pooled calls, split 220 and 90</div>
+      <div class="opt" data-why="Changing the sizes changes the spread of each median">90 calls from each team</div>
+      <div class="opt" data-why="Without replacement each resample is the original team reordered">220 and 90 calls without replacement</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Each team is resampled at its own size, with replacement, as it was collected.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide" id="slope" data-lo="LO4">
+  <div class="kicker">Block C · slopes</div>
+  <h2>For a slope, resample whole rows so each x keeps its own y</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>Five points: (1, 2), (2, 4), (3, 5), (4, 4), (5, 7)</p>
+      <p class="lead">Least-squares slope: <b>1.0</b></p>
+      <p class="small">Σ(x − x̄)(y − ȳ) / Σ(x − x̄)² = 10 / 10</p>
+    </div>
+    <pre class="code" data-file="numpy"><code class="language-python">i = rng.integers(0, n, n)     # rows
+b = slope(x[i], y[i])</code></pre>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> Resampling x and y separately breaks the pairs: every slope comes out near zero.</div>
+  <aside class="notes"><p>From slide_numbers.py, week 5. FND-MTH-101 derived least squares as a projection; here the slope is used, not derived. Residual and wild bootstraps exist; they are beyond this course.</p></aside>
+</section>
+
+<section class="slide" id="rerun" data-lo="LO4">
+  <div class="kicker">Block C · reruns</div>
+  <h2>An interval you report must survive a rerun with a new seed</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Run every interval twice, with two seeds</li>
+      <li>Measure the largest move of an end against the interval's width</li>
+      <li>Report to the precision that does not move</li>
+    </ul>
+    <div class="card c-purple"><h4>The outcome's evidence</h4><p class="small mb0">LO4 asks for a notebook whose intervals agree on rerun with a new seed. The lab builds that table.</p></div>
+  </div>
+  <aside class="notes"><p>Choosing the seed that gives the nicest interval is a forking path (week 7). Fix the seed for exact reproduction; vary it to show stability.</p></aside>
+</section>
+
+<section class="slide" id="check-slope" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which resampling for a slope?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample?</p>
+    <div class="opts">
+      <div class="opt" data-why="Breaks the pairs, which destroys the relation">140 areas and, separately, 140 energy values, both with replacement</div>
+      <div class="opt" data-why="That builds the null of no relation: a permutation test">The 140 energy values shuffled against fixed areas</div>
+      <div class="opt" data-why="Uses only part of the data, which widens the interval for no reason">70 buildings drawn without replacement</div>
+      <div class="opt" data-ok>140 buildings drawn with replacement, each with its own area and energy</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Rows are the units; resampling them keeps each pair together.</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-5-1" data-auto="lab" data-lab="5.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is an addition to the entry's lab lines and the main evidence for LO4. Watch for: reporting the suppressed table before suppression; resampling the pooled groups; reading the degenerate median interval as certainty.</p></aside>
+</section>
+
+<section class="slide" id="debrief-difference" data-lo="LO4">
+  <div class="kicker">Debrief · lab 5.1</div>
+  <h2>Free care: about one more doctor visit a year than 95% coinsurance</h2>
+  <table class="t">
+    <tr><th>Outpatient visits a year</th><th class="num">Free care</th><th class="num">95% coinsurance</th><th class="num">Difference (95% interval)</th></tr>
+    <tr><td>Mean</td><td class="num">3.12</td><td class="num">2.11</td><td class="num">1.01 (0.83 to 1.19)</td></tr>
+    <tr class="hl"><td>Median</td><td class="num">2</td><td class="num">1</td><td class="num">1 (1 to 1)</td></tr>
+  </table>
+  <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain); 10,997 and 2,653 person-years. Three plan-by-health cells under 30 rows were suppressed.</p>
+  <aside class="notes"><p>From the solution run of lab 5.1. Rows are person-years, so the same person counts in several years: the intervals are probably too narrow. Resampling people (a clustered bootstrap) is in SPC-STA-201.</p></aside>
+</section>
+
+<section class="slide" id="debrief-slope" data-lo="LO4">
+  <div class="kicker">Debrief · lab 5.1</div>
+  <h2>Food spending rose by 0.49 for each unit of income, and the intervals held on rerun</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">0.485</div><div class="lbl">slope, 95% interval 0.405 to 0.594</div></div>
+    <div class="stat center"><div class="big">&lt; 4%</div><div class="lbl">largest move of any end on rerun, as a share of its interval's width</div></div>
+  </div>
+  <p class="small mt">Source: Engel's food expenditure data bundled with statsmodels (public domain), 235 households.</p>
+  <aside class="notes"><p>From the solution run of lab 5.1. On the log scale the slope is an elasticity of 0.86 (0.81 to 0.90): food spending grows more slowly than income (stretch).</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 5 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Resample as collected</h4><p class="small mb0">Groups separately; rows whole.</p></div>
+    <div class="card c-coral"><h4>Estimate the difference</h4><p class="small mb0">Not the overlap of two intervals.</p></div>
+    <div class="card c-purple"><h4>Suppress, then report</h4><p class="small mb0">No group under 30 rows leaves the notebook.</p></div>
   </div>
+  <aside class="notes"><p>Ask: which of this week's results comes from an experiment, and which from an observation? The plans were randomised; income was not.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 6: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 6: Permutation tests</h2>
+  <p class="lead">Problem set 5 (50 minutes, AI off for the first attempt): labs/problem-sets/PS5.ipynb.</p>
+  <aside class="notes"><p>Next week tests the same two questions, and reports each result as an effect size with these intervals.</p></aside>
 </section>
