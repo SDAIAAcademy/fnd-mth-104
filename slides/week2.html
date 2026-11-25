@@ -1,56 +1,236 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Return problem set 1 scores if the checker results are in. This week turns one sample into many: the whole course rests on the idea that a statistic varies from sample to sample, and that the variation can be measured.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week1" data-lo="LO4">
+  <div class="kicker">Review · week 1</div>
+  <h2>Which change moves the median?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">Eleven parcel weights have a median of 2.4 kg. Which single change can move the median?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks the median tracks the largest value: only the order of the middle values matters">Doubling the heaviest parcel</div>
+      <div class="opt" data-why="Thinks any edit to the tail reaches the middle: the lightest parcel stays below the median">Halving the lightest parcel</div>
+      <div class="opt" data-ok>Adding two more parcels, both heavier than 2.4 kg</div>
+      <div class="opt" data-why="Thinks rounding reorders the values: a median of 2.4 kg is already at one decimal and rounding keeps the order">Rounding every weight to one decimal</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Two values above the middle shift which parcel is in the middle: the median moves up or stays, depending on the next value.</div>
+  </div>
+  <aside class="notes"><p>Answer C. Rounding to one decimal cannot move a median already given to one decimal. Use the answer to recall robustness: the median moves only when the middle of the order changes.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
-  </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+<section class="slide" id="vocabulary" data-lo="LO1">
+  <div class="kicker">Block A · words</div>
+  <h2>A parameter describes the population; a statistic is computed from the sample</h2>
+  <table class="t">
+    <tr><th>Word</th><th>In a quality check of one day's 2,000 croissants, 30 weighed</th></tr>
+    <tr><td><b>Population</b></td><td>All 2,000 croissants of the day</td></tr>
+    <tr><td><b>Sample</b></td><td>The 30 weighed</td></tr>
+    <tr><td><b>Parameter</b></td><td>The mean weight of all 2,000: unknown</td></tr>
+    <tr class="hl"><td><b>Statistic</b></td><td>The mean weight of the 30: known, and different for another 30</td></tr>
+  </table>
+  <aside class="notes"><p>Ask for a population, sample, parameter and statistic from each participant's own work. The quality lead never sees the parameter; she sees one statistic and needs to know how far it can be from the parameter.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="samples-differ" data-lo="LO1">
+  <div class="kicker">Block A · variation</div>
+  <h2>Every sample gives a different answer, even from the same population</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>A population of three values: 3, 9, 12. All samples of two:</p>
+      <table class="t small">
+        <tr><th>Sample</th><th class="num">Mean</th></tr>
+        <tr><td>3, 9</td><td class="num">6.0</td></tr>
+        <tr><td>3, 12</td><td class="num">7.5</td></tr>
+        <tr><td>9, 12</td><td class="num">10.5</td></tr>
+      </table>
+    </div>
+    <div class="card c-teal"><h4>The sampling distribution</h4><p class="small mb0">The list of every possible value of the statistic, with how often each occurs. Here: 6.0, 7.5 and 10.5, each one time in three. Their standard deviation is 1.87.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From slide_numbers.py, week 2. The mean of the three sample means is 8, the population mean: a sample mean is right on average. The lab does the same by hand with a different population before doing it with 40,000 baskets.</p></aside>
+</section>
+
+<section class="slide" id="simulate-it" data-lo="LO1">
+  <div class="kicker">Block A · simulation</div>
+  <h2>When the population is known, draw thousands of samples and look</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Draw</b>A sample of n from the population</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Compute</b>The statistic</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Repeat</b>Two thousand times</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Look</b>Centre, spread, shape</div>
+  </div>
+  <pre class="code mt" data-file="numpy"><code class="language-python">stats = [np.mean(rng.choice(pop, n, replace=False)) for _ in range(2000)]</code></pre>
+  <aside class="notes"><p>The course works this way all term: when you cannot do the mathematics, simulate the process and count. Seed the generator so a rerun gives the same numbers; FND-MTH-103 covered seeds and Monte Carlo error.</p></aside>
+</section>
+
+<section class="slide" id="check-vocabulary" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which number is a statistic?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic?</p>
+    <div class="opts">
+      <div class="opt" data-ok>The share of errors among the 80 checked, 7.5%</div>
+      <div class="opt" data-why="Names the population size, a fixed count, not something computed from the sample">The 1,200 invoices of the month</div>
+      <div class="opt" data-why="Names the parameter: the error share of all 1,200 is what the sample estimates">The share of errors among all 1,200 invoices</div>
+      <div class="opt" data-why="Confuses the design choice with a result: the sample size is chosen, not computed">The number of invoices checked, 80</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A statistic is computed from the sample; 6 / 80 = 7.5% would differ for another 80 invoices.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide" id="standard-error" data-lo="LO1">
+  <div class="kicker">Block B · standard error</div>
+  <h2>The standard error is the spread of a statistic from sample to sample</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Not the spread of the values: the spread of the <b>statistic</b></li>
+      <li>It answers: how far does my estimate typically land from the truth?</li>
+      <li>By simulation: the standard deviation of the thousands of statistics</li>
+    </ul>
+    <div class="card c-coral"><h4>Two spreads, two questions</h4><p class="small mb0">Standard deviation of baskets: how different are customers? Standard error of the mean basket: how sure is my estimate?</p></div>
+  </div>
+  <aside class="notes"><p>The most common confusion of the term. Ask a participant to explain the card to a neighbour in their own words.</p></aside>
+</section>
+
+<section class="slide" id="root-n" data-lo="LO1">
+  <div class="kicker">Block B · the formula</div>
+  <h2>For a mean, the standard error falls like one over the square root of n</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>σ = 12</th><th class="num">n</th><th class="num">σ / √n</th></tr>
+      <tr><td></td><td class="num">36</td><td class="num">2.00</td></tr>
+      <tr><td></td><td class="num">144</td><td class="num">1.00</td></tr>
+      <tr class="hl"><td></td><td class="num">576</td><td class="num">0.50</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>Four times the data halves the standard error</li>
+      <li>σ is unknown in practice: s / √n from one sample stands in</li>
+      <li>For a median there is no simple formula: simulate</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 2. Precision is expensive: each halving costs four times the sample. The lab compares the simulated standard error with σ/√n and with s/√n from one sample.</p></aside>
+</section>
+
+<section class="slide" id="clt-recap" data-lo="LO1">
+  <div class="kicker">Block B · recap from FND-MTH-103</div>
+  <h2>Sample means tend to a normal shape as n grows, slowly on a long tail</h2>
+  <ul class="bullets">
+    <li>The central limit theorem: for large n the sampling distribution of a mean is close to normal</li>
+    <li>"Large" depends on the population: the longer its tail, the larger n must be</li>
+    <li>Simulation shows the actual shape at your n; you do not need to assume it</li>
+  </ul>
+  <div class="callout note mt"><b>Pointer.</b> FND-MTH-103 covered the theorem and where the normal approximation fails. Here it is one reason to prefer simulation.</div>
+  <aside class="notes"><p>One slide only: this is FND-MTH-103's topic. The lab measures the skewness of the sampling distribution at n = 10 and n = 400 on the baskets.</p></aside>
+</section>
+
+<section class="slide" id="check-se" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>How many more croissants?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes the standard error falls in proportion to n: it falls with the square root">50</div>
+      <div class="opt" data-ok>100</div>
+      <div class="opt" data-why="Squares the ratio twice">400</div>
+      <div class="opt" data-why="Thinks the standard error depends only on the spread of weights, not on n">25, but weighed more carefully</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Halving the standard error needs four times the sample: 4 × 25 = 100.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="frame" data-lo="LO1">
+  <div class="kicker">Block C · the frame</div>
+  <h2>The sampling frame decides which population a sample can speak for</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>The <b>frame</b> is the list you can actually draw from: members with contact details, a phone directory, today's visitors</li>
+      <li>A random sample from the frame represents the frame, not those outside it</li>
+      <li>If those outside differ, the estimate is <b>biased</b></li>
+    </ul>
+    <div class="card c-purple"><h4>Example</h4><p class="small mb0">A survey of daytime callers misses everyone who shops after work; their baskets may differ.</p></div>
+  </div>
+  <aside class="notes"><p>Ask the room for the frame of a survey they know and who it misses. The lab measures, against a known truth, how far a members-only frame is from all customers.</p></aside>
+</section>
+
+<section class="slide" id="bias-precision" data-lo="LO1">
+  <div class="kicker">Block C · two errors</div>
+  <h2>Sample size fixes imprecision; it does not fix bias</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Imprecision</h4><p class="small mb0">Estimates scatter around the truth. Shrinks with n, like 1/√n. Measured by the standard error.</p></div>
+    <div class="card c-coral"><h4>Bias</h4><p class="small mb0">Estimates centre on the wrong value. The same at every n. Not shown by the standard error at all.</p></div>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> A huge sample from the wrong frame gives a narrow interval around the wrong number.</div>
+  <aside class="notes"><p>Draw two targets on the board: shots scattered around the centre, and shots tightly grouped away from it. The second is worse and looks better.</p></aside>
+</section>
+
+<section class="slide" id="check-frame" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Precise, but about what?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks 5,000 is too few: the standard error is already small">The sample is too small for a stable mean</div>
+      <div class="opt" data-why="Confuses spread of the data with error of the estimate">Visit counts have a large standard deviation</div>
+      <div class="opt" data-why="Blames rounding, which affects the last digit only">Visits are whole numbers, so the mean is rounded</div>
+      <div class="opt" data-ok>The frame leaves out members who enter another way</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The estimate is precise about app users only; if others visit more or less, it is biased whatever the size.</div>
+  </div>
+  <aside class="notes"><p>Answer D. Ask what frame would fix it: every entry, however the member came in.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-1" data-auto="lab" data-lab="2.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's first lab line and the main evidence for LO1. Watch for: sampling with replacement (rng.choice defaults to replace=True); ddof=0 against ddof=1 confusion; comparing the standard error with the standard deviation of baskets.</p></aside>
+</section>
+
+<section class="slide" id="debrief-se" data-lo="LO1">
+  <div class="kicker">Debrief · lab 2.1</div>
+  <h2>The simulated standard errors followed σ/√n; one sample's s/√n did not always</h2>
+  <table class="t">
+    <tr><th class="num">n</th><th class="num">Simulated SE</th><th class="num">σ / √n</th><th class="num">One sample's s / √n</th></tr>
+    <tr><td class="num">25</td><td class="num">3.60</td><td class="num">3.55</td><td class="num">2.76</td></tr>
+    <tr><td class="num">100</td><td class="num">1.81</td><td class="num">1.78</td><td class="num">1.31</td></tr>
+    <tr class="hl"><td class="num">400</td><td class="num">0.86</td><td class="num">0.89</td><td class="num">0.87</td></tr>
+  </table>
+  <p class="small mt">Population of 40,000 baskets: mean 21.93, median 17.61, sd 17.77, skewness 6.57.</p>
+  <aside class="notes"><p>From the solution run of lab 2.1. The small samples missed the large baskets, so their s was too small. The median's standard error was 2.80, 1.35 and 0.68 at the three sizes, smaller than the mean's: on a long tail the median is the more precise summary of the centre.</p></aside>
+</section>
+
+<section class="slide" id="debrief-frame" data-lo="LO1">
+  <div class="kicker">Debrief · lab 2.1</div>
+  <h2>The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">+2.66</div><div class="lbl">bias at n = 100</div></div>
+    <div class="stat center"><div class="big">+2.55</div><div class="lbl">bias at n = 1,600</div></div>
+  </div>
+  <div class="callout warn mt">Sixteen times the sample made the estimate more precise about members, and no closer to all customers.</div>
+  <aside class="notes"><p>From the solution run of lab 2.1. Ask: what frame would the customer insight lead need? A random sample of till receipts across branches and hours, not of members.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 2 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Statistics vary</h4><p class="small mb0">A new sample, a new answer; the sampling distribution shows how much.</p></div>
+    <div class="card c-coral"><h4>SE is that variation</h4><p class="small mb0">The spread of the statistic; for a mean it falls like 1/√n.</p></div>
+    <div class="card c-purple"><h4>Frames decide</h4><p class="small mb0">Size buys precision, never representativeness.</p></div>
   </div>
+  <aside class="notes"><p>Ask one participant to read their lab note's "limits" line aloud.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 3: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 3: Observational and experimental data</h2>
+  <p class="lead">Problem set 2 (50 minutes, AI off for the first attempt): labs/problem-sets/PS2.ipynb.</p>
+  <aside class="notes"><p>Next week asks a different question: not how much a sample varies, but whether a comparison compares like with like.</p></aside>
 </section>
