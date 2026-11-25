@@ -1,0 +1,339 @@
+{
+  "$schema": "https://sdaiaacademy.github.io/engine/schemas/course.schema.json",
+  "engine": "1",
+  "id": "fnd-mth-104",
+  "code": "FND-MTH-104",
+  "version": "2027.1.0",
+  "lang": "en",
+  "title": {
+    "en": "Statistics by Simulation: Variation, Estimation and Testing",
+    "ar": "الإحصاء بالمحاكاة: التفاوت والتقدير والاختبار"
+  },
+  "tagline": "REPLACE: one line under the title: what participants can do after the course",
+  "description": "Participants approach inference by simulation before formulas. They draw repeated samples to see variation, build bootstrap intervals for means, medians, differences and slopes, run permutation tests, and report effect sizes with intervals rather than bare p-values. They find multiple-testing and forking-path problems in reported results. Each lab ends with a note on how the result was checked, and the capstone is an analysis brief on a public dataset, defended orally. Power analysis and study design follow in SPC-STA-201 and SPC-EXP-201.",
+  "track": "foundations",
+  "level": 100,
+  "audience": "Beginners. Career changers and non-computing graduates closing bridging gaps before advanced study, and computing graduates refreshing the mathematics behind models; a placement test lets participants skip any course whose content they already command.",
+  "prerequisites": [
+    "FND-MTH-103 Probability for Data and AI",
+    "Probability shown in the placement test is accepted in place of FND-MTH-103",
+    "Computes group summaries with a DataFrame library (FND-DAT-102 or the pre-work notebook)"
+  ],
+  "site": {
+    "url": "https://sdaiaacademy.github.io/fnd-mth-104/",
+    "repo": "SDAIAAcademy/fnd-mth-104"
+  },
+  "outcomes": [
+    {
+      "id": "LO1",
+      "text": "Distinguish population, sample, parameter, statistic and sampling distribution, and explain what a standard error measures, given repeated samples from a known synthetic population",
+      "level": "Awareness",
+      "evidence": "supervised AI-off test, at least 70% correct"
+    },
+    {
+      "id": "LO2",
+      "text": "Explain what p-values and confidence intervals mean and identify misreadings of them, given ten statements from synthetic reports",
+      "level": "Awareness",
+      "evidence": "each statement classified and corrected, eight of ten correct"
+    },
+    {
+      "id": "LO3",
+      "text": "Identify multiple-testing, forking-path and confounding problems in a reported analysis, given a one-page synthetic summary",
+      "level": "Awareness",
+      "evidence": "a written critique naming each problem and its effect"
+    },
+    {
+      "id": "LO4",
+      "text": "Compute bootstrap intervals for means, medians, group differences and regression slopes, given public data with skewed variables",
+      "level": "Applied",
+      "evidence": "a notebook whose intervals agree on rerun with a new seed"
+    },
+    {
+      "id": "LO5",
+      "text": "Implement permutation tests and report each result as an effect size with an interval, given two public datasets and stated questions",
+      "level": "Applied",
+      "evidence": "notebooks with test code, intervals and a plain-language reading"
+    },
+    {
+      "id": "LO6",
+      "text": "Apply family-wise and false-discovery-rate corrections and measure by simulation how often uncorrected tests produce false findings, given twenty outcomes with no true effect",
+      "level": "Applied",
+      "evidence": "a table of false-finding rates with and without correction"
+    }
+  ],
+  "case_study": {
+    "name": "REPLACE: the name of the fictional organisation every lab works on",
+    "summary": "REPLACE: two sentences on the case study and its synthetic data"
+  },
+  "format": "extended",
+  "format_note": "Extended: 8 weeks part-time, one session and one lab a week, weekly graded problem sets and a capstone",
+  "hours": {
+    "instruction": 14,
+    "lab": 14,
+    "guided_self_study": 8,
+    "assessment": 3,
+    "capstone": 6
+  },
+  "unit": "week",
+  "days": [
+    {
+      "id": "week1",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week1.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "1.1",
+            "title": "REPLACE: what participants build in lab 1.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W1_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week2",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week2.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "2.1",
+            "title": "REPLACE: what participants build in lab 2.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W2_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week3",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week3.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "3.1",
+            "title": "REPLACE: what participants build in lab 3.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W3_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week4",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week4.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "4.1",
+            "title": "REPLACE: what participants build in lab 4.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W4_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week5",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week5.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "5.1",
+            "title": "REPLACE: what participants build in lab 5.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W5_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week6",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week6.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "6.1",
+            "title": "REPLACE: what participants build in lab 6.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W6_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week7",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week7.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "7.1",
+            "title": "REPLACE: what participants build in lab 7.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W7_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "week8",
+      "kind": "day",
+      "title": "REPLACE: the theme of this unit, in a few words",
+      "deck": "slides/week8.html",
+      "sessions": [
+        {
+          "title": "REPLACE: the title of Session 1",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+          ],
+          "lo": [],
+          "minutes": 210,
+          "lab": {
+            "id": "8.1",
+            "title": "REPLACE: what participants build in lab 8.1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "minutes": 105,
+            "href": "W8_1.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capstone",
+      "kind": "capstone",
+      "title": "Capstone project presentations",
+      "deck": "slides/capstone.html",
+      "subtitle": "REPLACE: the catalog gives 10 minutes for each presentation and nothing about questions; decide whether the questions are inside those minutes, set capstone.talk_minutes and capstone.qa_minutes in course.json and the timers of the now-presenting slide, and remove this line"
+    }
+  ],
+  "capstone": {
+    "summary": "A two-page analysis brief on a public dataset with estimate, interval, test, effect size and limits, submitted with its notebook and defended in a ten-minute oral check",
+    "submission": "REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code",
+    "talk_minutes": 10,
+    "rubric": [
+      {
+        "criterion": "REPLACE: rubric criterion 1 and its weight (the weights add up to 100)",
+        "weight": 25
+      },
+      {
+        "criterion": "REPLACE: rubric criterion 2 and its weight (the weights add up to 100)",
+        "weight": 25
+      },
+      {
+        "criterion": "REPLACE: rubric criterion 3 and its weight (the weights add up to 100)",
+        "weight": 20
+      },
+      {
+        "criterion": "REPLACE: rubric criterion 4 and its weight (the weights add up to 100)",
+        "weight": 20
+      },
+      {
+        "criterion": "REPLACE: rubric criterion 5 and its weight (the weights add up to 100)",
+        "weight": 10
+      }
+    ]
+  },
+  "labs": {
+    "kind": "notebooks",
+    "base": "labs/"
+  },
+  "tools": [
+    {
+      "slot": "Resampling and testing",
+      "examples": [
+        "SciPy stats",
+        "statsmodels",
+        "R with the infer package"
+      ]
+    },
+    {
+      "slot": "DataFrame library",
+      "examples": [
+        "pandas",
+        "Polars"
+      ]
+    },
+    {
+      "slot": "Notebook environment",
+      "examples": [
+        "JupyterLab",
+        "marimo",
+        "a free hosted notebook service"
+      ]
+    },
+    {
+      "slot": "Hint-only tutor",
+      "examples": [
+        "an open-weight model in tutor mode",
+        "an approved assistant with a tutor instruction"
+      ]
+    }
+  ],
+  "checks": {
+    "sessions_per_day": 1,
+    "session_lab": true,
+    "lab_minutes": 105
+  }
+}
