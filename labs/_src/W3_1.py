@@ -245,7 +245,7 @@ def write_note():
         "checked_by": "rates() agreed with the oven table by hand; the within-size rates were recomputed from the "
                       "branch-month rows; balance tables count branches, not rows.",
         "limits": "The display comparison adjusts for size only: other choices by managers may confound it. The trial "
-                  "has 24 branches, so its difference carries real chance variation (problem set 6 tests it).",
+                  "has 24 branches, so its difference carries real chance variation (a permutation test, week 6, can say how much).",
         "reviewer": "The operations manager's analyst reruns both tables before the shelf decision.",
     }
     # END SOLUTION
