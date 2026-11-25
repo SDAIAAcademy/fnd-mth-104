@@ -1,0 +1,2125 @@
+{
+  "format": "classpulse-bank",
+  "version": 1,
+  "course": {
+    "name": "Statistics by Simulation: Variation, Estimation and Testing",
+    "los": [
+      {
+        "code": "LO1",
+        "description": "Distinguish population, sample, parameter, statistic and sampling distribution, and explain what a standard error measures, given repeated samples from a known synthetic population"
+      },
+      {
+        "code": "LO2",
+        "description": "Explain what p-values and confidence intervals mean and identify misreadings of them, given ten statements from synthetic reports"
+      },
+      {
+        "code": "LO3",
+        "description": "Identify multiple-testing, forking-path and confounding problems in a reported analysis, given a one-page synthetic summary"
+      },
+      {
+        "code": "LO4",
+        "description": "Compute bootstrap intervals for means, medians, group differences and regression slopes, given public data with skewed variables"
+      },
+      {
+        "code": "LO5",
+        "description": "Implement permutation tests and report each result as an effect size with an interval, given two public datasets and stated questions"
+      },
+      {
+        "code": "LO6",
+        "description": "Apply family-wise and false-discovery-rate corrections and measure by simulation how often uncorrected tests produce false findings, given twenty outcomes with no true effect"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "check-centre-q1",
+      "type": "single",
+      "prompt": "The finance analyst must forecast next month's total delivery charges from this month's 2,000 deliveries, whose charges have a long right tail. Which summary of this month's charges does the forecast need?",
+      "options": [
+        "The median charge",
+        "The 20% trimmed mean charge",
+        "The mean charge",
+        "The interquartile range of the charges"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A total is the mean times the count; the tail contributes to the total, so the mean is the summary that adds up.",
+      "misconceptions": [
+        "Uses the typical value for a total: the median ignores how large the tail is, and the tail is real money",
+        "Drops the largest charges, which will be billed again next month",
+        "",
+        "Confuses spread with level: the interquartile range says nothing about the total"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 9
+    },
+    {
+      "id": "check-outlier-q1",
+      "type": "single",
+      "prompt": "A month of 3,000 coffee orders has a high fence of 31 riyals. Forty orders lie above it, the largest 96 riyals for 14 drinks at a branch next to an office block. What do you do?",
+      "options": [
+        "Keep it: value per drink is ordinary, so it is a real large order",
+        "Delete all forty orders above the fence",
+        "Replace it with the fence value, 31",
+        "Delete it, because it will distort the median"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "96 / 14 is under 7 riyals a drink: nothing suggests an error, so it stays.",
+      "misconceptions": [
+        "",
+        "Treats the fence as a deletion rule: it only flags values to inspect",
+        "Replaces a real value with an invented one, which biases totals downwards",
+        "Thinks the median needs cleaning first: the median is robust to a few large values anyway"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 13
+    },
+    {
+      "id": "check-missing-q1",
+      "type": "single",
+      "prompt": "A delivery service logs delivery times by hand. Drivers often skip the log when they are running late. The median of the logged times is 28 minutes. What is the most likely relation to the true median?",
+      "options": [
+        "About the same, since a median ignores missing rows",
+        "The true median is lower than 28 minutes",
+        "Impossible to say, because medians are robust",
+        "The true median is higher than 28 minutes"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Late deliveries are the ones not logged, so the logged times are the shorter ones.",
+      "misconceptions": [
+        "Assumes the gaps are random: here they are linked to the value itself",
+        "Gets the direction backwards: the missing times are the long ones",
+        "Thinks a robust summary is immune to missing data: robustness is about extreme values, not about who is missing",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 17
+    },
+    {
+      "id": "review-week1-q1",
+      "type": "single",
+      "prompt": "Eleven parcel weights have a median of 2.4 kg. Which single change can move the median?",
+      "options": [
+        "Doubling the heaviest parcel",
+        "Halving the lightest parcel",
+        "Adding two more parcels, both heavier than 2.4 kg",
+        "Rounding every weight to one decimal"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Two values above the middle shift which parcel is in the middle: the median moves up or stays, depending on the next value.",
+      "misconceptions": [
+        "Thinks the median tracks the largest value: only the order of the middle values matters",
+        "Thinks any edit to the tail reaches the middle: the lightest parcel stays below the median",
+        "",
+        "Thinks rounding reorders the values: a median of 2.4 kg is already at one decimal and rounding keeps the order"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-vocabulary-q1",
+      "type": "single",
+      "prompt": "An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic?",
+      "options": [
+        "The share of errors among the 80 checked, 7.5%",
+        "The 1,200 invoices of the month",
+        "The share of errors among all 1,200 invoices",
+        "The number of invoices checked, 80"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A statistic is computed from the sample; 6 / 80 = 7.5% would differ for another 80 invoices.",
+      "misconceptions": [
+        "",
+        "Names the population size, a fixed count, not something computed from the sample",
+        "Names the parameter: the error share of all 1,200 is what the sample estimates",
+        "Confuses the design choice with a result: the sample size is chosen, not computed"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 8
+    },
+    {
+      "id": "check-se-q1",
+      "type": "single",
+      "prompt": "Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh?",
+      "options": [
+        "50",
+        "100",
+        "400",
+        "25, but weighed more carefully"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Halving the standard error needs four times the sample: 4 × 25 = 100.",
+      "misconceptions": [
+        "Assumes the standard error falls in proportion to n: it falls with the square root",
+        "",
+        "Squares the ratio twice",
+        "Thinks the standard error depends only on the spread of weights, not on n"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 12
+    },
+    {
+      "id": "check-frame-q1",
+      "type": "single",
+      "prompt": "A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness?",
+      "options": [
+        "The sample is too small for a stable mean",
+        "Visit counts have a large standard deviation",
+        "Visits are whole numbers, so the mean is rounded",
+        "The frame leaves out members who enter another way"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The estimate is precise about app users only; if others visit more or less, it is biased whatever the size.",
+      "misconceptions": [
+        "Thinks 5,000 is too few: the standard error is already small",
+        "Confuses spread of the data with error of the estimate",
+        "Blames rounding, which affects the last digit only",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 15
+    },
+    {
+      "id": "review-week2-q1",
+      "type": "single",
+      "prompt": "A survey's sample grows from 200 to 800 people drawn from the same frame. What happens to the standard error of the mean and to the bias from the frame?",
+      "options": [
+        "Both are halved",
+        "The standard error falls to a quarter; the bias is unchanged",
+        "Neither changes",
+        "The standard error is halved; the bias is unchanged"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "SE ∝ 1/√n, so four times n halves it; the frame bias does not depend on n.",
+      "misconceptions": [
+        "Thinks more data removes bias: the frame still misses the same people",
+        "Gets the factor wrong: four times n halves the standard error",
+        "Thinks the standard error depends only on the population",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-kind-q1",
+      "type": "single",
+      "prompt": "A depot tries a new route plan. Drivers who volunteered used it for a month; their deliveries were 6% faster than other drivers'. What kind of evidence is this, and what is its main weakness?",
+      "options": [
+        "Experimental; the month is too short",
+        "Observational; volunteers may be faster drivers anyway",
+        "Observational; too few deliveries were timed",
+        "Experimental; the groups worked in the same month"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The drivers chose the plan, so anything that made them volunteer can also make them faster.",
+      "misconceptions": [
+        "Thinks a planned change is an experiment: here the drivers chose themselves",
+        "",
+        "Raises sample size, which affects precision, not who chose",
+        "Thinks comparing two groups at the same time makes it experimental"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 7
+    },
+    {
+      "id": "check-simpson-q1",
+      "type": "single",
+      "prompt": "Hospital H has a higher overall death rate than hospital K, but a lower rate both for routine and for emergency admissions. H takes most of the region's emergencies. Which hospital has the better record for a given kind of admission?",
+      "options": [
+        "K, because its overall rate is lower",
+        "Neither: the figures contradict each other",
+        "H, because it does better within each kind of admission",
+        "Neither until both treat the same number of patients"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Admission type confounds the overall rate; within each type H does better.",
+      "misconceptions": [
+        "Reads the overall rate as like-for-like: it compares different mixes of patients",
+        "Thinks a reversal means the data are wrong: it means the mix differs",
+        "",
+        "Thinks equal sizes are needed to compare rates at all"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 11
+    },
+    {
+      "id": "check-random-q1",
+      "type": "single",
+      "prompt": "Twenty schools are assigned a reading programme at random, ten each way. The programme schools happen to have slightly more pupils on average. What is the right reading?",
+      "options": [
+        "A chance imbalance: report it; the comparison is still fair on average",
+        "The randomisation failed and must be redone",
+        "Any difference in reading scores is caused by the programme",
+        "The study is now observational"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Random assignment guarantees only that imbalances are due to chance; report them and test the outcome against chance.",
+      "misconceptions": [
+        "",
+        "Thinks any imbalance proves the draw was faulty",
+        "Thinks randomisation removes all variation, so any difference is the programme",
+        "Treats the experiment as observational"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 14
+    },
+    {
+      "id": "review-week3-q1",
+      "type": "single",
+      "prompt": "Branches that chose a new oven burn more trays overall, but fewer within both small and large branches. Large branches chose the oven more often and burn more trays with any oven. What is branch size here?",
+      "options": [
+        "The outcome of the comparison",
+        "A source of random error that averages out",
+        "The treatment",
+        "A confounder: it drives both the choice and the burn rate"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Size affects who got the oven and how many trays burn, so the overall comparison mixes the two.",
+      "misconceptions": [
+        "Confuses a confounder with the outcome",
+        "Thinks size is just noise: it changes the direction of the comparison",
+        "Thinks it is the treatment being studied",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-resample-q1",
+      "type": "single",
+      "prompt": "A sample of six repair costs is 80, 95, 110, 120, 150, 400. Which of these can be a bootstrap resample of it?",
+      "options": [
+        "80, 95, 100, 120, 150, 400",
+        "95, 110, 400",
+        "400, 400, 80, 120, 120, 95",
+        "The six values in a new order only"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Same size, values from the sample, repeats allowed.",
+      "misconceptions": [
+        "Thinks resamples are new draws from the population: they only reuse sample values",
+        "Thinks a resample is smaller than the sample: it keeps the same size",
+        "",
+        "Thinks a resample must use every value once: that is only the sample reordered"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 8
+    },
+    {
+      "id": "check-ci-q1",
+      "type": "single",
+      "prompt": "A report says: \"The 95% interval for the mean delivery time is 27 to 33 minutes, so 95% of deliveries take between 27 and 33 minutes.\" What is wrong?",
+      "options": [
+        "Nothing; it should just say 90%",
+        "The interval should be centred exactly on 30",
+        "Bootstrap intervals only describe medians",
+        "It reads an interval for the mean as a range for single deliveries"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Single deliveries vary much more than their mean; the interval describes the mean.",
+      "misconceptions": [
+        "The level is fine: the problem is what the interval is about",
+        "Thinks intervals are always symmetric around the mean",
+        "Thinks bootstrap intervals cannot describe means",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 11
+    },
+    {
+      "id": "check-coverage-q1",
+      "type": "single",
+      "prompt": "A coverage study of a 95% interval method on a long-tailed population gives 0.86 at n = 12 and 0.94 at n = 150, from 1,000 samples each. What is the right conclusion?",
+      "options": [
+        "The method is close to its 95% at n = 150 and too narrow at n = 12",
+        "The method fails at both sizes, since neither shows exactly 0.95",
+        "Use more bootstrap resamples at n = 12 and it will reach 0.95",
+        "The intervals at n = 150 are more often wrong because they are narrower"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "0.94 is within simulation error of 0.95; 0.86 is far below it.",
+      "misconceptions": [
+        "",
+        "Ignores the Monte Carlo error of about ±0.014 at 1,000 samples",
+        "Thinks more resamples would fix a small sample",
+        "Thinks coverage studies measure precision, not correctness"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 15
+    },
+    {
+      "id": "review-week4-q1",
+      "type": "single",
+      "prompt": "An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct?",
+      "options": [
+        "95% of waits fall inside it",
+        "Its method contains the true median in about 95% of samples, if the method's coverage is right",
+        "The true median has a 95% chance of being inside this interval",
+        "95% of the bootstrap resamples contain the true median"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The level describes how often the method works, and only as far as its coverage holds at this n.",
+      "misconceptions": [
+        "Reads an interval for a median as a range for single waits",
+        "",
+        "Puts the probability on the fixed true median",
+        "Confuses the interval with the bootstrap resamples"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-suppress-q1",
+      "type": "single",
+      "prompt": "A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell?",
+      "options": [
+        "The mean, flagged as based on few customers",
+        "The cell merged into its largest neighbour, without saying so",
+        "\"Suppressed\", with the count shown only as under 30",
+        "The median of the 11 instead of their mean"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The rule removes both the value and the exact size of a small group.",
+      "misconceptions": [
+        "A warning flag still publishes the value of a group of eleven",
+        "Merging changes the group after seeing its value, and is a choice to report, not a default",
+        "",
+        "The median of eleven is just as revealing"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 7
+    },
+    {
+      "id": "check-difference-q1",
+      "type": "single",
+      "prompt": "You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits?",
+      "options": [
+        "220 calls with replacement from team one, 90 from team two",
+        "310 calls from the pooled calls, split 220 and 90",
+        "90 calls from each team",
+        "220 and 90 calls without replacement"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Each team is resampled at its own size, with replacement, as it was collected.",
+      "misconceptions": [
+        "",
+        "Pooling resamples the null of no difference",
+        "Changing the sizes changes the spread of each median",
+        "Without replacement each resample is the original team reordered"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 11
+    },
+    {
+      "id": "check-slope-q1",
+      "type": "single",
+      "prompt": "You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample?",
+      "options": [
+        "140 areas and, separately, 140 energy values, both with replacement",
+        "The 140 energy values shuffled against fixed areas",
+        "70 buildings drawn without replacement",
+        "140 buildings drawn with replacement, each with its own area and energy"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Rows are the units; resampling them keeps each pair together.",
+      "misconceptions": [
+        "Breaks the pairs, which destroys the relation",
+        "That builds the null of no relation: a permutation test",
+        "Uses only part of the data, which widens the interval for no reason",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 14
+    },
+    {
+      "id": "review-week5-q1",
+      "type": "single",
+      "prompt": "Two warehouses' mean picking times have 95% intervals 11.0 to 13.0 and 12.5 to 14.5 minutes. A manager concludes there is no difference because the intervals overlap. What should the analyst do?",
+      "options": [
+        "Agree: overlapping intervals mean no difference",
+        "Recompute both intervals at 99% to remove the overlap",
+        "Build a bootstrap interval for the difference itself",
+        "Pool both warehouses and build one interval"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO2",
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The question is about the difference: estimate it, with its own interval.",
+      "misconceptions": [
+        "Accepts the overlap rule, which does not settle a difference",
+        "Thinks a wider level makes overlap less likely: it does the opposite",
+        "",
+        "Pooling the warehouses removes the very difference in question"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-null-q1",
+      "type": "single",
+      "prompt": "Thirty stores were randomly given a new price label; thirty kept the old one. To test whether weekly sales differ, what does each permutation do?",
+      "options": [
+        "Resample each group with replacement",
+        "Shuffle the 60 stores' labels and split them 30 and 30",
+        "Sort the sales and give the top 30 the new label",
+        "Add random noise to each store's sales"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Under no effect the labels are exchangeable; shuffling them keeps the group sizes and the data.",
+      "misconceptions": [
+        "That is a bootstrap, which estimates rather than builds the null",
+        "",
+        "Sorting creates the largest possible difference, not the null",
+        "Changes the data instead of the labels"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 8
+    },
+    {
+      "id": "check-pvalue-q1",
+      "type": "single",
+      "prompt": "A report says: \"p = 0.01, so there is only a 1% chance that the new schedule has no effect.\" Which correction is right?",
+      "options": [
+        "\"There is a 99% chance the schedule works.\"",
+        "\"The schedule improves the outcome by 1%.\"",
+        "\"If the schedule had no effect, a difference at least this large would arise in about 1% of relabellings.\"",
+        "\"The result is significant at the 5% level, so the effect is certain.\""
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A p-value is computed assuming no effect; it cannot be the probability of that assumption.",
+      "misconceptions": [
+        "Swaps one reversal for another",
+        "Turns the p-value into an effect size",
+        "",
+        "Changes the threshold instead of the reading"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 11
+    },
+    {
+      "id": "check-report-q1",
+      "type": "single",
+      "prompt": "A permutation test of two packing methods on 400 boxes gives p = 0.004. Which report follows the course's standard?",
+      "options": [
+        "\"Method B is significantly better (p < 0.05).\"",
+        "\"p = 0.004 proves method B is better.\"",
+        "\"Method B is better with 99.6% probability.\"",
+        "\"B damaged 1.2 fewer boxes per hundred (interval 0.4 to 2.0); shuffles rarely gave a gap this large (p = 0.004).\""
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Size in the outcome's units, its interval, then the p-value read correctly.",
+      "misconceptions": [
+        "A bare verdict hides size, direction and uncertainty",
+        "Claims proof, which no test gives",
+        "Turns p into a probability of the hypothesis",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 14
+    },
+    {
+      "id": "review-week6-q1",
+      "type": "single",
+      "prompt": "A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: \"the layout has no effect\". What is the best correction?",
+      "options": [
+        "\"The data cannot tell at this size; the interval for the effect is wide.\"",
+        "\"There is a 79% chance the layout works.\"",
+        "\"The layout makes things worse.\"",
+        "\"Retest at α = 0.01 to confirm there is no effect.\""
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Not enough evidence of an effect is not evidence of no effect; the interval shows how much is still possible.",
+      "misconceptions": [
+        "",
+        "Reads p as the probability that the layout works",
+        "Reads a non-significant p as proof in the other direction",
+        "Thinks a smaller α fixes the reading"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-many-q1",
+      "type": "single",
+      "prompt": "A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a \"significant\" change. Assume the policy did nothing. How many would you expect?",
+      "options": [
+        "None, since α is only 5%",
+        "About 0.05",
+        "About 2",
+        "About 32"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "40 × 0.05 = 2 false findings are expected with no effect at all.",
+      "misconceptions": [
+        "Thinks α applies to the report as a whole, not to each test",
+        "Takes the rate α for the count: 0.05 is the share per test, not the number of findings",
+        "",
+        "Confuses α with power"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 7
+    },
+    {
+      "id": "check-correction-q1",
+      "type": "single",
+      "prompt": "A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits?",
+      "options": [
+        "No correction: each test is at 5%",
+        "Benjamini-Hochberg, controlling the share of false picks",
+        "Bonferroni, controlling any false pick at all",
+        "Test each idea at α = 0.01 instead"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Screening for follow-up tolerates a small share of false picks; that is what the false discovery rate controls.",
+      "misconceptions": [
+        "No correction lets about 15 false picks through on noise alone",
+        "",
+        "Fits a few decisive claims; with 300 tests it would rarely pick anything",
+        "A stricter single α does not account for the number of tests"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 11
+    },
+    {
+      "id": "check-forking-q1",
+      "type": "single",
+      "prompt": "A summary reports that a staff-training course \"significantly reduced errors among evening-shift staff over 40 (p = 0.03)\". The full data covered all shifts and ages; no subgroup was planned. What is the main problem?",
+      "options": [
+        "Evening staff may be less careful",
+        "None: p = 0.03 is below 0.05",
+        "The subgroup is too small for a permutation test",
+        "A forking path: the subgroup was picked after seeing the data"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Many subgroups could have been reported; choosing the one that passed makes p = 0.03 far less surprising than it looks.",
+      "misconceptions": [
+        "Raises a real but secondary concern; the main issue is how the subgroup was chosen",
+        "Thinks a small p-value rules out chance whatever the route to it",
+        "Thinks sample size is the issue: the issue is the choice",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 14
+    },
+    {
+      "id": "review-week7-q1",
+      "type": "single",
+      "prompt": "A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits?",
+      "options": [
+        "Benjamini-Hochberg",
+        "No correction, α = 0.05 each",
+        "Holm, which controls the family-wise error rate",
+        "Report only the claim with the smallest p-value"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Each false claim is costly, so control the chance of any: Holm does, with more power than Bonferroni.",
+      "misconceptions": [
+        "Controls the share of false claims, not the chance of any",
+        "Leaves about a 23% chance of at least one false claim with five true nulls",
+        "",
+        "One test per claim is still five tests"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 3
+    },
+    {
+      "id": "check-power-q1",
+      "type": "single",
+      "prompt": "A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say?",
+      "options": [
+        "The new menu does not change spending",
+        "The false-finding rate was 82%",
+        "The new menu reduces spending",
+        "The pilot was too small to tell; it would miss that effect about four times in five"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With 18% power a real effect usually goes undetected; report the wide interval, not \"no effect\".",
+      "misconceptions": [
+        "Reads a weak test's silence as evidence of absence",
+        "Confuses power with the Type I error rate",
+        "Invents a direction the test did not show",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 7
+    },
+    {
+      "id": "check-practical-q1",
+      "type": "single",
+      "prompt": "A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p < 0.001. What is the decision?",
+      "options": [
+        "Adopt it: the saving is highly significant",
+        "Do not adopt it: even the top of the interval is below 3 minutes",
+        "Unclear: run a larger trial",
+        "Adopt it: p below 0.001 means a large saving"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The effect is real and too small to matter: the interval sits below the threshold.",
+      "misconceptions": [
+        "Confuses statistical with practical significance",
+        "",
+        "The interval is narrow and wholly below the threshold: nothing is unclear",
+        "Thinks a small p-value means a large saving"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 10
+    },
+    {
+      "id": "check-report-q1",
+      "type": "single",
+      "prompt": "A note says: \"Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead.\" What is the weakest part?",
+      "options": [
+        "\"Checked by\": it says who wrote the code, not how the result was verified",
+        "\"Result\": it should give the p-value instead of the interval",
+        "\"Limits\": a limit should never be stated in a report",
+        "\"Reviewer\": the analyst should review their own work"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A check is something run: a hand case, a second method, a rerun. An assistant writing the code is not a check.",
+      "misconceptions": [
+        "",
+        "The result gives size and interval as it should",
+        "Naming the scope is exactly what the limits line is for",
+        "A second person rerunning it is the point of the reviewer line"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000,
+      "slide": 14
+    },
+    {
+      "id": "w1-typical-fee",
+      "type": "single",
+      "prompt": "A clinic's 400 appointment fees have a long right tail. The manager asks for \"the fee a typical patient pays\". Which summary answers that request?",
+      "options": [
+        "The median fee",
+        "The standard deviation of the fees",
+        "The largest fee",
+        "The mean fee"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The median is the middle fee: half pay less, half pay more, whatever the size of the tail.",
+      "misconceptions": [
+        "",
+        "Confuses spread with level: the standard deviation is not a fee anyone pays",
+        "Reads \"typical\" as \"most extreme\"",
+        "Uses the summary for totals: the tail pulls the mean above what most patients pay"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w1-missing-direction",
+      "type": "single",
+      "prompt": "A survey of training satisfaction gets answers from 60% of participants. Staff say those who disliked the course rarely answer. The average score of the answers is 4.3 of 5. What is the most likely relation to the average over all participants?",
+      "options": [
+        "The all-participant average is higher than 4.3",
+        "It is about 4.3, since 60% is a large share",
+        "The all-participant average is lower than 4.3",
+        "It cannot differ, because an average uses every answer"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The missing answers are the low ones, so the answers received overstate satisfaction.",
+      "misconceptions": [
+        "Gets the direction backwards: the missing scores are the low ones",
+        "Assumes non-response is random: here it is linked to the score itself",
+        "",
+        "Thinks the average covers people who did not answer"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w1-fence-tf",
+      "type": "tf",
+      "prompt": "A value above Q3 + 1.5 × IQR should be deleted before any summary is computed.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The fence flags values to inspect; in a long right tail many values above it are real. Delete only proven errors.",
+      "misconceptions": [
+        "Treats a screening rule as proof of an error",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w2-se-meaning",
+      "type": "single",
+      "prompt": "From one sample of 100 delivery times an analyst reports a mean of 31 minutes with a standard error of 1.2 minutes. What does the 1.2 describe?",
+      "options": [
+        "The share of deliveries that took longer than 31 minutes",
+        "The error in the clock used to time the deliveries",
+        "How far a single delivery typically is from 31 minutes",
+        "How far the sample mean typically lands from the population mean, sample to sample"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A standard error is the spread of a statistic over repeated samples, not the spread of the individual values.",
+      "misconceptions": [
+        "Reads a standard error as a proportion",
+        "Thinks \"error\" means a measuring mistake",
+        "Confuses the standard error with the standard deviation of the values",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w2-quadruple-n",
+      "type": "numeric",
+      "prompt": "A sample mean has a standard error of 3.0 with n = 50. Roughly what standard error do you expect with n = 200 from the same population?",
+      "options": [],
+      "key": {
+        "value": 1.5,
+        "tolerance": 0.1
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The standard error falls like 1/√n: four times the sample size halves it, 3.0 / 2 = 1.5.",
+      "misconceptions": [],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w2-frame",
+      "type": "single",
+      "prompt": "A city surveys residents about bus services by calling the landline numbers in an old directory. It plans to triple the sample size to make the estimate more accurate. What does tripling change?",
+      "options": [
+        "It changes nothing, since the standard error does not depend on n",
+        "It shrinks the standard error but leaves the frame bias as it was",
+        "It doubles the bias, since more landline owners are reached",
+        "It removes the bias, since a larger sample represents everyone"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A larger sample is more precise about the people the frame reaches; the frame still misses those without a landline.",
+      "misconceptions": [
+        "Forgets that the standard error falls with n",
+        "",
+        "Thinks bias grows with n: it stays the same",
+        "Thinks size cures bias"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w2-parameter-statistic",
+      "type": "single",
+      "prompt": "An inspector weighs 40 loaves from a day's production of 5,000 and finds a mean of 402 g. Which is the parameter?",
+      "options": [
+        "The 402 g mean of the 40 loaves",
+        "The number of loaves weighed",
+        "The mean weight of all 5,000 loaves",
+        "The spread of the 40 weights"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A parameter describes the population (all 5,000 loaves); the 402 g is a statistic computed from the sample.",
+      "misconceptions": [
+        "Calls a sample result a parameter",
+        "Confuses the sample size with a quantity being estimated",
+        "",
+        "Names a sample statistic, not a population quantity"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w3-simpson",
+      "type": "single",
+      "prompt": "Clinic A has a higher overall complication rate than clinic B, yet a lower rate within both mild and severe cases. What best explains this?",
+      "options": [
+        "Clinic A treats a much larger share of severe cases",
+        "Clinic B records complications more carefully",
+        "Clinic A treats fewer patients in total",
+        "A arithmetic error: rates within groups must agree with the overall rate"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Case severity confounds the comparison: A's overall rate is weighted towards severe cases, which have more complications everywhere.",
+      "misconceptions": [
+        "",
+        "Explains with a measurement story that would not reverse within groups",
+        "Total numbers alone do not reverse a comparison; the mix does",
+        "Does not know that a reversal is possible: weights differ between groups"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w3-randomise-tf",
+      "type": "tf",
+      "prompt": "Randomly assigning a treatment means that any difference between the groups in other characteristics is due to chance.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Randomisation does not make groups identical, but it makes every imbalance, recorded or not, a matter of chance.",
+      "misconceptions": [
+        "",
+        "Thinks randomisation must balance every characteristic exactly to be useful"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w3-confounder",
+      "type": "single",
+      "prompt": "Stores that adopted a new scheduling tool sell more per hour than stores that did not. Managers chose whether to adopt it, and larger, busier stores adopted it first. What is the main problem with reading the difference as the tool's effect?",
+      "options": [
+        "The difference may be too small to matter",
+        "Sales per hour is a skewed measure",
+        "The tool may not have been used every day",
+        "Store size affects both adoption and sales per hour"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Store size is a confounder: it drove adoption and also raises sales per hour, so the comparison mixes the two.",
+      "misconceptions": [
+        "Raises practical significance, a different question",
+        "Skewness affects the summary, not the confounding",
+        "Raises compliance, which does not explain the bias",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w4-ci-meaning",
+      "type": "single",
+      "prompt": "A 95% bootstrap interval for the mean basket value is 19.1 to 25.3 riyals. Which reading is correct?",
+      "options": [
+        "95% of baskets are worth between 19.1 and 25.3 riyals",
+        "The method gives intervals that contain the population mean in about 95% of samples",
+        "There is a 95% chance that a new basket falls in the interval",
+        "The sample mean is 95% likely to lie between 19.1 and 25.3"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The 95% describes the method over repeated samples; the interval is about the population mean, not about single baskets.",
+      "misconceptions": [
+        "Reads an interval for a mean as a range for individual values",
+        "",
+        "Treats a confidence interval as a prediction interval",
+        "The sample mean is known exactly and always lies inside"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w4-coverage-small",
+      "type": "single",
+      "prompt": "A coverage study draws 1,000 samples of 8 values from a long-tailed population and finds that the 95% percentile bootstrap interval for the mean covers the truth 84% of the time. What is the main reason?",
+      "options": [
+        "Small samples rarely contain the tail, so resamples understate the variation",
+        "The percentile method is only valid for medians",
+        "Coverage studies always underestimate coverage",
+        "Too few bootstrap resamples were used"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With eight values the sample seldom shows the rare large ones, so the bootstrap distribution is too narrow.",
+      "misconceptions": [
+        "",
+        "Invents a restriction: the percentile method is used for means too",
+        "Blames the check rather than the method",
+        "More resamples reduce resampling noise but cannot add what the sample lacks"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w4-resample-tf",
+      "type": "tf",
+      "prompt": "A bootstrap resample draws the same number of values as the original sample, without replacement.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "It draws with replacement; without replacement every resample would be the original sample reordered.",
+      "misconceptions": [
+        "Confuses the bootstrap with drawing samples from a population",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w4-seed-move",
+      "type": "single",
+      "prompt": "Rerunning a bootstrap notebook with a new seed moves the ends of a 95% interval from (12.40, 18.90) to (12.37, 18.95). What should the analyst conclude?",
+      "options": [
+        "The data must have changed between runs",
+        "The result is unreliable and should not be reported",
+        "This is resampling noise; report the interval to one decimal and state the resamples used",
+        "The seed should be chosen to give the narrowest interval"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Moves of a few hundredths against a width of 6.5 are resampling noise; reporting precision and the number of resamples settle it.",
+      "misconceptions": [
+        "Same data, different seed: a small move is expected",
+        "Mistakes small resampling noise for instability",
+        "",
+        "Choosing a seed by its result is a forking path"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w5-diff-resample",
+      "type": "single",
+      "prompt": "To build a bootstrap interval for the difference in mean repair cost between two depots (60 and 45 jobs), how should each resample be drawn?",
+      "options": [
+        "Draw 45 from each depot so the groups are equal",
+        "Draw 60 from the first depot without replacement",
+        "Pool the 105 jobs and draw 105 with replacement",
+        "Draw 60 with replacement from the first depot and 45 from the second"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Resampling each group separately at its own size copies how the data were collected.",
+      "misconceptions": [
+        "Changes the sample sizes, so the spread is wrong",
+        "Without replacement every resample is the original group",
+        "Pooling resamples the null of no difference, not the estimate",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w5-slope-pairs",
+      "type": "single",
+      "prompt": "For a bootstrap interval of the slope of fuel use on distance, what is resampled?",
+      "options": [
+        "Distances and fuel values separately",
+        "Whole trips: each distance with its own fuel value",
+        "Only the fuel values, keeping distances fixed in order",
+        "Only the residuals of a fit to the shuffled data"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The slope is a relation between pairs, so resampling whole rows keeps each pair together.",
+      "misconceptions": [
+        "Breaks the pairs and destroys the relation the slope measures",
+        "",
+        "Keeps x fixed and shuffles y: that is a permutation test of no relation",
+        "Mixes a residual bootstrap with shuffling, which tests rather than estimates"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w5-suppress",
+      "type": "single",
+      "prompt": "A public table of mean hospital stays by region and age band has one cell with 7 patients. The course's rule suppresses groups under 30 rows. What do you publish for that cell?",
+      "options": [
+        "The median instead of the mean",
+        "The mean and the count, marked as unreliable",
+        "The cell marked as suppressed, with the count shown only as under 30",
+        "The mean rounded to the nearest whole day"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Suppression removes both the value and the exact count of a small group, which could otherwise identify people.",
+      "misconceptions": [
+        "Changing the summary does not change the size of the group",
+        "A warning does not protect a group of seven",
+        "",
+        "Rounding still reveals the small group's value"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w6-pvalue-meaning",
+      "type": "single",
+      "prompt": "A permutation test of a new layout against the old one gives p = 0.03. Which statement is correct?",
+      "options": [
+        "If the layout had no effect, a difference at least this large would appear in about 3% of shuffles",
+        "The new layout improves sales by 3%",
+        "97% of customers prefer the new layout",
+        "There is a 3% chance that the new layout has no effect"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A p-value is computed assuming no effect: it is the share of relabellings at least as extreme as the data.",
+      "misconceptions": [
+        "",
+        "Reads p as an effect size",
+        "Reads p as a share of people",
+        "Reverses the conditional: p is not the probability that the null is true"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w6-big-n-tf",
+      "type": "tf",
+      "prompt": "With 50,000 rows a permutation test can give a very small p-value for a difference too small to matter.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Large samples detect small differences; whether a difference matters is read from the effect size and its interval.",
+      "misconceptions": [
+        "",
+        "Thinks a small p-value implies a large effect"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w6-shuffle",
+      "type": "single",
+      "prompt": "To test whether training hours and test scores are associated in 120 employees, what does each permutation do?",
+      "options": [
+        "Sort both columns and pair them in order",
+        "Drop a random employee and recompute",
+        "Resample employees with replacement",
+        "Shuffle the scores against the hours, keeping both columns"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Under no association any pairing of scores with hours is as likely, so shuffling one column against the other builds the null.",
+      "misconceptions": [
+        "Sorting creates the strongest possible association, not the null",
+        "Leaving one out estimates sensitivity, not the null",
+        "That is the bootstrap: it estimates, it does not build the null",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w6-report",
+      "type": "single",
+      "prompt": "Which report of a permutation test follows the course's standard?",
+      "options": [
+        "\"Significant (p < 0.05).\"",
+        "\"Visits were 0.8 higher (95% interval 0.5 to 1.1); shuffling the labels rarely gave a gap this large (p = 0.002).\"",
+        "\"p = 0.002, which proves the plan works.\"",
+        "\"The null hypothesis is 99.8% false.\""
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "An effect size with its interval, the p-value and a plain reading; no claim of proof.",
+      "misconceptions": [
+        "A bare p-value hides the size and direction",
+        "",
+        "A p-value never proves a causal claim",
+        "Converts p into a probability that the null is false"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w7-familywise",
+      "type": "numeric",
+      "prompt": "A report tests 10 independent outcomes with no true effect, each at α = 0.05. To two decimals, how likely is at least one false finding?",
+      "options": [],
+      "key": {
+        "value": 0.4,
+        "tolerance": 0.01
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "1 − 0.95¹⁰ = 0.40.",
+      "misconceptions": [],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w7-holm-bh",
+      "type": "single",
+      "prompt": "Six p-values: 0.001, 0.006, 0.012, 0.019, 0.044, 0.31, with α = 0.05. How many does Benjamini-Hochberg reject?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Thresholds k × 0.05 / 6: 0.019 ≤ 0.033 for k = 4, but 0.044 > 0.042 for k = 5, so four are rejected.",
+      "misconceptions": [
+        "Applies Bonferroni's threshold of 0.0083",
+        "Stops at Holm's answer",
+        "",
+        "Rejects every p below 0.05, which is no correction"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w7-forking",
+      "type": "single",
+      "prompt": "An analyst ran one test, but chose the subgroup, the outcome and the outlier rule after seeing the data. Why is the p-value of that one test misleading?",
+      "options": [
+        "Because the choices that could have been made act like extra tests",
+        "Because outliers should never be removed",
+        "Because subgroups are always too small",
+        "Because a single test has no p-value"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Data-dependent choices open many forking paths; picking one after seeing the data inflates the false-finding rate even with one test run.",
+      "misconceptions": [
+        "",
+        "Outlier rules are fine when fixed in advance",
+        "Subgroup size is a different issue",
+        "A single test has a p-value; its meaning is the problem"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w7-correction-tf",
+      "type": "tf",
+      "prompt": "When every tested outcome has no true effect, a false-discovery-rate correction and a family-wise correction control the same error.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With only true nulls every finding is false, so \"at least one false finding\" and \"a nonzero share of false findings\" happen together.",
+      "misconceptions": [
+        "",
+        "Thinks the two always differ: they part only when some effects are real"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w8-power",
+      "type": "single",
+      "prompt": "A trial with 15 shops per arm finds \"no significant difference\" in sales. A simulation shows the test had 20% power for the effect that matters. What should the report say?",
+      "options": [
+        "The Type I error rate was 80%",
+        "The intervention has no effect",
+        "The trial could not tell: it would miss an effect that matters four times in five",
+        "The intervention made sales worse"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Low power means a non-significant result is weak evidence of no effect; report the interval.",
+      "misconceptions": [
+        "Confuses Type II with Type I error",
+        "Reads absence of evidence as evidence of absence",
+        "",
+        "Invents a direction the test did not show"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w8-false-share",
+      "type": "single",
+      "prompt": "A team tests 100 ideas a year; 10 truly work. Tests use α = 0.05 and have power 0.5. About what share of \"significant\" results are false?",
+      "options": [
+        "About 5%",
+        "About 10%",
+        "About 47%",
+        "About 95%"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "False findings 90 × 0.05 = 4.5; true findings 10 × 0.5 = 5; 4.5 / 9.5 is about 47%.",
+      "misconceptions": [
+        "Reads α as the share of findings that are false",
+        "Confuses the share of real ideas with the false share",
+        "",
+        "Takes 1 − α as the false share"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w8-type1-n",
+      "type": "single",
+      "prompt": "As the sample size of a well-built test grows, what happens to its Type I error rate and its power for a fixed real effect?",
+      "options": [
+        "The Type I error rate rises; power stays the same",
+        "Both rise",
+        "Both fall",
+        "The Type I error rate stays near α; power rises"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The test is built to reject a true null at rate α at any size; more data buys power.",
+      "misconceptions": [
+        "Gets both relations wrong",
+        "Thinks false alarms grow with n",
+        "Thinks more data lowers false alarms below α",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    },
+    {
+      "id": "w8-practical",
+      "type": "single",
+      "prompt": "An offer must lift basket value by at least 2 riyals to pay for itself. A trial gives +2.6 riyals (95% interval 0.4 to 4.8), p = 0.02. What is the right decision statement?",
+      "options": [
+        "Not worth it: the interval includes values below 2",
+        "Unclear: the interval contains values both below and above 2",
+        "Worth it: the estimate is above 2",
+        "Worth it: the result is significant"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Practical significance compares the interval with the threshold: here it straddles 2.",
+      "misconceptions": [
+        "Ignores the values above 2 in the interval",
+        "",
+        "Ignores the uncertainty around the estimate",
+        "Confuses statistical with practical significance"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1795595521000,
+      "updatedAt": 1795595521000
+    }
+  ]
+}

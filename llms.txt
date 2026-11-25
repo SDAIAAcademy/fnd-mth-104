@@ -1,0 +1,47 @@
+# Statistics by Simulation: Variation, Estimation and Testing
+
+> Reason about variation, estimates and tests by simulating them, and report effect sizes with intervals, their limits and how each was checked. SDAIA Academy course FND-MTH-104, version 2027.1.0, in English.
+
+Each slide is a heading such as "#### [day1#slide-id] Title": cite slides by that id, and each citation is a link (slides/day1.html#slide-id). These files are what a trainee sees: no speaker notes and no answer keys.
+
+## Course
+
+- [Course page](https://sdaiaacademy.github.io/fnd-mth-104/index.md): overview, outcomes, schedule and labs; the page itself is https://sdaiaacademy.github.io/fnd-mth-104/index.html
+- [The whole course](https://sdaiaacademy.github.io/fnd-mth-104/llms-full.txt): every unit, session and slide in one file, about 17,927 tokens
+- [Practice questions](https://sdaiaacademy.github.io/fnd-mth-104/practice.html): questions to check yourself, with feedback after each answer
+
+## Slides
+
+- [Week 1: Describing data](https://sdaiaacademy.github.io/fnd-mth-104/slides/week1.md): A typical value, its spread, and who is missing from the data; sessions: Centre, spread, shape and missing values; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week1.html; about 2,456 tokens
+- [Week 2: Sampling variation](https://sdaiaacademy.github.io/fnd-mth-104/slides/week2.md): The same question, a different sample, a different answer; sessions: Populations, samples and standard error; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week2.html; about 2,056 tokens
+- [Week 3: Observational and experimental data](https://sdaiaacademy.github.io/fnd-mth-104/slides/week3.md): Who chose the treatment decides what a comparison can show; sessions: Confounding and Simpson's paradox; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week3.html; about 2,068 tokens
+- [Week 4: The bootstrap](https://sdaiaacademy.github.io/fnd-mth-104/slides/week4.md): Resample the sample to see how much an estimate could move; sessions: The bootstrap and its coverage; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week4.html; about 2,132 tokens
+- [Week 5: Intervals for differences and slopes](https://sdaiaacademy.github.io/fnd-mth-104/slides/week5.md): Resample the way the data were collected; sessions: Differences and slopes; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week5.html; about 2,070 tokens
+- [Week 6: Permutation tests](https://sdaiaacademy.github.io/fnd-mth-104/slides/week6.md): Shuffle the labels to see what chance alone produces; sessions: Null models, p-values and effect sizes; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week6.html; about 2,122 tokens
+- [Week 7: Many tests and forking paths](https://sdaiaacademy.github.io/fnd-mth-104/slides/week7.md): Test enough things and something will look real; sessions: Multiple testing and false discoveries; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week7.html; about 1,929 tokens
+- [Week 8: Error rates, power and honest reporting](https://sdaiaacademy.github.io/fnd-mth-104/slides/week8.md): How often a test errs, and how to say what was checked; sessions: Type I and II errors, power and reporting; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/week8.html; about 2,069 tokens
+- [Capstone: Capstone oral checks](https://sdaiaacademy.github.io/fnd-mth-104/slides/capstone.md): Ten minutes each: three to walk through the brief, seven to rerun one test with the assessor's change and read the result; page: https://sdaiaacademy.github.io/fnd-mth-104/slides/capstone.html; about 953 tokens
+
+## Labs
+
+- [Lab 1.1: Describing the chain's baskets](https://sdaiaacademy.github.io/fnd-mth-104/labs/W1_1.ipynb): Week 1, Session 1, 105 min
+- [Lab 2.1: Repeated sampling from a synthetic population](https://sdaiaacademy.github.io/fnd-mth-104/labs/W2_1.ipynb): Week 2, Session 1, 105 min
+- [Lab 3.1: Confounding in the waste records, against a randomised trial](https://sdaiaacademy.github.io/fnd-mth-104/labs/W3_1.ipynb): Week 3, Session 1, 105 min
+- [Lab 4.1: Bootstrap intervals with coverage checked against a known truth](https://sdaiaacademy.github.io/fnd-mth-104/labs/W4_1.ipynb): Week 4, Session 1, 105 min
+- [Lab 5.1: Bootstrap intervals for differences and slopes on public skewed data](https://sdaiaacademy.github.io/fnd-mth-104/labs/W5_1.ipynb): Week 5, Session 1, 105 min
+- [Lab 6.1: Permutation tests for a group difference and a correlation on public data](https://sdaiaacademy.github.io/fnd-mth-104/labs/W6_1.ipynb): Week 6, Session 1, 105 min
+- [Lab 7.1: Twenty tests on pure noise, with and without correction](https://sdaiaacademy.github.io/fnd-mth-104/labs/W7_1.ipynb): Week 7, Session 1, 105 min
+- [Lab 8.1: Type I error rate and power of a permutation test estimated by simulation at three sample sizes](https://sdaiaacademy.github.io/fnd-mth-104/labs/W8_1.ipynb): Week 8, Session 1, 105 min
+
+## Context files
+
+- [context/course.md](https://sdaiaacademy.github.io/fnd-mth-104/context/course.md): the whole course, for an assistant that takes a file, about 17,927 tokens
+- [context/week1.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week1.md): Week 1, about 2,456 tokens
+- [context/week2.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week2.md): Week 2, about 2,056 tokens
+- [context/week3.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week3.md): Week 3, about 2,068 tokens
+- [context/week4.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week4.md): Week 4, about 2,132 tokens
+- [context/week5.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week5.md): Week 5, about 2,070 tokens
+- [context/week6.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week6.md): Week 6, about 2,122 tokens
+- [context/week7.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week7.md): Week 7, about 1,929 tokens
+- [context/week8.md](https://sdaiaacademy.github.io/fnd-mth-104/context/week8.md): Week 8, about 2,069 tokens
+- [context/capstone.md](https://sdaiaacademy.github.io/fnd-mth-104/context/capstone.md): Capstone, about 953 tokens

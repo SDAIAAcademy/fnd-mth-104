@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 7 · Many tests and forking paths · Statistics by Simulation: Variation, Estimation and Testing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="week7.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistics by Simulation: Variation, Estimation and Testing" data-track="foundations" data-day="Week 7">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing</div>
+  <h1>Many tests and forking paths</h1>
+  <p class="lead mt">Week 7: Test enough things and something will look real</p>
+  <div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>1 session · 1 lab</span><span>FND-MTH-104</span></div>
+  <aside class="notes"><p>One test at α = 0.05 errs on true nulls one time in twenty. This week asks what happens when a report runs twenty tests, or one test chosen from twenty possible ones.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">This week</div>
+  <h2>Many tests and forking paths</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Multiple testing and false discoveries</b><small>Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses</small></div></div></div>
+</section>
+
+<section class="slide" id="review-week6" data-lo="LO2" data-n="3">
+  <div class="kicker">Review · week 6</div>
+  <h2>Read the result</h2>
+  <div class="quiz" data-type="single" data-lo="LO2" data-id="review-week6-q1">
+    <p class="lead">A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: "the layout has no effect". What is the best correction?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">"The data cannot tell at this size; the interval for the effect is wide."</div>
+      <div class="opt" data-why="Reads p as the probability that the layout works" data-k="B">"There is a 79% chance the layout works."</div>
+      <div class="opt" data-why="Reads a non-significant p as proof in the other direction" data-k="C">"The layout makes things worse."</div>
+      <div class="opt" data-why="Thinks a smaller α fixes the reading" data-k="D">"Retest at α = 0.01 to confirm there is no effect."</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Not enough evidence of an effect is not evidence of no effect; the interval shows how much is still possible.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Multiple testing and false discoveries</h1>
+  <ul class="bullets outcomes"><li>Measure by simulation how often uncorrected tests produce false findings</li><li>Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls</li><li>Spot forking paths in a reported analysis and name the pre-specification that prevents them</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="many-tests" data-lo="LO6" data-n="5" data-session="1">
+  <div class="kicker">Block A · many tests</div>
+  <h2>Test enough true nulls and something will pass</h2>
+  <table class="t">
+    <tr><th class="num">Tests, all with no true effect</th><th class="num">Expected false findings</th><th class="num">Chance of at least one</th></tr>
+    <tr><td class="num">1</td><td class="num">0.05</td><td class="num">0.050</td></tr>
+    <tr><td class="num">5</td><td class="num">0.25</td><td class="num">0.226</td></tr>
+    <tr><td class="num">10</td><td class="num">0.50</td><td class="num">0.401</td></tr>
+    <tr class="hl"><td class="num">50</td><td class="num">2.50</td><td class="num">0.923</td></tr>
+  </table>
+  <aside class="notes"><p>From slide_numbers.py, week 7: 1 − 0.95^m for independent tests at α = 0.05. The row for twenty is left out on purpose: the lab measures it by simulation.</p></aside>
+</section>
+
+<section class="slide" id="dashboards" data-lo="LO3 LO6" data-n="6" data-session="1">
+  <div class="kicker">Block A · where it happens</div>
+  <h2>Dashboards, subgroup tables and "we also looked at" paragraphs run many tests</h2>
+  <ul class="bullets">
+    <li>One test per product line, region or customer segment</li>
+    <li>Many outcomes for one change: sales, visits, basket size, returns</li>
+    <li>Results reported only when they pass, so the reader never sees the count</li>
+  </ul>
+  <div class="callout warn mt"><b>What goes wrong.</b> A "finding" that is one of twenty tests is about as surprising as one heads in twenty coin tosses.</div>
+  <aside class="notes"><p>Ask for a dashboard the room uses that colours cells by significance. How many cells? How many coloured cells would chance alone give?</p></aside>
+</section>
+
+<section class="slide" id="check-many" data-lo="LO6" data-n="7" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>How surprising is this?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6" data-id="check-many-q1">
+    <p class="lead">A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a "significant" change. Assume the policy did nothing. How many would you expect?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks α applies to the report as a whole, not to each test" data-k="A">None, since α is only 5%</div>
+      <div class="opt" data-why="Takes the rate α for the count: 0.05 is the share per test, not the number of findings" data-k="B">About 0.05</div>
+      <div class="opt" data-ok data-k="C">About 2</div>
+      <div class="opt" data-why="Confuses α with power" data-k="D">About 32</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> 40 × 0.05 = 2 false findings are expected with no effect at all.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="two-error-rates" data-lo="LO6" data-n="8" data-session="1">
+  <div class="kicker">Block B · what to control</div>
+  <h2>Control the chance of any false finding, or the share of false findings</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Family-wise error rate</h4><p class="small mb0">The chance of at least one false finding in the family. Bonferroni: reject when p ≤ α / m. Holm: the same guarantee, step by step, more power.</p></div>
+    <div class="card c-coral"><h4>False discovery rate</h4><p class="small mb0">The expected share of false findings among all findings. Benjamini-Hochberg: largest k with p₍ₖ₎ ≤ k α / m.</p></div>
+  </div>
+  <aside class="notes"><p>Family-wise control suits a few claims that each lead to action; false-discovery control suits screening many candidates for follow-up. Choosing the family and gatekeeping between primary and secondary claims are in SPC-STA-201. Sources: NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3, Bonferroni's method; SciPy documentation of scipy.stats.false_discovery_control, which implements the Benjamini-Hochberg procedure and cites Benjamini and Hochberg (1995); statsmodels documentation of multipletests for Holm.</p></aside>
+</section>
+
+<section class="slide" id="six-tests" data-lo="LO6" data-n="9" data-session="1">
+  <div class="kicker">Block B · an example</div>
+  <h2>Six p-values, three procedures, three answers</h2>
+  <table class="t">
+    <tr><th class="num">Sorted p</th><th>Bonferroni, p ≤ 0.0083</th><th>Holm, 0.05 / (6, 5, 4, …)</th><th>BH, k × 0.05 / 6</th></tr>
+    <tr><td class="num">0.001</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td class="num">0.006</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td class="num">0.012</td><td></td><td>✓</td><td>✓</td></tr>
+    <tr class="hl"><td class="num">0.019</td><td></td><td></td><td>✓</td></tr>
+    <tr><td class="num">0.044</td><td></td><td></td><td></td></tr>
+    <tr><td class="num">0.310</td><td></td><td></td><td></td></tr>
+  </table>
+  <aside class="notes"><p>From slide_numbers.py, week 7, checked against statsmodels. Holm: 0.012 ≤ 0.0125 passes, 0.019 &gt; 0.0167 stops. BH: 0.019 ≤ 0.0333 at k = 4; 0.044 &gt; 0.0417 at k = 5. The lab's hand case uses other p-values.</p></aside>
+</section>
+
+<section class="slide" id="corrections-code" data-lo="LO6" data-n="10" data-session="1">
+  <div class="kicker">Block B · in code</div>
+  <h2>Write the corrections once, then check them against a library</h2>
+  <pre class="code" data-file="statsmodels"><code class="language-python"><span class="hljs-keyword">from</span> scipy <span class="hljs-keyword">import</span> stats
+<span class="hljs-keyword">from</span> statsmodels.stats <span class="hljs-keyword">import</span> (
+    multitest <span class="hljs-keyword">as</span> mt)
+
+r = mt.multipletests(
+    p, alpha=<span class="hljs-number">0.05</span>, method=<span class="hljs-string">&quot;holm&quot;</span>)
+reject, p_adj = r[<span class="hljs-number">0</span>], r[<span class="hljs-number">1</span>]
+<span class="hljs-comment"># BH-adjusted p-values</span>
+q = stats.false_discovery_control(p)</code></pre>
+  <aside class="notes"><p>The lab writes bonferroni, holm and bh by hand and checks them against multipletests. R users: p.adjust. Library names change; the definitions do not.</p></aside>
+</section>
+
+<section class="slide" id="check-correction" data-lo="LO6" data-n="11" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which procedure fits the purpose?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6" data-id="check-correction-q1">
+    <p class="lead">A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits?</p>
+    <div class="opts">
+      <div class="opt" data-why="No correction lets about 15 false picks through on noise alone" data-k="A">No correction: each test is at 5%</div>
+      <div class="opt" data-ok data-k="B">Benjamini-Hochberg, controlling the share of false picks</div>
+      <div class="opt" data-why="Fits a few decisive claims; with 300 tests it would rarely pick anything" data-k="C">Bonferroni, controlling any false pick at all</div>
+      <div class="opt" data-why="A stricter single α does not account for the number of tests" data-k="D">Test each idea at α = 0.01 instead</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Screening for follow-up tolerates a small share of false picks; that is what the false discovery rate controls.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="forking-paths" data-lo="LO3" data-n="12" data-session="1">
+  <div class="kicker">Block C · forking paths</div>
+  <h2>One test can hide many: every choice made after seeing the data is a fork</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Which outcome: units, value, share of baskets</li>
+      <li>Which units: all branches, large ones, one sector</li>
+      <li>What to do with outliers, which weeks, which test</li>
+    </ul>
+    <div class="card c-purple"><h4>No fishing needed</h4><p class="small mb0">Each choice can be reasonable. Making them after looking still inflates the false-finding rate, even when only one test is run.</p></div>
+  </div>
+  <aside class="notes"><p>Sources: Gelman and Loken (2013), The garden of forking paths, whose point is that the problem arises even without conscious fishing. The lab measures it on noise with eight reasonable paths.</p></aside>
+</section>
+
+<section class="slide" id="pre-specify" data-lo="LO3 LO6" data-n="13" data-session="1">
+  <div class="kicker">Block C · the cure</div>
+  <h2>Write the analysis down before you look, and report every test you ran</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Before</h4><p class="small mb0">Question, outcome, groups, test, outlier rule, family of claims.</p></div>
+    <div class="card c-coral"><h4>During</h4><p class="small mb0">Any change to the plan is logged with its reason.</p></div>
+    <div class="card c-purple"><h4>After</h4><p class="small mb0">Report the planned results first; label the rest exploratory.</p></div>
+  </div>
+  <aside class="notes"><p>Week 8's lab ends with three lines of capstone plan written before any result is seen. Pre-registration in full is in SPC-EXP-201.</p></aside>
+</section>
+
+<section class="slide" id="check-forking" data-lo="LO3" data-n="14" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Name the problem</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="check-forking-q1">
+    <p class="lead">A summary reports that a staff-training course "significantly reduced errors among evening-shift staff over 40 (p = 0.03)". The full data covered all shifts and ages; no subgroup was planned. What is the main problem?</p>
+    <div class="opts">
+      <div class="opt" data-why="Raises a real but secondary concern; the main issue is how the subgroup was chosen" data-k="A">Evening staff may be less careful</div>
+      <div class="opt" data-why="Thinks a small p-value rules out chance whatever the route to it" data-k="B">None: p = 0.03 is below 0.05</div>
+      <div class="opt" data-why="Thinks sample size is the issue: the issue is the choice" data-k="C">The subgroup is too small for a permutation test</div>
+      <div class="opt" data-ok data-k="D">A forking path: the subgroup was picked after seeing the data</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Many subgroups could have been reported; choosing the one that passed makes p = 0.03 far less surprising than it looks.</div>
+  </div>
+  <aside class="notes"><p>Answer D. This is the shape of the LO3 critique: name the problem and its effect on the conclusion.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-7-1" data-auto="lab" data-lab="7.1" data-label="Lab 7.1" data-n="15" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 7.1 · 105 min</div><h2>Twenty tests on pure noise, with and without correction</h2><p class="lead small">Test twenty lines with no true effect, then simulate a thousand dashboards with and without correction.</p><a class="nb" href="../labs/W7_1.ipynb">W7_1.ipynb</a></div><ul class="checklist"><li>Set up; the promotion dashboard <span class="min">10 min</span></li><li>Bonferroni, Holm and Benjamini-Hochberg by hand on five p-values <span class="min">15 min</span></li><li>Twenty permutation tests on the dashboard <span class="min">15 min</span></li><li>The three corrections on the dashboard <span class="min">10 min</span></li><li>A thousand dashboards of pure noise: the table of false-finding rates <span class="min">25 min</span></li><li>Forking paths: one line, eight reasonable analyses <span class="min">15 min</span></li><li>Record how this was checked <span class="min">15 min</span></li><li class="stretch">✱ Stretch: Give four lines a true effect and compare Bonferroni with Benjamini-Hochberg</li></ul></div>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's fourth lab line and the evidence for LO6: participants keep the table of false-finding rates. Watch for: Holm continuing past the first failure; BH rejecting only the p-values that pass their own threshold rather than all up to the largest k; new shuffles drawn per line rather than shared.</p></aside>
+</section>
+
+<section class="slide" id="debrief-rates" data-lo="LO6" data-n="16" data-session="1">
+  <div class="kicker">Debrief · lab 7.1</div>
+  <h2>Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5%</h2>
+  <table class="t">
+    <tr><th>1,000 simulated dashboards, 20 lines, no effect</th><th class="num">False-finding rate</th></tr>
+    <tr><td>Single test, uncorrected</td><td class="num">0.049</td></tr>
+    <tr class="hl"><td>At least one of 20, uncorrected</td><td class="num">0.627</td></tr>
+    <tr><td>Bonferroni</td><td class="num">0.035</td></tr>
+    <tr><td>Holm</td><td class="num">0.035</td></tr>
+    <tr><td>Benjamini-Hochberg</td><td class="num">0.035</td></tr>
+  </table>
+  <aside class="notes"><p>From the solution run of lab 7.1 (Monte Carlo error about ±0.03 on the 0.627, two standard errors). Theory for 20 independent tests: 0.642. With every line null, any finding is false, so the family-wise rate and the false discovery rate are the same quantity. Bonferroni and Holm flag exactly the same dashboards (both need the smallest p at or below 0.05 / 20); Benjamini-Hochberg can add a dashboard whose k-th smallest p is below k × 0.05 / 20, which happened in none of these 1,000. The corrected rates sit below 0.05 because the simulation uses 500 shuffles per test: the smallest possible p, 1 / 501, is just under 0.05 / 20, so a line passes Bonferroni only when it beats every shuffle. The real dashboard's two findings, L07 (p = 0.030) and L10 (0.048), vanish under every correction.</p></aside>
+</section>
+
+<section class="slide" id="debrief-forking" data-lo="LO3" data-n="17" data-session="1">
+  <div class="kicker">Debrief · lab 7.1</div>
+  <h2>One planned test erred 5% of the time; the best of eight paths, 19%</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">0.050</div><div class="lbl">one planned test, 300 noise lines</div></div>
+    <div class="stat center"><div class="big">0.190</div><div class="lbl">smallest p of eight reasonable paths</div></div>
+  </div>
+  <p class="small mt">With four true effects among 20 lines (stretch), BH found more of them than Bonferroni (power 0.24 against 0.17) with few false discoveries.</p>
+  <aside class="notes"><p>From the solution run of lab 7.1. The stretch is where the two kinds of control part: with real effects present, BH buys power at the cost of a controlled share of false findings.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="18" data-session="1">
+  <div class="kicker">Week 7 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Count the tests</h4><p class="small mb0">Twenty true nulls give a finding most of the time.</p></div>
+    <div class="card c-coral"><h4>Correct for the family</h4><p class="small mb0">Holm for decisive claims, BH for screening.</p></div>
+    <div class="card c-purple"><h4>Fix the path first</h4><p class="small mb0">Choices made after looking are hidden tests.</p></div>
+  </div>
+  <aside class="notes"><p>The responsible-use line of the course: participants have now seen how many false findings uncorrected testing produces. Ask them to say it in one sentence for their manager.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="19" data-session="1">
+  <div class="kicker">Next</div>
+  <h2>Week 8: Error rates, power and honest reporting</h2>
+  <p class="lead">Problem set 7 (50 minutes, AI off for the first attempt): labs/problem-sets/PS7.ipynb. Bring a public dataset idea for the capstone.</p>
+  <aside class="notes"><p>Ask participants to check the licence of the dataset they have in mind before next week (20 minutes of guided self-study are set aside for it).</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"../index.html"},"deck":{"id":"week7","kind":"day","day":7,"label":"Week 7","title":"Many tests and forking paths","prev":"week6.html","next":"week8.html","md":"week7.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Multiple testing and false discoveries","slide":"s1","outcomes":["Measure by simulation how often uncorrected tests produce false findings","Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls","Spot forking paths in a reported analysis and name the pre-specification that prevents them"],"minutes":210,"lab":{"id":"7.1","title":"Twenty tests on pure noise, with and without correction","minutes":105,"href":"../labs/W7_1.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Many tests and forking paths","kind":"title","session":0,"hash":"34217635","md":"#### [week7#title] Many tests and forking paths\n\n*SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing*\n\nWeek 7: Test enough things and something will look real\n\nData & AI Foundations Track · 8 weeks + capstone · 1 session · 1 lab · FND-MTH-104","notes":"One test at α = 0.05 errs on true nulls one time in twenty. This week asks what happens when a report runs twenty tests, or one test chosen from twenty possible ones.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Many tests and forking paths","kind":"content","session":0,"hash":"ea26fe69","md":"#### [week7#agenda] Many tests and forking paths\n\n*This week*\n\n- **Session 1 · Multiple testing and false discoveries**: Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses","notes":"","minutes":null,"lo":[]},{"id":"review-week6","n":3,"title":"Read the result","kind":"quiz","session":0,"hash":"eb16eb6b","md":"#### [week7#review-week6] Read the result\n\n*Review · week 6*\n\n**Question:** A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: \"the layout has no effect\". What is the best correction?\n\n- A. \"The data cannot tell at this size; the interval for the effect is wide.\"\n- B. \"There is a 79% chance the layout works.\"\n- C. \"The layout makes things worse.\"\n- D. \"Retest at α = 0.01 to confirm there is no effect.\"","notes":"Answer A.","minutes":null,"lo":["LO2"]},{"id":"s1","n":4,"title":"Multiple testing and false discoveries","kind":"section","session":1,"hash":"f8c4b249","md":"#### [week7#s1] Multiple testing and false discoveries\n\n*Session 1*\n\n- Measure by simulation how often uncorrected tests produce false findings\n- Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls\n- Spot forking paths in a reported analysis and name the pre-specification that prevents them","notes":"","minutes":null,"lo":["LO3","LO6"]},{"id":"many-tests","n":5,"title":"Test enough true nulls and something will pass","kind":"content","session":1,"hash":"d94c96b2","md":"#### [week7#many-tests] Test enough true nulls and something will pass\n\n*Block A · many tests*\n\n| Tests, all with no true effect | Expected false findings | Chance of at least one |\n| --- | --- | --- |\n| 1 | 0.05 | 0.050 |\n| 5 | 0.25 | 0.226 |\n| 10 | 0.50 | 0.401 |\n| 50 | 2.50 | 0.923 |","notes":"From slide_numbers.py, week 7: 1 − 0.95^m for independent tests at α = 0.05. The row for twenty is left out on purpose: the lab measures it by simulation.","minutes":null,"lo":["LO6"]},{"id":"dashboards","n":6,"title":"Dashboards, subgroup tables and \"we also looked at\" paragraphs run many tests","kind":"content","session":1,"hash":"420f8ab5","md":"#### [week7#dashboards] Dashboards, subgroup tables and \"we also looked at\" paragraphs run many tests\n\n*Block A · where it happens*\n\n- One test per product line, region or customer segment\n- Many outcomes for one change: sales, visits, basket size, returns\n- Results reported only when they pass, so the reader never sees the count\n\n> **What goes wrong.** A \"finding\" that is one of twenty tests is about as surprising as one heads in twenty coin tosses.","notes":"Ask for a dashboard the room uses that colours cells by significance. How many cells? How many coloured cells would chance alone give?","minutes":null,"lo":["LO3","LO6"]},{"id":"check-many","n":7,"title":"How surprising is this?","kind":"quiz","session":1,"hash":"4b7ec3a1","md":"#### [week7#check-many] How surprising is this?\n\n*Checkpoint*\n\n**Question:** A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a \"significant\" change. Assume the policy did nothing. How many would you expect?\n\n- A. None, since α is only 5%\n- B. About 0.05\n- C. About 2\n- D. About 32","notes":"Answer C.","minutes":null,"lo":["LO6"]},{"id":"two-error-rates","n":8,"title":"Control the chance of any false finding, or the share of false findings","kind":"content","session":1,"hash":"583163a8","md":"#### [week7#two-error-rates] Control the chance of any false finding, or the share of false findings\n\n*Block B · what to control*\n\n- **Family-wise error rate.** The chance of at least one false finding in the family. Bonferroni: reject when p ≤ α / m. Holm: the same guarantee, step by step, more power.\n- **False discovery rate.** The expected share of false findings among all findings. Benjamini-Hochberg: largest k with p₍ₖ₎ ≤ k α / m.","notes":"Family-wise control suits a few claims that each lead to action; false-discovery control suits screening many candidates for follow-up. Choosing the family and gatekeeping between primary and secondary claims are in SPC-STA-201. Sources: NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3, Bonferroni's method; SciPy documentation of scipy.stats.false_discovery_control, which implements the Benjamini-Hochberg procedure and cites Benjamini and Hochberg (1995); statsmodels documentation of multipletests for Holm.","minutes":null,"lo":["LO6"]},{"id":"six-tests","n":9,"title":"Six p-values, three procedures, three answers","kind":"content","session":1,"hash":"25d00acb","md":"#### [week7#six-tests] Six p-values, three procedures, three answers\n\n*Block B · an example*\n\n| Sorted p | Bonferroni, p ≤ 0.0083 | Holm, 0.05 / (6, 5, 4, …) | BH, k × 0.05 / 6 |\n| --- | --- | --- | --- |\n| 0.001 | ✓ | ✓ | ✓ |\n| 0.006 | ✓ | ✓ | ✓ |\n| 0.012 |  | ✓ | ✓ |\n| 0.019 |  |  | ✓ |\n| 0.044 |  |  |  |\n| 0.310 |  |  |  |","notes":"From slide_numbers.py, week 7, checked against statsmodels. Holm: 0.012 ≤ 0.0125 passes, 0.019 > 0.0167 stops. BH: 0.019 ≤ 0.0333 at k = 4; 0.044 > 0.0417 at k = 5. The lab's hand case uses other p-values.","minutes":null,"lo":["LO6"]},{"id":"corrections-code","n":10,"title":"Write the corrections once, then check them against a library","kind":"content","session":1,"hash":"3be79d4b","md":"#### [week7#corrections-code] Write the corrections once, then check them against a library\n\n*Block B · in code*\n\n```python\n# file: statsmodels\nfrom scipy import stats\nfrom statsmodels.stats import (\n    multitest as mt)\n\nr = mt.multipletests(\n    p, alpha=0.05, method=\"holm\")\nreject, p_adj = r[0], r[1]\n# BH-adjusted p-values\nq = stats.false_discovery_control(p)\n```","notes":"The lab writes bonferroni, holm and bh by hand and checks them against multipletests. R users: p.adjust. Library names change; the definitions do not.","minutes":null,"lo":["LO6"]},{"id":"check-correction","n":11,"title":"Which procedure fits the purpose?","kind":"quiz","session":1,"hash":"a27423b2","md":"#### [week7#check-correction] Which procedure fits the purpose?\n\n*Checkpoint*\n\n**Question:** A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits?\n\n- A. No correction: each test is at 5%\n- B. Benjamini-Hochberg, controlling the share of false picks\n- C. Bonferroni, controlling any false pick at all\n- D. Test each idea at α = 0.01 instead","notes":"Answer B.","minutes":null,"lo":["LO6"]},{"id":"forking-paths","n":12,"title":"One test can hide many: every choice made after seeing the data is a fork","kind":"content","session":1,"hash":"5a84491a","md":"#### [week7#forking-paths] One test can hide many: every choice made after seeing the data is a fork\n\n*Block C · forking paths*\n\n- Which outcome: units, value, share of baskets\n- Which units: all branches, large ones, one sector\n- What to do with outliers, which weeks, which test\n\n- **No fishing needed.** Each choice can be reasonable. Making them after looking still inflates the false-finding rate, even when only one test is run.","notes":"Sources: Gelman and Loken (2013), The garden of forking paths, whose point is that the problem arises even without conscious fishing. The lab measures it on noise with eight reasonable paths.","minutes":null,"lo":["LO3"]},{"id":"pre-specify","n":13,"title":"Write the analysis down before you look, and report every test you ran","kind":"content","session":1,"hash":"6eb0d016","md":"#### [week7#pre-specify] Write the analysis down before you look, and report every test you ran\n\n*Block C · the cure*\n\n- **Before.** Question, outcome, groups, test, outlier rule, family of claims.\n- **During.** Any change to the plan is logged with its reason.\n- **After.** Report the planned results first; label the rest exploratory.","notes":"Week 8's lab ends with three lines of capstone plan written before any result is seen. Pre-registration in full is in SPC-EXP-201.","minutes":null,"lo":["LO3","LO6"]},{"id":"check-forking","n":14,"title":"Name the problem","kind":"quiz","session":1,"hash":"18e082d4","md":"#### [week7#check-forking] Name the problem\n\n*Checkpoint*\n\n**Question:** A summary reports that a staff-training course \"significantly reduced errors among evening-shift staff over 40 (p = 0.03)\". The full data covered all shifts and ages; no subgroup was planned. What is the main problem?\n\n- A. Evening staff may be less careful\n- B. None: p = 0.03 is below 0.05\n- C. The subgroup is too small for a permutation test\n- D. A forking path: the subgroup was picked after seeing the data","notes":"Answer D. This is the shape of the LO3 critique: name the problem and its effect on the conclusion.","minutes":null,"lo":["LO3"]},{"id":"lab-7-1","n":15,"title":"Twenty tests on pure noise, with and without correction","kind":"lab","session":1,"hash":"242c41ee","md":"#### [week7#lab-7-1] Twenty tests on pure noise, with and without correction\n\nLab 7.1 · 105 min\n\nTest twenty lines with no true effect, then simulate a thousand dashboards with and without correction.\n\n[W7_1.ipynb](https://sdaiaacademy.github.io/fnd-mth-104/labs/W7_1.ipynb)\n\n- [ ] Set up; the promotion dashboard (10 min)\n- [ ] Bonferroni, Holm and Benjamini-Hochberg by hand on five p-values (15 min)\n- [ ] Twenty permutation tests on the dashboard (15 min)\n- [ ] The three corrections on the dashboard (10 min)\n- [ ] A thousand dashboards of pure noise: the table of false-finding rates (25 min)\n- [ ] Forking paths: one line, eight reasonable analyses (15 min)\n- [ ] Record how this was checked (15 min)\n- [ ] ✱ Stretch: Give four lines a true effect and compare Bonferroni with Benjamini-Hochberg","notes":"AI-tutor: hints only. This lab is the catalog entry's fourth lab line and the evidence for LO6: participants keep the table of false-finding rates. Watch for: Holm continuing past the first failure; BH rejecting only the p-values that pass their own threshold rather than all up to the largest k; new shuffles drawn per line rather than shared.","minutes":null,"lo":[]},{"id":"debrief-rates","n":16,"title":"Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5%","kind":"content","session":1,"hash":"09860193","md":"#### [week7#debrief-rates] Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5%\n\n*Debrief · lab 7.1*\n\n| 1,000 simulated dashboards, 20 lines, no effect | False-finding rate |\n| --- | --- |\n| Single test, uncorrected | 0.049 |\n| At least one of 20, uncorrected | 0.627 |\n| Bonferroni | 0.035 |\n| Holm | 0.035 |\n| Benjamini-Hochberg | 0.035 |","notes":"From the solution run of lab 7.1 (Monte Carlo error about ±0.03 on the 0.627, two standard errors). Theory for 20 independent tests: 0.642. With every line null, any finding is false, so the family-wise rate and the false discovery rate are the same quantity. Bonferroni and Holm flag exactly the same dashboards (both need the smallest p at or below 0.05 / 20); Benjamini-Hochberg can add a dashboard whose k-th smallest p is below k × 0.05 / 20, which happened in none of these 1,000. The corrected rates sit below 0.05 because the simulation uses 500 shuffles per test: the smallest possible p, 1 / 501, is just under 0.05 / 20, so a line passes Bonferroni only when it beats every shuffle. The real dashboard's two findings, L07 (p = 0.030) and L10 (0.048), vanish under every correction.","minutes":null,"lo":["LO6"]},{"id":"debrief-forking","n":17,"title":"One planned test erred 5% of the time; the best of eight paths, 19%","kind":"content","session":1,"hash":"db6fee5c","md":"#### [week7#debrief-forking] One planned test erred 5% of the time; the best of eight paths, 19%\n\n*Debrief · lab 7.1*\n\n- **0.050** one planned test, 300 noise lines\n- **0.190** smallest p of eight reasonable paths\n\nWith four true effects among 20 lines (stretch), BH found more of them than Bonferroni (power 0.24 against 0.17) with few false discoveries.","notes":"From the solution run of lab 7.1. The stretch is where the two kinds of control part: with real effects present, BH buys power at the cost of a controlled share of false findings.","minutes":null,"lo":["LO3"]},{"id":"wrap-up","n":18,"title":"Three things to keep","kind":"content","session":1,"hash":"099109be","md":"#### [week7#wrap-up] Three things to keep\n\n*Week 7 · wrap-up*\n\n- **Count the tests.** Twenty true nulls give a finding most of the time.\n- **Correct for the family.** Holm for decisive claims, BH for screening.\n- **Fix the path first.** Choices made after looking are hidden tests.","notes":"The responsible-use line of the course: participants have now seen how many false findings uncorrected testing produces. Ask them to say it in one sentence for their manager.","minutes":null,"lo":[]},{"id":"next","n":19,"title":"Week 8: Error rates, power and honest reporting","kind":"content","session":1,"hash":"5ecccd0a","md":"#### [week7#next] Week 8: Error rates, power and honest reporting\n\n*Next*\n\nProblem set 7 (50 minutes, AI off for the first attempt): labs/problem-sets/PS7.ipynb. Bring a public dataset idea for the capstone.","notes":"Ask participants to check the licence of the dataset they have in mind before next week (20 minutes of guided self-study are set aside for it).","minutes":null,"lo":[]}],"activities":[{"id":"review-week6-q1","slide":"review-week6","type":"single","prompt":"A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: \"the layout has no effect\". What is the best correction?","options":[{"key":"A","text":"\"The data cannot tell at this size; the interval for the effect is wide.\""},{"key":"B","text":"\"There is a 79% chance the layout works.\""},{"key":"C","text":"\"The layout makes things worse.\""},{"key":"D","text":"\"Retest at α = 0.01 to confirm there is no effect.\""}],"correct":[0],"explanation":"Not enough evidence of an effect is not evidence of no effect; the interval shows how much is still possible.","misconceptions":["","Reads p as the probability that the layout works","Reads a non-significant p as proof in the other direction","Thinks a smaller α fixes the reading"],"lo":["LO2"]},{"id":"check-many-q1","slide":"check-many","type":"single","prompt":"A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a \"significant\" change. Assume the policy did nothing. How many would you expect?","options":[{"key":"A","text":"None, since α is only 5%"},{"key":"B","text":"About 0.05"},{"key":"C","text":"About 2"},{"key":"D","text":"About 32"}],"correct":[2],"explanation":"40 × 0.05 = 2 false findings are expected with no effect at all.","misconceptions":["Thinks α applies to the report as a whole, not to each test","Takes the rate α for the count: 0.05 is the share per test, not the number of findings","","Confuses α with power"],"lo":["LO6"]},{"id":"check-correction-q1","slide":"check-correction","type":"single","prompt":"A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits?","options":[{"key":"A","text":"No correction: each test is at 5%"},{"key":"B","text":"Benjamini-Hochberg, controlling the share of false picks"},{"key":"C","text":"Bonferroni, controlling any false pick at all"},{"key":"D","text":"Test each idea at α = 0.01 instead"}],"correct":[1],"explanation":"Screening for follow-up tolerates a small share of false picks; that is what the false discovery rate controls.","misconceptions":["No correction lets about 15 false picks through on noise alone","","Fits a few decisive claims; with 300 tests it would rarely pick anything","A stricter single α does not account for the number of tests"],"lo":["LO6"]},{"id":"check-forking-q1","slide":"check-forking","type":"single","prompt":"A summary reports that a staff-training course \"significantly reduced errors among evening-shift staff over 40 (p = 0.03)\". The full data covered all shifts and ages; no subgroup was planned. What is the main problem?","options":[{"key":"A","text":"Evening staff may be less careful"},{"key":"B","text":"None: p = 0.03 is below 0.05"},{"key":"C","text":"The subgroup is too small for a permutation test"},{"key":"D","text":"A forking path: the subgroup was picked after seeing the data"}],"correct":[3],"explanation":"Many subgroups could have been reported; choosing the one that passed makes p = 0.03 far less surprising than it looks.","misconceptions":["Raises a real but secondary concern; the main issue is how the subgroup was chosen","Thinks a small p-value rules out chance whatever the route to it","Thinks sample size is the issue: the issue is the choice",""],"lo":["LO3"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"week7.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

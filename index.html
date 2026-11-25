@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="page" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistics by Simulation: Variation, Estimation and Testing · SDAIA Academy</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<meta name="description" content="Reason about variation, estimates and tests by simulating them, and report effect sizes with intervals, their limits and how each was checked">
+<link rel="icon" href="_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="index.md">
+<link rel="describedby" href="llms.txt">
+<link rel="stylesheet" href="_engine/academy.css">
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top"><div class="logo" id="logo"></div><nav><a href="slides/week1.html">Slides</a><a href="practice.html">Practice</a><a href="index.md" type="text/markdown">Markdown</a></nav></div>
+<div class="kicker">Data &amp; AI Foundations Track · SDAIA Academy · FND-MTH-104</div>
+<h1>Statistics by Simulation: Variation, Estimation and Testing<span class="sub ar" lang="ar" dir="rtl">الإحصاء بالمحاكاة: التفاوت والتقدير والاختبار</span></h1>
+<p>Reason about variation, estimates and tests by simulating them, and report effect sizes with intervals, their limits and how each was checked</p>
+<div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>45 hours</span><span>Level 100</span></div>
+</div>
+</header>
+<main class="wrap">
+<h2>About the course</h2>
+<p>Participants approach inference by simulation before formulas. They draw repeated samples to see variation, build bootstrap intervals for means, medians, differences and slopes, run permutation tests, and report effect sizes with intervals rather than bare p-values. They find multiple-testing and forking-path problems in reported results. Each lab ends with a note on how the result was checked, and the capstone is an analysis brief on a public dataset, defended orally. Power analysis and study design follow in SPC-STA-201 and SPC-EXP-201.</p>
+<p><b>Who it is for:</b> Beginners. Career changers and non-computing graduates closing bridging gaps before advanced study, and computing graduates refreshing the mathematics behind models; a placement test lets participants skip any course whose content they already command.</p>
+<p><b>Format:</b> Extended: 8 weeks part-time, one session and one lab a week, weekly graded problem sets and a capstone</p>
+<h2>The case study</h2>
+<div class="note info"><b>The bakery chain (fictional).</b> An unnamed chain of 24 neighbourhood bakeries in one city, with branches coded BR01 to BR24 and product lines L01 to L20; the labs speak to its operations manager, quality lead, finance analyst and customer insight lead by role only. Its data (a month of baskets, a known quarter of 40,000 baskets, waste records, a randomised discount trial and a promotion dashboard) is synthetic, written with seed 104; weeks 5 and 6 add two public-domain datasets bundled with statsmodels, read at run time and never copied into the course.</div>
+<h2>The course</h2>
+<div class="day">
+<div class="day-head c-teal"><div><div class="t">Week 1 · 1 session · 1 lab</div><h3>Describing data</h3></div><a class="btn" href="slides/week1.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Centre, spread, shape and missing values</b><br>Centre and spread with the median and interquartile range, distribution shape and outliers, and missing data in summaries<ul><li>Choose between the mean, the median and a trimmed mean for a long-tailed variable and justify the choice</li><li>Compute and read the interquartile range and the fences, and decide whether an extreme value is an error</li><li>Report a summary with the share and the likely direction of missing data</li></ul></td><td><a href="labs/W1_1.ipynb">Lab 1.1 · Describing the chain's baskets</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W1_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-cyan"><div><div class="t">Week 2 · 1 session · 1 lab</div><h3>Sampling variation</h3></div><a class="btn" href="slides/week2.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Populations, samples and standard error</b><br>Populations, samples and sampling frames, sampling distributions and the standard error by simulation<ul><li>Name the population, the sample, the parameter and the statistic of a stated study</li><li>Estimate a standard error by drawing repeated samples and compare it with s/√n</li><li>Explain why a larger sample shrinks the standard error but not the bias of a wrong frame</li></ul></td><td><a href="labs/W2_1.ipynb">Lab 2.1 · Repeated sampling from a synthetic population</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W2_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-coral"><div><div class="t">Week 3 · 1 session · 1 lab</div><h3>Observational and experimental data</h3></div><a class="btn" href="slides/week3.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Confounding and Simpson's paradox</b><br>Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys<ul><li>Tell observational from experimental data from how the treatment was assigned</li><li>Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels</li><li>Explain what a randomised assignment guarantees and what it does not</li></ul></td><td><a href="labs/W3_1.ipynb">Lab 3.1 · Confounding in the waste records, against a randomised trial</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W3_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-purple"><div><div class="t">Week 4 · 1 session · 1 lab</div><h3>The bootstrap</h3></div><a class="btn" href="slides/week4.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>The bootstrap and its coverage</b><br>The bootstrap and its assumptions, percentile intervals, and interval coverage checked by simulation<ul><li>Build a percentile bootstrap interval for a mean and a median</li><li>Check an interval method's coverage by simulation against a known truth</li><li>Explain why bootstrap intervals under-cover for small samples from a long-tailed population</li></ul></td><td><a href="labs/W4_1.ipynb">Lab 4.1 · Bootstrap intervals with coverage checked against a known truth</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W4_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-green"><div><div class="t">Week 5 · 1 session · 1 lab</div><h3>Intervals for differences and slopes</h3></div><a class="btn" href="slides/week5.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Differences and slopes</b><br>Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared<ul><li>Build a bootstrap interval for a difference between two groups by resampling each group</li><li>Build a bootstrap interval for a regression slope by resampling whole rows</li><li>Show that intervals agree on rerun with a new seed, and suppress small groups before reporting</li></ul></td><td><a href="labs/W5_1.ipynb">Lab 5.1 · Bootstrap intervals for differences and slopes on public skewed data</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W5_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-teal"><div><div class="t">Week 6 · 1 session · 1 lab</div><h3>Permutation tests</h3></div><a class="btn" href="slides/week6.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Null models, p-values and effect sizes</b><br>Null models and permutation tests, what p-values do not mean, Type I and Type II errors, and effect size with practical significance<ul><li>State the null model of a comparison and test it by permutation</li><li>Read a p-value correctly and correct common misreadings</li><li>Report a result as an effect size with an interval and a plain-language reading</li></ul></td><td><a href="labs/W6_1.ipynb">Lab 6.1 · Permutation tests for a group difference and a correlation on public data</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W6_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-cyan"><div><div class="t">Week 7 · 1 session · 1 lab</div><h3>Many tests and forking paths</h3></div><a class="btn" href="slides/week7.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Multiple testing and false discoveries</b><br>Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses<ul><li>Measure by simulation how often uncorrected tests produce false findings</li><li>Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls</li><li>Spot forking paths in a reported analysis and name the pre-specification that prevents them</li></ul></td><td><a href="labs/W7_1.ipynb">Lab 7.1 · Twenty tests on pure noise, with and without correction</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W7_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-coral"><div><div class="t">Week 8 · 1 session · 1 lab</div><h3>Error rates, power and honest reporting</h3></div><a class="btn" href="slides/week8.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Type I and II errors, power and reporting</b><br>Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked<ul><li>Estimate a test's Type I error rate and power by simulation at several sample sizes</li><li>Judge practical significance by comparing an interval with a threshold that matters</li><li>Write a result with its scope, limits and a record of how it was checked</li></ul></td><td><a href="labs/W8_1.ipynb">Lab 8.1 · Type I error rate and power of a permutation test estimated by simulation at three sample sizes</a> <span class="muted">(105 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/fnd-mth-104/blob/main/labs/W8_1.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-amber"><div><div class="t">Capstone</div><h3>Capstone oral checks</h3></div><a class="btn" href="slides/capstone.html">Open the slides</a></div>
+<div class="scroll"><table><tr><td>Ten minutes each: three to walk through the brief, seven to rerun one test with the assessor's change and read the result</td></tr></table></div>
+</div>
+<h2>Capstone</h2>
+<div class="two">
+<div><p>A two-page analysis brief on a public dataset with estimate, interval, test, effect size and limits, submitted with its notebook and defended in a ten-minute oral check</p><p><b>What you submit:</b> A link to a public GitHub repository with the two-page brief, the notebook with its outputs, and the dataset's source and licence; then a ten-minute oral check in which the participant walks through the brief and reruns one test with a change the assessor specifies</p><p><b>Format:</b> 3 min talk and demo · 7 min Q&amp;A</p></div>
+<div><h3>Rubric</h3><div class="bar c-teal"><span>Question, dataset, source and licence, unit and scope stated; groups under 30 rows suppressed<i style="--w:60%"></i></span><b>15%</b></div><div class="bar c-cyan"><span>Estimate with a bootstrap interval resampled the way the data were collected; the interval agrees on rerun with a new seed<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-coral"><span>Test with its null model stated, a permutation test, the effect size with an interval and a plain-language reading<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-purple"><span>Limits: confounding, multiple comparisons and forking paths named where they apply, and what the analysis cannot show<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-amber"><span>Notebook reruns from top to bottom; a record of how each result, and any AI-assisted step, was checked<i style="--w:60%"></i></span><b>15%</b></div></div>
+</div>
+<h2>Outcomes</h2>
+<p>By the end of the course, participants can:</p>
+<div class="day"><div class="scroll"><table>
+<tr><th></th><th>Outcomes</th><th>Level</th><th>Evidence</th></tr>
+<tr><td><b>LO1</b></td><td>Distinguish population, sample, parameter, statistic and sampling distribution, and explain what a standard error measures, given repeated samples from a known synthetic population</td><td>Awareness</td><td>supervised AI-off test, at least 70% correct</td></tr>
+<tr><td><b>LO2</b></td><td>Explain what p-values and confidence intervals mean and identify misreadings of them, given ten statements from synthetic reports</td><td>Awareness</td><td>each statement classified and corrected, eight of ten correct</td></tr>
+<tr><td><b>LO3</b></td><td>Identify multiple-testing, forking-path and confounding problems in a reported analysis, given a one-page synthetic summary</td><td>Awareness</td><td>a written critique naming each problem and its effect</td></tr>
+<tr><td><b>LO4</b></td><td>Compute bootstrap intervals for means, medians, group differences and regression slopes, given public data with skewed variables</td><td>Applied</td><td>a notebook whose intervals agree on rerun with a new seed</td></tr>
+<tr><td><b>LO5</b></td><td>Implement permutation tests and report each result as an effect size with an interval, given two public datasets and stated questions</td><td>Applied</td><td>notebooks with test code, intervals and a plain-language reading</td></tr>
+<tr><td><b>LO6</b></td><td>Apply family-wise and false-discovery-rate corrections and measure by simulation how often uncorrected tests produce false findings, given twenty outcomes with no true effect</td><td>Applied</td><td>a table of false-finding rates with and without correction</td></tr>
+</table></div></div>
+<h2>Tools</h2>
+<div class="grid">
+<div class="card c-teal"><h3>Resampling and testing</h3><p>SciPy stats · statsmodels · R with the infer package</p></div>
+<div class="card c-cyan"><h3>DataFrame library</h3><p>pandas · Polars</p></div>
+<div class="card c-coral"><h3>Notebook environment</h3><p>JupyterLab · marimo · a free hosted notebook service</p></div>
+<div class="card c-purple"><h3>Hint-only tutor</h3><p>an open-weight model in tutor mode · an approved assistant with a tutor instruction</p></div>
+</div>
+<h2>Before you start</h2>
+<h3>Prerequisites</h3>
+<ul><li>FND-MTH-103 Probability for Data and AI</li><li>Probability shown in the placement test is accepted in place of FND-MTH-103</li><li>Computes group summaries with a DataFrame library (FND-DAT-102 or the pre-work notebook)</li></ul>
+<div class="note tip">The labs are notebooks. Open each one in Google Colab from the table above, or clone the repository and run them locally.</div>
+<h2>Sources</h2>
+<h3>Data</h3>
+<ul><li><a href="https://www.statsmodels.org/stable/datasets/generated/randhie.html">statsmodels: the RAND Health Insurance Experiment dataset (randhie), public domain</a></li><li><a href="https://www.statsmodels.org/stable/datasets/generated/engel.html">statsmodels: the Engel food expenditure dataset (engel), public domain</a></li></ul>
+<h3>Methods and tools</h3>
+<ul><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html">SciPy: scipy.stats.bootstrap (default method BCa)</a></li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html">SciPy: scipy.stats.permutation_test (two-sided p-value: twice the smaller one-sided p-value)</a></li><li><a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html">statsmodels: multipletests (Bonferroni, Holm, Benjamini-Hochberg)</a></li><li><a href="https://sites.stat.columbia.edu/gelman/research/unpublished/p_hacking.pdf">Gelman and Loken (2013), The garden of forking paths: why multiple comparisons can be a problem, even when there is no fishing expedition</a></li><li><a href="https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf">American Statistical Association (2016), news release on its Statement on Statistical Significance and P-Values, listing the six principles</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc473.htm">NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3: Bonferroni's method</a></li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.false_discovery_control.html">SciPy: scipy.stats.false_discovery_control (the Benjamini-Hochberg procedure, citing Benjamini and Hochberg, 1995)</a></li></ul>
+<h2>Files and links</h2>
+<div class="files">
+<a href="practice.html"><b>practice.html</b><span>Practice questions with feedback</span></a>
+<a href="index.md"><b>index.md</b><span>This page as Markdown, for an AI assistant</span></a>
+<a href="llms.txt"><b>llms.txt</b><span>The course for AI assistants (llms.txt)</span></a>
+<a href="https://github.com/SDAIAAcademy/fnd-mth-104"><b>SDAIAAcademy/fnd-mth-104</b><span>The course repository</span></a>
+</div>
+</main>
+<footer><div class="wrap">SDAIA Academy · Data &amp; AI Foundations Track · Statistics by Simulation: Variation, Estimation and Testing<br><span class="muted">Course version 2027.1.0 · engine 1.0.0 · built 2026-11-25 · commit 0b561fb</span></div></footer>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"index.html"},"ai":{"context":{"course":"context/course.md","courseJs":"context/course.js","day":null,"llms":"llms.txt"},"tasks":[],"tools":[]},"features":{},"strings":{}}</script>
+<script src="_engine/academy.js"></script>
+</body>
+</html>

@@ -1,0 +1,1525 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-25T08:32:01Z",
+    "version": "2027.1.0",
+    "commit": "0b561fb"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "slides": [
+    {
+      "deck": "week1",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Describing data",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Describing data Week 1: A typical value, its spread, and who is missing from the data Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week1.html#title"
+    },
+    {
+      "deck": "week1",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Describing data",
+      "text": "This week Describing data Session 1 · Centre, spread, shape and missing values Centre and spread with the median and interquartile range, distribution shape and outliers, and missing data in summaries",
+      "href": "../slides/week1.html#agenda"
+    },
+    {
+      "deck": "week1",
+      "id": "setup-check",
+      "n": 3,
+      "session": 0,
+      "title": "Check that a lab notebook runs on your machine or in the hosted notebook",
+      "text": "Before we start Check that a lab notebook runs on your machine or in the hosted notebook Hosted: open the pre-work notebook from the course page; its first cell clones the course and installs what it needs Local: from labs/, run uv run --with jupyterlab jupyter lab The proof: the pre-work notebook runs to its last cell Pre-work Group summaries with a DataFrame library, 60 minutes. Done before today if you have not taken FND-DAT-102.",
+      "href": "../slides/week1.html#setup-check"
+    },
+    {
+      "deck": "week1",
+      "id": "case-intro",
+      "n": 4,
+      "session": 0,
+      "title": "All term you are the new analyst of a chain of 24 neighbourhood bakeries",
+      "text": "The case study All term you are the new analyst of a chain of 24 neighbourhood bakeries Branches BR01 to BR24 in five sectors of one city; product lines L01 to L20 Four readers ask the questions: the operations manager, the quality lead, the finance analyst and the customer insight lead Every file is synthetic and generated with a fixed seed, so everyone gets the same numbers Why synthetic You can know the truth. In weeks 2, 4 and 8 a whole quarter of baskets plays the population, so every estimate can be checked against it.",
+      "href": "../slides/week1.html#case-intro"
+    },
+    {
+      "deck": "week1",
+      "id": "s1",
+      "n": 5,
+      "session": 1,
+      "title": "Centre, spread, shape and missing values",
+      "text": "Session 1 Centre, spread, shape and missing values Choose between the mean, the median and a trimmed mean for a long-tailed variable and justify the choice Compute and read the interquartile range and the fences, and decide whether an extreme value is an error Report a summary with the share and the likely direction of missing data 01",
+      "href": "../slides/week1.html#s1"
+    },
+    {
+      "deck": "week1",
+      "id": "mean-median-questions",
+      "n": 6,
+      "session": 1,
+      "title": "The mean and the median answer different questions",
+      "text": "Block A · centre The mean and the median answer different questions Nine catering orders, in riyals: 40, 45, 50, 52, 55, 58, 60, 75, 400 Summary Value Mean 92.78 Median 55.00 20% trimmed mean 56.43 The mean is the total shared out equally: useful for budgets The median is the middle order: \"a typical order\" The trimmed mean drops a share at each end, then averages",
+      "href": "../slides/week1.html#mean-median-questions"
+    },
+    {
+      "deck": "week1",
+      "id": "robust",
+      "n": 7,
+      "session": 1,
+      "title": "One mistyped value moves the mean and leaves the median alone",
+      "text": "Block A · robustness One mistyped value moves the mean and leaves the median alone 92.78 → 492.78 the mean, when 400 is keyed as 4000 55.00 → 55.00 the median, unchanged Robust means one bad row cannot drag the summary far. The median and the trimmed mean are robust; the mean and the standard deviation are not.",
+      "href": "../slides/week1.html#robust"
+    },
+    {
+      "deck": "week1",
+      "id": "long-tail",
+      "n": 8,
+      "session": 1,
+      "title": "Money, waits and counts usually have a long right tail",
+      "text": "Block A · shape Money, waits and counts usually have a long right tail Most values are small; a few are much larger; none are below zero The mean sits above the median, pulled by the tail Skewness measures the lean: 0 for a symmetric shape, large and positive for a long right tail On a log scale the tail often becomes nearly symmetric For a report. Say which summary you used and why: \"median basket\" and \"mean basket\" are different numbers.",
+      "href": "../slides/week1.html#long-tail"
+    },
+    {
+      "deck": "week1",
+      "id": "check-centre",
+      "n": 9,
+      "session": 1,
+      "title": "Which summary for this request?",
+      "text": "Checkpoint Which summary for this request? The finance analyst must forecast next month's total delivery charges from this month's 2,000 deliveries, whose charges have a long right tail. Which summary of this month's charges does the forecast need? The median charge The 20% trimmed mean charge The mean charge The interquartile range of the charges",
+      "href": "../slides/week1.html#check-centre"
+    },
+    {
+      "deck": "week1",
+      "id": "spread",
+      "n": 10,
+      "session": 1,
+      "title": "The interquartile range is the width of the middle half",
+      "text": "Block B · spread The interquartile range is the width of the middle half The nine orders Value Q1 (25th percentile) 50.00 Q3 (75th percentile) 60.00 IQR = Q3 − Q1 10.00 Standard deviation 115.64 The standard deviation is dominated by the one large order The IQR describes the eight ordinary ones Percentiles have several rules; NumPy's default interpolates. Say which you used",
+      "href": "../slides/week1.html#spread"
+    },
+    {
+      "deck": "week1",
+      "id": "fences",
+      "n": 11,
+      "session": 1,
+      "title": "A fence flags values to look at; it is not a rule for deleting them",
+      "text": "Block B · outliers A fence flags values to look at; it is not a rule for deleting them 1 · Fence Q3 + 1.5 × IQR = 60 + 15 = 75 → 2 · Flag 400 is above it → 3 · Look Is it an error or a real order? What goes wrong. In a long right tail many honest values sit above the fence. Deleting them all makes the data look tamer than the business is.",
+      "href": "../slides/week1.html#fences"
+    },
+    {
+      "deck": "week1",
+      "id": "error-or-real",
+      "n": 12,
+      "session": 1,
+      "title": "Decide \"error or real\" from evidence in the other columns",
+      "text": "Block B · evidence Decide \"error or real\" from evidence in the other columns Value per item Ten items for 400 is plausible; three items for 4,000 is not. Source A till known to repeat a key, a manual entry, an import from another system. Context A catering booking that day; a branch that was closed; a time outside opening hours. Rule of the course: remove only what you can show is an error, remove it alone, and say so in the note.",
+      "href": "../slides/week1.html#error-or-real"
+    },
+    {
+      "deck": "week1",
+      "id": "check-outlier",
+      "n": 13,
+      "session": 1,
+      "title": "What do you do with this order?",
+      "text": "Checkpoint What do you do with this order? A month of 3,000 coffee orders has a high fence of 31 riyals. Forty orders lie above it, the largest 96 riyals for 14 drinks at a branch next to an office block. What do you do? Keep it: value per drink is ordinary, so it is a real large order Delete all forty orders above the fence Replace it with the fence value, 31 Delete it, because it will distort the median",
+      "href": "../slides/week1.html#check-outlier"
+    },
+    {
+      "deck": "week1",
+      "id": "missing-cause",
+      "n": 14,
+      "session": 1,
+      "title": "Missing values have a cause, and the cause decides the bias",
+      "text": "Block C · missing data Missing values have a cause, and the cause decides the bias Why the value is missing What dropping the rows does By chance: a form lost at random Fewer rows, no bias Linked to something recorded: more gaps on weekends Bias, fixable by comparing within the recorded groups Linked to the value itself: long waits not logged when staff are busy Bias that the data cannot reveal: waits look shorter than they are",
+      "href": "../slides/week1.html#missing-cause"
+    },
+    {
+      "deck": "week1",
+      "id": "missing-codes",
+      "n": 15,
+      "session": 1,
+      "title": "A missing value may not look missing: check for codes before you summarise",
+      "text": "Block C · codes A missing value may not look missing: check for codes before you summarise Empty cells become NaN when read Some systems write 0, −1, 999 or a date like 1900-01-01 instead A code left as a number quietly enters the mean # share empty df[\"x\"].isna().mean() # impossible values (df[\"x\"] < 0).sum() # decode, then report bad = df[\"x\"] < 0 df.loc[bad, \"x\"] = np.nan",
+      "href": "../slides/week1.html#missing-codes"
+    },
+    {
+      "deck": "week1",
+      "id": "report-missing",
+      "n": 16,
+      "session": 1,
+      "title": "Report the missing share and its likely direction beside every summary",
+      "text": "Block C · reporting Report the missing share and its likely direction beside every summary A sentence that does the job has four parts The summary of the recorded values; the share not recorded; where the gaps are; and which way they probably move the true value. Every lab ends with a note: the result, how it was checked, its limits, and who reruns it before it is used. The analyst who ran it does not sign it off alone.",
+      "href": "../slides/week1.html#report-missing"
+    },
+    {
+      "deck": "week1",
+      "id": "check-missing",
+      "n": 17,
+      "session": 1,
+      "title": "Which way does the bias run?",
+      "text": "Checkpoint Which way does the bias run? A delivery service logs delivery times by hand. Drivers often skip the log when they are running late. The median of the logged times is 28 minutes. What is the most likely relation to the true median? About the same, since a median ignores missing rows The true median is lower than 28 minutes Impossible to say, because medians are robust The true median is higher than 28 minutes",
+      "href": "../slides/week1.html#check-missing"
+    },
+    {
+      "deck": "week1",
+      "id": "lab-1-1",
+      "n": 18,
+      "session": 1,
+      "title": "Describing the chain's baskets",
+      "text": "Lab 1.1 · 105 min Describing the chain's baskets Describe a month of baskets with robust summaries, settle two extreme baskets, and find who is missing. W1_1.ipynb Set up and load the month of baskets 10 min Centre: mean, median and trimmed mean 15 min Spread: SD, IQR and the fences 15 min Shape: skewness, bins and the log scale 15 min Two extreme baskets: an error or a real order? 15 min Missing waits: decode and locate them 20 min Branch summaries with the missing share 10 min Record how this was checked 5 min ✱ Stretch: The mean wait under three ways of handling missing waits",
+      "href": "../slides/week1.html#lab-1-1"
+    },
+    {
+      "deck": "week1",
+      "id": "debrief-centre",
+      "n": 19,
+      "session": 1,
+      "title": "One till error moved the mean by 1.59 riyals and the median not at all",
+      "text": "Debrief · lab 1.1 One till error moved the mean by 1.59 riyals and the median not at all 6,278 baskets Mean Median 20% trimmed With the till error 24.79 18.76 19.56 Without it 23.20 18.76 19.55 The error: 9,999.00 for 3 items. The real order: 612.40 for 140 items. 324 baskets sit above the high fence, all honest.",
+      "href": "../slides/week1.html#debrief-centre"
+    },
+    {
+      "deck": "week1",
+      "id": "debrief-missing",
+      "n": 20,
+      "session": 1,
+      "title": "Waits were missing in 21% of the busiest branch's evenings, about 2% elsewhere",
+      "text": "Debrief · lab 1.1 Waits were missing in 21% of the busiest branch's evenings, about 2% elsewhere Overall only 3.6% of waits are missing: the average hides where they are The busiest branch's median recorded wait (4.1 minutes) is already the longest, and probably understated One branch's till wrote −1 for \"not recorded\": decoded before any summary",
+      "href": "../slides/week1.html#debrief-missing"
+    },
+    {
+      "deck": "week1",
+      "id": "wrap-up",
+      "n": 21,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 1 · wrap-up Three things to keep The question picks the summary Mean for totals, median for \"typical\"; say which. Fences flag, evidence decides Remove only proven errors, one at a time. Missing has a cause Report the share and the direction of the bias.",
+      "href": "../slides/week1.html#wrap-up"
+    },
+    {
+      "deck": "week1",
+      "id": "next",
+      "n": 22,
+      "session": 1,
+      "title": "Week 2: Sampling variation",
+      "text": "Next Week 2: Sampling variation Problem set 1 (50 minutes, AI off for the first attempt): labs/problem-sets/PS1.ipynb.",
+      "href": "../slides/week1.html#next"
+    },
+    {
+      "deck": "week2",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Sampling variation",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Sampling variation Week 2: The same question, a different sample, a different answer Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week2.html#title"
+    },
+    {
+      "deck": "week2",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Sampling variation",
+      "text": "This week Sampling variation Session 1 · Populations, samples and standard error Populations, samples and sampling frames, sampling distributions and the standard error by simulation",
+      "href": "../slides/week2.html#agenda"
+    },
+    {
+      "deck": "week2",
+      "id": "review-week1",
+      "n": 3,
+      "session": 0,
+      "title": "Which change moves the median?",
+      "text": "Review · week 1 Which change moves the median? Eleven parcel weights have a median of 2.4 kg. Which single change can move the median? Doubling the heaviest parcel Halving the lightest parcel Adding two more parcels, both heavier than 2.4 kg Rounding every weight to one decimal",
+      "href": "../slides/week2.html#review-week1"
+    },
+    {
+      "deck": "week2",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Populations, samples and standard error",
+      "text": "Session 1 Populations, samples and standard error Name the population, the sample, the parameter and the statistic of a stated study Estimate a standard error by drawing repeated samples and compare it with s/√n Explain why a larger sample shrinks the standard error but not the bias of a wrong frame 01",
+      "href": "../slides/week2.html#s1"
+    },
+    {
+      "deck": "week2",
+      "id": "vocabulary",
+      "n": 5,
+      "session": 1,
+      "title": "A parameter describes the population; a statistic is computed from the sample",
+      "text": "Block A · words A parameter describes the population; a statistic is computed from the sample Word In a quality check of one day's 2,000 croissants, 30 weighed Population All 2,000 croissants of the day Sample The 30 weighed Parameter The mean weight of all 2,000: unknown Statistic The mean weight of the 30: known, and different for another 30",
+      "href": "../slides/week2.html#vocabulary"
+    },
+    {
+      "deck": "week2",
+      "id": "samples-differ",
+      "n": 6,
+      "session": 1,
+      "title": "Every sample gives a different answer, even from the same population",
+      "text": "Block A · variation Every sample gives a different answer, even from the same population A population of three values: 3, 9, 12. All samples of two: Sample Mean 3, 9 6.0 3, 12 7.5 9, 12 10.5 The sampling distribution The list of every possible value of the statistic, with how often each occurs. Here: 6.0, 7.5 and 10.5, each one time in three. Their standard deviation is 1.87.",
+      "href": "../slides/week2.html#samples-differ"
+    },
+    {
+      "deck": "week2",
+      "id": "simulate-it",
+      "n": 7,
+      "session": 1,
+      "title": "When the population is known, draw thousands of samples and look",
+      "text": "Block A · simulation When the population is known, draw thousands of samples and look 1 · Draw A sample of n from the population → 2 · Compute The statistic → 3 · Repeat Two thousand times → 4 · Look Centre, spread, shape stats = [np.mean(rng.choice(pop, n, replace=False)) for _ in range(2000)]",
+      "href": "../slides/week2.html#simulate-it"
+    },
+    {
+      "deck": "week2",
+      "id": "check-vocabulary",
+      "n": 8,
+      "session": 1,
+      "title": "Which number is a statistic?",
+      "text": "Checkpoint Which number is a statistic? An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic? The share of errors among the 80 checked, 7.5% The 1,200 invoices of the month The share of errors among all 1,200 invoices The number of invoices checked, 80",
+      "href": "../slides/week2.html#check-vocabulary"
+    },
+    {
+      "deck": "week2",
+      "id": "standard-error",
+      "n": 9,
+      "session": 1,
+      "title": "The standard error is the spread of a statistic from sample to sample",
+      "text": "Block B · standard error The standard error is the spread of a statistic from sample to sample Not the spread of the values: the spread of the statistic It answers: how far does my estimate typically land from the truth? By simulation: the standard deviation of the thousands of statistics Two spreads, two questions Standard deviation of baskets: how different are customers? Standard error of the mean basket: how sure is my estimate?",
+      "href": "../slides/week2.html#standard-error"
+    },
+    {
+      "deck": "week2",
+      "id": "root-n",
+      "n": 10,
+      "session": 1,
+      "title": "For a mean, the standard error falls like one over the square root of n",
+      "text": "Block B · the formula For a mean, the standard error falls like one over the square root of n σ = 12 n σ / √n 36 2.00 144 1.00 576 0.50 Four times the data halves the standard error σ is unknown in practice: s / √n from one sample stands in For a median there is no simple formula: simulate",
+      "href": "../slides/week2.html#root-n"
+    },
+    {
+      "deck": "week2",
+      "id": "clt-recap",
+      "n": 11,
+      "session": 1,
+      "title": "Sample means tend to a normal shape as n grows, slowly on a long tail",
+      "text": "Block B · recap from FND-MTH-103 Sample means tend to a normal shape as n grows, slowly on a long tail The central limit theorem: for large n the sampling distribution of a mean is close to normal \"Large\" depends on the population: the longer its tail, the larger n must be Simulation shows the actual shape at your n; you do not need to assume it Pointer. FND-MTH-103 covered the theorem and where the normal approximation fails. Here it is one reason to prefer simulation.",
+      "href": "../slides/week2.html#clt-recap"
+    },
+    {
+      "deck": "week2",
+      "id": "check-se",
+      "n": 12,
+      "session": 1,
+      "title": "How many more croissants?",
+      "text": "Checkpoint How many more croissants? Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh? 50 100 400 25, but weighed more carefully",
+      "href": "../slides/week2.html#check-se"
+    },
+    {
+      "deck": "week2",
+      "id": "frame",
+      "n": 13,
+      "session": 1,
+      "title": "The sampling frame decides which population a sample can speak for",
+      "text": "Block C · the frame The sampling frame decides which population a sample can speak for The frame is the list you can actually draw from: members with contact details, a phone directory, today's visitors A random sample from the frame represents the frame, not those outside it If those outside differ, the estimate is biased Example A survey of daytime callers misses everyone who shops after work; their baskets may differ.",
+      "href": "../slides/week2.html#frame"
+    },
+    {
+      "deck": "week2",
+      "id": "bias-precision",
+      "n": 14,
+      "session": 1,
+      "title": "Sample size fixes imprecision; it does not fix bias",
+      "text": "Block C · two errors Sample size fixes imprecision; it does not fix bias Imprecision Estimates scatter around the truth. Shrinks with n, like 1/√n. Measured by the standard error. Bias Estimates centre on the wrong value. The same at every n. Not shown by the standard error at all. What goes wrong. A huge sample from the wrong frame gives a narrow interval around the wrong number.",
+      "href": "../slides/week2.html#bias-precision"
+    },
+    {
+      "deck": "week2",
+      "id": "check-frame",
+      "n": 15,
+      "session": 1,
+      "title": "Precise, but about what?",
+      "text": "Checkpoint Precise, but about what? A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness? The sample is too small for a stable mean Visit counts have a large standard deviation Visits are whole numbers, so the mean is rounded The frame leaves out members who enter another way",
+      "href": "../slides/week2.html#check-frame"
+    },
+    {
+      "deck": "week2",
+      "id": "lab-2-1",
+      "n": 16,
+      "session": 1,
+      "title": "Repeated sampling from a synthetic population",
+      "text": "Lab 2.1 · 105 min Repeated sampling from a synthetic population Draw thousands of samples from a known quarter of baskets and measure the standard error. W2_1.ipynb Set up; the quarter as a known population 10 min Every sample of a tiny population, by hand 10 min Two thousand samples at three sizes 20 min The standard error by simulation against s/√n 15 min The sampling distribution of the median 15 min A frame of loyalty members only 15 min The shape of the sampling distribution at n = 10 10 min Record how this was checked 10 min ✱ Stretch: Does sixteen times n quarter the median's standard error too?",
+      "href": "../slides/week2.html#lab-2-1"
+    },
+    {
+      "deck": "week2",
+      "id": "debrief-se",
+      "n": 17,
+      "session": 1,
+      "title": "The simulated standard errors followed σ/√n; one sample's s/√n did not always",
+      "text": "Debrief · lab 2.1 The simulated standard errors followed σ/√n; one sample's s/√n did not always n Simulated SE σ / √n One sample's s / √n 25 3.60 3.55 2.76 100 1.81 1.78 1.31 400 0.86 0.89 0.87 Population of 40,000 baskets: mean 21.93, median 17.61, sd 17.77, skewness 6.57.",
+      "href": "../slides/week2.html#debrief-se"
+    },
+    {
+      "deck": "week2",
+      "id": "debrief-frame",
+      "n": 18,
+      "session": 1,
+      "title": "The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600",
+      "text": "Debrief · lab 2.1 The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600 +2.66 bias at n = 100 +2.55 bias at n = 1,600 Sixteen times the sample made the estimate more precise about members, and no closer to all customers.",
+      "href": "../slides/week2.html#debrief-frame"
+    },
+    {
+      "deck": "week2",
+      "id": "wrap-up",
+      "n": 19,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 2 · wrap-up Three things to keep Statistics vary A new sample, a new answer; the sampling distribution shows how much. SE is that variation The spread of the statistic; for a mean it falls like 1/√n. Frames decide Size buys precision, never representativeness.",
+      "href": "../slides/week2.html#wrap-up"
+    },
+    {
+      "deck": "week2",
+      "id": "next",
+      "n": 20,
+      "session": 1,
+      "title": "Week 3: Observational and experimental data",
+      "text": "Next Week 3: Observational and experimental data Problem set 2 (50 minutes, AI off for the first attempt): labs/problem-sets/PS2.ipynb.",
+      "href": "../slides/week2.html#next"
+    },
+    {
+      "deck": "week3",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Observational and experimental data",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Observational and experimental data Week 3: Who chose the treatment decides what a comparison can show Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week3.html#title"
+    },
+    {
+      "deck": "week3",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Observational and experimental data",
+      "text": "This week Observational and experimental data Session 1 · Confounding and Simpson's paradox Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys",
+      "href": "../slides/week3.html#agenda"
+    },
+    {
+      "deck": "week3",
+      "id": "review-week2",
+      "n": 3,
+      "session": 0,
+      "title": "What shrinks when the sample grows?",
+      "text": "Review · week 2 What shrinks when the sample grows? A survey's sample grows from 200 to 800 people drawn from the same frame. What happens to the standard error of the mean and to the bias from the frame? Both are halved The standard error falls to a quarter; the bias is unchanged Neither changes The standard error is halved; the bias is unchanged",
+      "href": "../slides/week3.html#review-week2"
+    },
+    {
+      "deck": "week3",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Confounding and Simpson's paradox",
+      "text": "Session 1 Confounding and Simpson's paradox Tell observational from experimental data from how the treatment was assigned Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels Explain what a randomised assignment guarantees and what it does not 01",
+      "href": "../slides/week3.html#s1"
+    },
+    {
+      "deck": "week3",
+      "id": "two-kinds",
+      "n": 5,
+      "session": 1,
+      "title": "Who chose the treatment decides what a comparison can show",
+      "text": "Block A · two kinds of data Who chose the treatment decides what a comparison can show Observational Someone else decided who got what: managers, customers, history. The groups may differ in many ways besides the treatment. Experimental A random draw decided. The groups differ in the treatment, and otherwise only by chance. Ask of every comparison: how were the groups formed?",
+      "href": "../slides/week3.html#two-kinds"
+    },
+    {
+      "deck": "week3",
+      "id": "examples-kinds",
+      "n": 6,
+      "session": 1,
+      "title": "The same question can be studied either way",
+      "text": "Block A · examples The same question can be studied either way Question Observational version Experimental version Does a loyalty discount raise visits? Compare customers who signed up with those who did not Offer the discount to a random half Does a new oven cut burnt trays? Compare branches that bought one Install it in branches drawn at random Does training cut errors? Compare staff who chose the course Enrol a random half first",
+      "href": "../slides/week3.html#examples-kinds"
+    },
+    {
+      "deck": "week3",
+      "id": "check-kind",
+      "n": 7,
+      "session": 1,
+      "title": "Observational or experimental?",
+      "text": "Checkpoint Observational or experimental? A depot tries a new route plan. Drivers who volunteered used it for a month; their deliveries were 6% faster than other drivers'. What kind of evidence is this, and what is its main weakness? Experimental; the month is too short Observational; volunteers may be faster drivers anyway Observational; too few deliveries were timed Experimental; the groups worked in the same month",
+      "href": "../slides/week3.html#check-kind"
+    },
+    {
+      "deck": "week3",
+      "id": "confounder",
+      "n": 8,
+      "session": 1,
+      "title": "A confounder drives both who gets the treatment and the outcome",
+      "text": "Block B · confounding A confounder drives both who gets the treatment and the outcome Confounder Branch size → Treatment Who gets the new equipment Confounder Branch size → Outcome The waste rate What goes wrong. The comparison of treated and untreated mixes the treatment's effect with the confounder's.",
+      "href": "../slides/week3.html#confounder"
+    },
+    {
+      "deck": "week3",
+      "id": "simpson-lines",
+      "n": 9,
+      "session": 1,
+      "title": "Line P damages fewer items in each product and more overall",
+      "text": "Block B · Simpson's paradox Line P damages fewer items in each product and more overall Damaged / packed Rolls Cakes Overall Line P 6 / 200 = 3% 40 / 400 = 10% 46 / 600 = 7.7% Line Q 20 / 500 = 4% 13 / 100 = 13% 33 / 600 = 5.5% P packs mostly cakes, which are damaged more on any line.",
+      "href": "../slides/week3.html#simpson-lines"
+    },
+    {
+      "deck": "week3",
+      "id": "compare-within",
+      "n": 10,
+      "session": 1,
+      "title": "Compare within levels of the confounder, then combine with the same weights",
+      "text": "Block B · what helps Compare within levels of the confounder, then combine with the same weights Stratify: compare within rolls and within cakes Standardise: apply each line's rates to the same mix of products Both need the confounder to be known and recorded The limit An unrecorded confounder cannot be adjusted for. Only a random assignment protects against those.",
+      "href": "../slides/week3.html#compare-within"
+    },
+    {
+      "deck": "week3",
+      "id": "check-simpson",
+      "n": 11,
+      "session": 1,
+      "title": "Which hospital would you choose?",
+      "text": "Checkpoint Which hospital would you choose? Hospital H has a higher overall death rate than hospital K, but a lower rate both for routine and for emergency admissions. H takes most of the region's emergencies. Which hospital has the better record for a given kind of admission? K, because its overall rate is lower Neither: the figures contradict each other H, because it does better within each kind of admission Neither until both treat the same number of patients",
+      "href": "../slides/week3.html#check-simpson"
+    },
+    {
+      "deck": "week3",
+      "id": "randomisation",
+      "n": 12,
+      "session": 1,
+      "title": "A random assignment makes every difference between groups a matter of chance",
+      "text": "Block C · randomisation A random assignment makes every difference between groups a matter of chance Recorded or not, every characteristic is shared out by the same draw The groups are not identical: by chance one may hold more large branches So the difference in outcomes still varies: is it larger than chance alone would give? Week 6 answers that with a permutation test Check balance: count the obvious characteristics in each arm, and report any imbalance rather than \"fixing\" it afterwards.",
+      "href": "../slides/week3.html#randomisation"
+    },
+    {
+      "deck": "week3",
+      "id": "limits-experiment",
+      "n": 13,
+      "session": 1,
+      "title": "An experiment answers one question about the units it was run on",
+      "text": "Block C · limits An experiment answers one question about the units it was run on Scope 24 branches in one city in one season: say so. Compliance A branch assigned the discount may not apply it every evening. Size Few units mean a lot of chance variation in the difference.",
+      "href": "../slides/week3.html#limits-experiment"
+    },
+    {
+      "deck": "week3",
+      "id": "check-random",
+      "n": 14,
+      "session": 1,
+      "title": "What does randomisation buy?",
+      "text": "Checkpoint What does randomisation buy? Twenty schools are assigned a reading programme at random, ten each way. The programme schools happen to have slightly more pupils on average. What is the right reading? A chance imbalance: report it; the comparison is still fair on average The randomisation failed and must be redone Any difference in reading scores is caused by the programme The study is now observational",
+      "href": "../slides/week3.html#check-random"
+    },
+    {
+      "deck": "week3",
+      "id": "lab-3-1",
+      "n": 15,
+      "session": 1,
+      "title": "Confounding in the waste records, against a randomised trial",
+      "text": "Lab 3.1 · 105 min Confounding in the waste records, against a randomised trial Explain why the display looks worse overall and better within each size, beside a randomised trial. W3_1.ipynb Set up; observational and experimental data 10 min Simpson's paradox by hand on a small table 15 min Waste rate by display, all branches together 10 min Waste rate by display within each branch size 15 min Who chose the display: the confounder 10 min The randomised trial: balance and the difference 20 min Balance of size and sector in the two studies 15 min Record how this was checked 10 min ✱ Stretch: Standardise the display comparison to the chain's mix of branch sizes",
+      "href": "../slides/week3.html#lab-3-1"
+    },
+    {
+      "deck": "week3",
+      "id": "debrief-display",
+      "n": 16,
+      "session": 1,
+      "title": "The display looked 1.06 points worse overall and was better within each size",
+      "text": "Debrief · lab 3.1 The display looked 1.06 points worse overall and was better within each size Waste rate No display Display Difference Large branches 9.0% 7.6% −1.41 Small branches 5.0% 3.8% −1.22 All branches 6.2% 7.3% +1.06 Managers put the display in 10 of 12 large branches and 2 of 12 small ones.",
+      "href": "../slides/week3.html#debrief-display"
+    },
+    {
+      "deck": "week3",
+      "id": "debrief-trial",
+      "n": 17,
+      "session": 1,
+      "title": "The randomised discount cut waste by 0.87 points against control",
+      "text": "Debrief · lab 3.1 The randomised discount cut waste by 0.87 points against control Each arm had 6 large branches of 12: balanced on size, this time, by chance Sectors were not balanced: one sector had 5 control branches and no discount branch With 24 branches, is −0.87 more than chance? The permutation test of week 6 answers that kind of question",
+      "href": "../slides/week3.html#debrief-trial"
+    },
+    {
+      "deck": "week3",
+      "id": "wrap-up",
+      "n": 18,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 3 · wrap-up Three things to keep Ask who chose Observational groups can differ in everything. Compare within A recorded confounder can reverse an overall comparison. Randomise when you can It handles the confounders nobody recorded.",
+      "href": "../slides/week3.html#wrap-up"
+    },
+    {
+      "deck": "week3",
+      "id": "next",
+      "n": 19,
+      "session": 1,
+      "title": "Week 4: The bootstrap",
+      "text": "Next Week 4: The bootstrap Problem set 3 (50 minutes, AI off for the first attempt): labs/problem-sets/PS3.ipynb. The first supervised test follows week 4.",
+      "href": "../slides/week3.html#next"
+    },
+    {
+      "deck": "week4",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "The bootstrap",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing The bootstrap Week 4: Resample the sample to see how much an estimate could move Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week4.html#title"
+    },
+    {
+      "deck": "week4",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "The bootstrap",
+      "text": "This week The bootstrap Session 1 · The bootstrap and its coverage The bootstrap and its assumptions, percentile intervals, and interval coverage checked by simulation",
+      "href": "../slides/week4.html#agenda"
+    },
+    {
+      "deck": "week4",
+      "id": "review-week3",
+      "n": 3,
+      "session": 0,
+      "title": "Why does the overall rate mislead?",
+      "text": "Review · week 3 Why does the overall rate mislead? Branches that chose a new oven burn more trays overall, but fewer within both small and large branches. Large branches chose the oven more often and burn more trays with any oven. What is branch size here? The outcome of the comparison A source of random error that averages out The treatment A confounder: it drives both the choice and the burn rate",
+      "href": "../slides/week4.html#review-week3"
+    },
+    {
+      "deck": "week4",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "The bootstrap and its coverage",
+      "text": "Session 1 The bootstrap and its coverage Build a percentile bootstrap interval for a mean and a median Check an interval method's coverage by simulation against a known truth Explain why bootstrap intervals under-cover for small samples from a long-tailed population 01",
+      "href": "../slides/week4.html#s1"
+    },
+    {
+      "deck": "week4",
+      "id": "bootstrap-idea",
+      "n": 5,
+      "session": 1,
+      "title": "Treat the sample as the population, and draw new samples from it",
+      "text": "Block A · the idea Treat the sample as the population, and draw new samples from it 1 · Resample n values from the sample, with replacement → 2 · Compute The statistic → 3 · Repeat Thousands of times → 4 · Read The spread of the statistics With replacement, because without it every resample would be the sample itself, reordered.",
+      "href": "../slides/week4.html#bootstrap-idea"
+    },
+    {
+      "deck": "week4",
+      "id": "resamples",
+      "n": 6,
+      "session": 1,
+      "title": "Five delivery times, three resamples, three different means",
+      "text": "Block A · an example Five delivery times, three resamples, three different means Sample, in minutes: 12, 15, 18, 22, 60 (mean 25.4) Resample Mean 22, 60, 60, 18, 60 44.0 60, 60, 12, 18, 22 34.4 15, 15, 22, 60, 18 26.0 Some values appear twice or three times, some not at all The one long delivery drives most of the variation No resample can contain a value the sample lacks",
+      "href": "../slides/week4.html#resamples"
+    },
+    {
+      "deck": "week4",
+      "id": "percentile-interval",
+      "n": 7,
+      "session": 1,
+      "title": "A 95% percentile interval keeps the middle 95% of the bootstrap statistics",
+      "text": "Block A · the interval A 95% percentile interval keeps the middle 95% of the bootstrap statistics n = len(x) # B resamples at once idx = rng.integers(0, n, size=(B, n)) boots = x[idx].mean(axis=1) low, high = np.percentile(boots, [2.5, 97.5]) Works for any statistic: swap np.mean for np.median B of 2,000 or more keeps the ends steady; report B and the seed",
+      "href": "../slides/week4.html#percentile-interval"
+    },
+    {
+      "deck": "week4",
+      "id": "check-resample",
+      "n": 8,
+      "session": 1,
+      "title": "What can a resample contain?",
+      "text": "Checkpoint What can a resample contain? A sample of six repair costs is 80, 95, 110, 120, 150, 400. Which of these can be a bootstrap resample of it? 80, 95, 100, 120, 150, 400 95, 110, 400 400, 400, 80, 120, 120, 95 The six values in a new order only",
+      "href": "../slides/week4.html#check-resample"
+    },
+    {
+      "deck": "week4",
+      "id": "ci-meaning",
+      "n": 9,
+      "session": 1,
+      "title": "The 95% belongs to the method, not to one interval",
+      "text": "Block B · meaning The 95% belongs to the method, not to one interval Draw many samples; build an interval from each A 95% method contains the true value in about 95% of them Any one interval either contains it or does not; we do not know which A correct sentence \"Our method gives intervals that contain the true mean in about 95% of samples; from this sample the interval is A to B.\"",
+      "href": "../slides/week4.html#ci-meaning"
+    },
+    {
+      "deck": "week4",
+      "id": "ci-misreadings",
+      "n": 10,
+      "session": 1,
+      "title": "Four common misreadings of a confidence interval",
+      "text": "Block B · misreadings Four common misreadings of a confidence interval Misreading Correction \"95% of the values lie in the interval\" The interval is for the mean (or median), not for single values \"The true mean has a 95% chance of being in this interval\" The 95% describes how often the method works \"A wider interval means a worse method\" Width reflects the data and n; a too-narrow method under-covers \"Two overlapping intervals mean no difference\" Overlap does not settle it: build an interval for the difference (week 5)",
+      "href": "../slides/week4.html#ci-misreadings"
+    },
+    {
+      "deck": "week4",
+      "id": "check-ci",
+      "n": 11,
+      "session": 1,
+      "title": "Classify the statement",
+      "text": "Checkpoint Classify the statement A report says: \"The 95% interval for the mean delivery time is 27 to 33 minutes, so 95% of deliveries take between 27 and 33 minutes.\" What is wrong? Nothing; it should just say 90% The interval should be centred exactly on 30 Bootstrap intervals only describe medians It reads an interval for the mean as a range for single deliveries",
+      "href": "../slides/week4.html#check-ci"
+    },
+    {
+      "deck": "week4",
+      "id": "coverage-check",
+      "n": 12,
+      "session": 1,
+      "title": "When the truth is known, count how often the intervals contain it",
+      "text": "Block C · coverage When the truth is known, count how often the intervals contain it Normal population Coverage of the 95% percentile interval n = 10 0.900 n = 40 0.933 2,000 samples per row, 2,000 resamples each Even on a well-behaved population, small samples give intervals a little too narrow A long-tailed population is harder: the lab measures it",
+      "href": "../slides/week4.html#coverage-check"
+    },
+    {
+      "deck": "week4",
+      "id": "assumptions",
+      "n": 13,
+      "session": 1,
+      "title": "The bootstrap assumes the sample looks like the population, row by independent row",
+      "text": "Block C · assumptions The bootstrap assumes the sample looks like the population, row by independent row Representative A biased frame gives a precise interval around the wrong value. Big enough A small sample from a long tail rarely shows the tail. Independent rows Repeated measures of the same person or branch need clustered resampling (SPC-STA-201).",
+      "href": "../slides/week4.html#assumptions"
+    },
+    {
+      "deck": "week4",
+      "id": "library-default",
+      "n": 14,
+      "session": 1,
+      "title": "Check which interval a library returns: SciPy's default is not the percentile method",
+      "text": "Block C · libraries Check which interval a library returns: SciPy's default is not the percentile method from scipy import stats # what you build in the lab stats.bootstrap((x,), np.mean, method=\"percentile\") # the default method: BCa stats.bootstrap((x,), np.mean) BCa (bias-corrected and accelerated) adjusts the ends; why it does is in SPC-STA-201. Name the method in every report.",
+      "href": "../slides/week4.html#library-default"
+    },
+    {
+      "deck": "week4",
+      "id": "check-coverage",
+      "n": 15,
+      "session": 1,
+      "title": "What does this coverage study show?",
+      "text": "Checkpoint What does this coverage study show? A coverage study of a 95% interval method on a long-tailed population gives 0.86 at n = 12 and 0.94 at n = 150, from 1,000 samples each. What is the right conclusion? The method is close to its 95% at n = 150 and too narrow at n = 12 The method fails at both sizes, since neither shows exactly 0.95 Use more bootstrap resamples at n = 12 and it will reach 0.95 The intervals at n = 150 are more often wrong because they are narrower",
+      "href": "../slides/week4.html#check-coverage"
+    },
+    {
+      "deck": "week4",
+      "id": "lab-4-1",
+      "n": 16,
+      "session": 1,
+      "title": "Bootstrap intervals with coverage checked against a known truth",
+      "text": "Lab 4.1 · 105 min Bootstrap intervals with coverage checked against a known truth Build bootstrap intervals and count how often they contain the known mean and median. W4_1.ipynb Set up; one sample and the truth 10 min Every resample of a sample of two, by hand 10 min A percentile bootstrap for any statistic 20 min Intervals for the mean and the median from one sample of 50 10 min Coverage by simulation at n = 10, 30 and 100 25 min Compare with SciPy's bootstrap: percentile and its default method 15 min Record how this was checked 15 min ✱ Stretch: The coverage of the t interval for the mean at the same sizes",
+      "href": "../slides/week4.html#lab-4-1"
+    },
+    {
+      "deck": "week4",
+      "id": "debrief-one-sample",
+      "n": 17,
+      "session": 1,
+      "title": "The first sample's interval missed the true mean: that is what 95% allows",
+      "text": "Debrief · lab 4.1 The first sample's interval missed the true mean: that is what 95% allows 14.59 to 19.94 interval for the mean from 50 baskets 21.93 the true mean of the quarter The median's interval, 12.48 to 18.00, did contain the true median, 17.61. A rerun with a new seed moved the ends by at most 0.32.",
+      "href": "../slides/week4.html#debrief-one-sample"
+    },
+    {
+      "deck": "week4",
+      "id": "debrief-coverage",
+      "n": 18,
+      "session": 1,
+      "title": "On the long-tailed baskets the mean's interval reached 0.92 only at n = 100",
+      "text": "Debrief · lab 4.1 On the long-tailed baskets the mean's interval reached 0.92 only at n = 100 n Mean Median 10 0.853 0.937 30 0.897 0.932 100 0.920 0.939 1,000 samples per row: each figure carries a Monte Carlo error of about ±0.014.",
+      "href": "../slides/week4.html#debrief-coverage"
+    },
+    {
+      "deck": "week4",
+      "id": "wrap-up",
+      "n": 19,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 4 · wrap-up Three things to keep Resample the sample Same size, with replacement, any statistic. 95% is the method's One interval either contains the truth or not. Check coverage Small samples from long tails give intervals too narrow.",
+      "href": "../slides/week4.html#wrap-up"
+    },
+    {
+      "deck": "week4",
+      "id": "next",
+      "n": 20,
+      "session": 1,
+      "title": "Week 5: Intervals for differences and slopes",
+      "text": "Next Week 5: Intervals for differences and slopes Problem set 4 (50 minutes, AI off for the first attempt): labs/problem-sets/PS4.ipynb. The first supervised test, 90 minutes, AI off, follows this week.",
+      "href": "../slides/week4.html#next"
+    },
+    {
+      "deck": "week5",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Intervals for differences and slopes",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Intervals for differences and slopes Week 5: Resample the way the data were collected Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week5.html#title"
+    },
+    {
+      "deck": "week5",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Intervals for differences and slopes",
+      "text": "This week Intervals for differences and slopes Session 1 · Differences and slopes Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared",
+      "href": "../slides/week5.html#agenda"
+    },
+    {
+      "deck": "week5",
+      "id": "review-week4",
+      "n": 3,
+      "session": 0,
+      "title": "What does the 95% describe?",
+      "text": "Review · week 4 What does the 95% describe? An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct? 95% of waits fall inside it Its method contains the true median in about 95% of samples, if the method's coverage is right The true median has a 95% chance of being inside this interval 95% of the bootstrap resamples contain the true median",
+      "href": "../slides/week5.html#review-week4"
+    },
+    {
+      "deck": "week5",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Differences and slopes",
+      "text": "Session 1 Differences and slopes Build a bootstrap interval for a difference between two groups by resampling each group Build a bootstrap interval for a regression slope by resampling whole rows Show that intervals agree on rerun with a new seed, and suppress small groups before reporting 01",
+      "href": "../slides/week5.html#s1"
+    },
+    {
+      "deck": "week5",
+      "id": "public-data",
+      "n": 5,
+      "session": 1,
+      "title": "Before any analysis of public data: source, licence, unit and what a row is",
+      "text": "Block A · public data Before any analysis of public data: source, licence, unit and what a row is Question Why it matters Who published it, and under which licence? Whether you may use and share results; the source caption on every table What is one row? A person, a person-year, a household: it decides what can be resampled How were groups formed? Random assignment, or observation (week 3)",
+      "href": "../slides/week5.html#public-data"
+    },
+    {
+      "deck": "week5",
+      "id": "suppression",
+      "n": 6,
+      "session": 1,
+      "title": "Suppress small groups before any table leaves your notebook",
+      "text": "Block A · reporting rule Suppress small groups before any table leaves your notebook The course's rule: no group of fewer than 30 rows is reported Blank the value and the exact count: \"under 30\" A small group's mean is imprecise, and can point to identifiable people cells = df.groupby([\"plan\", \"health\"])[\"visits\"].agg( n=\"size\", mean=\"mean\") shown = U.suppress(cells, \"n\", min_n=30)",
+      "href": "../slides/week5.html#suppression"
+    },
+    {
+      "deck": "week5",
+      "id": "check-suppress",
+      "n": 7,
+      "session": 1,
+      "title": "What leaves the notebook?",
+      "text": "Checkpoint What leaves the notebook? A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell? The mean, flagged as based on few customers The cell merged into its largest neighbour, without saying so \"Suppressed\", with the count shown only as under 30 The median of the 11 instead of their mean",
+      "href": "../slides/week5.html#check-suppress"
+    },
+    {
+      "deck": "week5",
+      "id": "difference",
+      "n": 8,
+      "session": 1,
+      "title": "For a difference between two groups, resample each group separately",
+      "text": "Block B · differences For a difference between two groups, resample each group separately d = [rng.choice(a, len(a)).mean() - rng.choice(b, len(b)).mean() for _ in range(B)] low, high = np.percentile(d, [2.5, 97.5]) Each group keeps its own size, as it was collected Pooling the groups would resample \"no difference\": that is next week's test Any statistic: difference of means, of medians, a ratio",
+      "href": "../slides/week5.html#difference"
+    },
+    {
+      "deck": "week5",
+      "id": "oven-example",
+      "n": 9,
+      "session": 1,
+      "title": "Two oven settings, an interval for the difference that includes zero",
+      "text": "Block B · an example Two oven settings, an interval for the difference that includes zero Bake minutes Mean Setting A, 60 batches 18.51 Setting B, 50 batches 17.90 A − B (95% interval) 0.61 (−2.71 to 3.81) Reading The data fit a difference anywhere from B being 2.7 minutes slower to A being 3.8 slower: this sample cannot say which setting is faster.",
+      "href": "../slides/week5.html#oven-example"
+    },
+    {
+      "deck": "week5",
+      "id": "overlap",
+      "n": 10,
+      "session": 1,
+      "title": "Compare groups with an interval for their difference, not by overlapping intervals",
+      "text": "Block B · a misreading Compare groups with an interval for their difference, not by overlapping intervals Two 95% intervals can overlap while the interval for the difference excludes zero The rule \"no overlap means a real difference\" is too strict; \"overlap means none\" is wrong The question is about the difference: estimate the difference",
+      "href": "../slides/week5.html#overlap"
+    },
+    {
+      "deck": "week5",
+      "id": "check-difference",
+      "n": 11,
+      "session": 1,
+      "title": "How do you resample?",
+      "text": "Checkpoint How do you resample? You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits? 220 calls with replacement from team one, 90 from team two 310 calls from the pooled calls, split 220 and 90 90 calls from each team 220 and 90 calls without replacement",
+      "href": "../slides/week5.html#check-difference"
+    },
+    {
+      "deck": "week5",
+      "id": "slope",
+      "n": 12,
+      "session": 1,
+      "title": "For a slope, resample whole rows so each x keeps its own y",
+      "text": "Block C · slopes For a slope, resample whole rows so each x keeps its own y Five points: (1, 2), (2, 4), (3, 5), (4, 4), (5, 7) Least-squares slope: 1.0 Σ(x − x̄)(y − ȳ) / Σ(x − x̄)² = 10 / 10 i = rng.integers(0, n, n) # rows b = slope(x[i], y[i]) What goes wrong. Resampling x and y separately breaks the pairs: every slope comes out near zero.",
+      "href": "../slides/week5.html#slope"
+    },
+    {
+      "deck": "week5",
+      "id": "rerun",
+      "n": 13,
+      "session": 1,
+      "title": "An interval you report must survive a rerun with a new seed",
+      "text": "Block C · reruns An interval you report must survive a rerun with a new seed Run every interval twice, with two seeds Measure the largest move of an end against the interval's width Report to the precision that does not move The outcome's evidence LO4 asks for a notebook whose intervals agree on rerun with a new seed. The lab builds that table.",
+      "href": "../slides/week5.html#rerun"
+    },
+    {
+      "deck": "week5",
+      "id": "check-slope",
+      "n": 14,
+      "session": 1,
+      "title": "Which resampling for a slope?",
+      "text": "Checkpoint Which resampling for a slope? You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample? 140 areas and, separately, 140 energy values, both with replacement The 140 energy values shuffled against fixed areas 70 buildings drawn without replacement 140 buildings drawn with replacement, each with its own area and energy",
+      "href": "../slides/week5.html#check-slope"
+    },
+    {
+      "deck": "week5",
+      "id": "lab-5-1",
+      "n": 15,
+      "session": 1,
+      "title": "Bootstrap intervals for differences and slopes on public skewed data",
+      "text": "Lab 5.1 · 105 min Bootstrap intervals for differences and slopes on public skewed data Intervals for a mean, a median, a difference and a slope on two public datasets, checked on rerun. W5_1.ipynb Set up; the public data and its licence 10 min Suppress small groups before any table 10 min Intervals for the mean and the median of visits 15 min An interval for a difference between plans 20 min A slope by hand, then in code 10 min A bootstrap interval for a slope 20 min Rerun with a new seed and compare every interval 10 min Record how this was checked 10 min ✱ Stretch: The slope on the log scale, and what it means",
+      "href": "../slides/week5.html#lab-5-1"
+    },
+    {
+      "deck": "week5",
+      "id": "debrief-difference",
+      "n": 16,
+      "session": 1,
+      "title": "Free care: about one more doctor visit a year than 95% coinsurance",
+      "text": "Debrief · lab 5.1 Free care: about one more doctor visit a year than 95% coinsurance Outpatient visits a year Free care 95% coinsurance Difference (95% interval) Mean 3.12 2.11 1.01 (0.83 to 1.18) Median 2 1 1 (1 to 1) Limit. Rows are person-years and the subset has no person identifier, so the lab resampled rows, not people: these intervals are too narrow. Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain); 10,997 and 2,653 person-years. Three plan-by-health cells under 30 rows were suppressed.",
+      "href": "../slides/week5.html#debrief-difference"
+    },
+    {
+      "deck": "week5",
+      "id": "debrief-slope",
+      "n": 17,
+      "session": 1,
+      "title": "Food spending rose by 0.49 for each unit of income, and the intervals held on rerun",
+      "text": "Debrief · lab 5.1 Food spending rose by 0.49 for each unit of income, and the intervals held on rerun 0.485 slope, 95% interval 0.405 to 0.594 < 4% largest move of any end on rerun, as a share of its interval's width Source: Engel's food expenditure data bundled with statsmodels (public domain), 235 households.",
+      "href": "../slides/week5.html#debrief-slope"
+    },
+    {
+      "deck": "week5",
+      "id": "wrap-up",
+      "n": 18,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 5 · wrap-up Three things to keep Resample as collected Groups separately; rows whole. Estimate the difference Not the overlap of two intervals. Suppress, then report No group under 30 rows leaves the notebook.",
+      "href": "../slides/week5.html#wrap-up"
+    },
+    {
+      "deck": "week5",
+      "id": "next",
+      "n": 19,
+      "session": 1,
+      "title": "Week 6: Permutation tests",
+      "text": "Next Week 6: Permutation tests Problem set 5 (50 minutes, AI off for the first attempt): labs/problem-sets/PS5.ipynb.",
+      "href": "../slides/week5.html#next"
+    },
+    {
+      "deck": "week6",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Permutation tests",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Permutation tests Week 6: Shuffle the labels to see what chance alone produces Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week6.html#title"
+    },
+    {
+      "deck": "week6",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Permutation tests",
+      "text": "This week Permutation tests Session 1 · Null models, p-values and effect sizes Null models and permutation tests, what p-values do not mean, Type I and Type II errors, and effect size with practical significance",
+      "href": "../slides/week6.html#agenda"
+    },
+    {
+      "deck": "week6",
+      "id": "review-week5",
+      "n": 3,
+      "session": 0,
+      "title": "Which interval answers the question?",
+      "text": "Review · week 5 Which interval answers the question? Two warehouses' mean picking times have 95% intervals 11.0 to 13.0 and 12.5 to 14.5 minutes. A manager concludes there is no difference because the intervals overlap. What should the analyst do? Agree: overlapping intervals mean no difference Recompute both intervals at 99% to remove the overlap Build a bootstrap interval for the difference itself Pool both warehouses and build one interval",
+      "href": "../slides/week6.html#review-week5"
+    },
+    {
+      "deck": "week6",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Null models, p-values and effect sizes",
+      "text": "Session 1 Null models, p-values and effect sizes State the null model of a comparison and test it by permutation Read a p-value correctly and correct common misreadings Report a result as an effect size with an interval and a plain-language reading 01",
+      "href": "../slides/week6.html#s1"
+    },
+    {
+      "deck": "week6",
+      "id": "null-model",
+      "n": 5,
+      "session": 1,
+      "title": "A null model says how the data would look if nothing were going on",
+      "text": "Block A · the null model A null model says how the data would look if nothing were going on Groups assigned at random, no effect: the labels could have been any relabelling Two columns with no relation: any pairing is as likely as the observed one A permutation test builds the null by shuffling, and counts The question it answers If the labels did not matter, how often would a shuffle give a difference at least as large as ours?",
+      "href": "../slides/week6.html#null-model"
+    },
+    {
+      "deck": "week6",
+      "id": "shuffle-example",
+      "n": 6,
+      "session": 1,
+      "title": "Three against three: twenty splits, two as extreme as the data",
+      "text": "Block A · by hand Three against three: twenty splits, two as extreme as the data Old layout: 3, 4, 6 sales. New layout: 7, 9, 11. Observed difference: 9 − 4.33 = 4.67 Choose any 3 of the 6 values as \"old\": 20 splits. Two give |difference| ≥ 4.67: the real one and its mirror. p = 2 / 20 = 0.10 two-sided, from every split",
+      "href": "../slides/week6.html#shuffle-example"
+    },
+    {
+      "deck": "week6",
+      "id": "shuffle-code",
+      "n": 7,
+      "session": 1,
+      "title": "With many rows, shuffle a few thousand times instead of listing every split",
+      "text": "Block A · at scale With many rows, shuffle a few thousand times instead of listing every split obs = x.mean() - y.mean() pooled = np.concatenate([x, y]) k, count = len(x), 0 for _ in range(R): p = rng.permutation(pooled) d = p[:k].mean() - p[k:].mean() count += abs(d) >= abs(obs) p_value = (count + 1) / (R + 1)",
+      "href": "../slides/week6.html#shuffle-code"
+    },
+    {
+      "deck": "week6",
+      "id": "check-null",
+      "n": 8,
+      "session": 1,
+      "title": "What do you shuffle?",
+      "text": "Checkpoint What do you shuffle? Thirty stores were randomly given a new price label; thirty kept the old one. To test whether weekly sales differ, what does each permutation do? Resample each group with replacement Shuffle the 60 stores' labels and split them 30 and 30 Sort the sales and give the top 30 the new label Add random noise to each store's sales",
+      "href": "../slides/week6.html#check-null"
+    },
+    {
+      "deck": "week6",
+      "id": "p-not-mean",
+      "n": 9,
+      "session": 1,
+      "title": "What a p-value does not mean",
+      "text": "Block B · misreadings What a p-value does not mean Misreading of p = 0.03 Correction \"A 3% chance that there is no effect\" p assumes no effect; it is not the probability of that assumption \"A 97% chance that the effect is real\" The same reversal, stated the other way \"The effect is large\" p mixes size and sample size; report the effect size \"p = 0.06, so there is no effect\" Not enough evidence at this size is not evidence of none",
+      "href": "../slides/week6.html#p-not-mean"
+    },
+    {
+      "deck": "week6",
+      "id": "errors",
+      "n": 10,
+      "session": 1,
+      "title": "A test can err two ways: a false finding and a missed effect",
+      "text": "Block B · two errors A test can err two ways: a false finding and a missed effect The test rejects The test does not reject No real effect Type I error: a false finding, at rate α Correct A real effect Correct: the rate is the power Type II error: a missed effect α = 0.05 is a convention, not a law. Week 8 estimates both rates by simulation.",
+      "href": "../slides/week6.html#errors"
+    },
+    {
+      "deck": "week6",
+      "id": "check-pvalue",
+      "n": 11,
+      "session": 1,
+      "title": "Correct the sentence",
+      "text": "Checkpoint Correct the sentence A report says: \"p = 0.01, so there is only a 1% chance that the new schedule has no effect.\" Which correction is right? \"There is a 99% chance the schedule works.\" \"The schedule improves the outcome by 1%.\" \"If the schedule had no effect, a difference at least this large would arise in about 1% of relabellings.\" \"The result is significant at the 5% level, so the effect is certain.\"",
+      "href": "../slides/week6.html#check-pvalue"
+    },
+    {
+      "deck": "week6",
+      "id": "effect-size",
+      "n": 12,
+      "session": 1,
+      "title": "Report how big the effect is, with an interval, then the test",
+      "text": "Block C · effect size Report how big the effect is, with an interval, then the test Difference In the outcome's own units: minutes, riyals, visits. Ratio \"48% more\": useful when the level differs between settings. Correlation For two numeric columns: from −1 to 1, with its interval. Practical significance: compare the interval with the smallest effect that would change a decision.",
+      "href": "../slides/week6.html#effect-size"
+    },
+    {
+      "deck": "week6",
+      "id": "plain-reading",
+      "n": 13,
+      "session": 1,
+      "title": "A plain-language reading states the size, the uncertainty and what chance can explain",
+      "text": "Block C · the reading A plain-language reading states the size, the uncertainty and what chance can explain Template \"[Group A] [did more/less] [outcome] than [group B]: [difference] ([interval]). Shuffling the labels gave a gap this large in [p as a share] of [R] shuffles. [What this does and does not show.]\" Avoid: \"proves\", \"significant\" on its own, \"the probability that the null is true\", and causal words for observational data.",
+      "href": "../slides/week6.html#plain-reading"
+    },
+    {
+      "deck": "week6",
+      "id": "check-report",
+      "n": 14,
+      "session": 1,
+      "title": "Which report meets the standard?",
+      "text": "Checkpoint Which report meets the standard? A permutation test of two packing methods on 400 boxes gives p = 0.004. Which report follows the course's standard? \"Method B is significantly better (p < 0.05).\" \"p = 0.004 proves method B is better.\" \"Method B is better with 99.6% probability.\" \"B damaged 1.2 fewer boxes per hundred (interval 0.4 to 2.0); shuffles rarely gave a gap this large (p = 0.004).\"",
+      "href": "../slides/week6.html#check-report"
+    },
+    {
+      "deck": "week6",
+      "id": "lab-6-1",
+      "n": 15,
+      "session": 1,
+      "title": "Permutation tests for a group difference and a correlation on public data",
+      "text": "Lab 6.1 · 105 min Permutation tests for a group difference and a correlation on public data Test a group difference and a correlation by permutation, and report effect sizes with intervals. W6_1.ipynb Set up; the two questions and their null models 10 min Every split of a tiny two-group sample, by hand 15 min A permutation test for a difference in means 20 min The effect size with an interval 15 min A permutation test for a correlation 15 min Compare with SciPy's permutation test 10 min A plain-language reading of each result 10 min Record how this was checked 10 min ✱ Stretch: Q1 for poor health only, and why it is weaker",
+      "href": "../slides/week6.html#lab-6-1"
+    },
+    {
+      "deck": "week6",
+      "id": "debrief-q1",
+      "n": 16,
+      "session": 1,
+      "title": "Q1: free care gave about 48% more visits; no shuffle came close",
+      "text": "Debrief · lab 6.1 Q1: free care gave about 48% more visits; no shuffle came close Free care against 95% coinsurance Estimate 95% interval Difference in mean visits a year 1.01 0.82 to 1.18 Ratio of means 1.48 1.37 to 1.60 Permutation p, 5,000 shuffles 0.0002, the floor 1 / 5,001 Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain). Rows are person-years resampled and shuffled as if independent, so the interval is too narrow and the p-value too small (week 5).",
+      "href": "../slides/week6.html#debrief-q1"
+    },
+    {
+      "deck": "week6",
+      "id": "debrief-q2",
+      "n": 17,
+      "session": 1,
+      "title": "Q2: income and food spending went together, r = 0.91; and two p-value conventions",
+      "text": "Debrief · lab 6.1 Q2: income and food spending went together, r = 0.91; and two p-value conventions r = 0.91 (95% interval 0.89 to 0.95), p at the floor: an association in one survey, not a cause Tiny case: counting |difference| gave p = 0.1; SciPy's two-sided gave 0.2, twice the smaller one-sided p Neither convention is wrong: state the one you used Source: Engel's food expenditure data bundled with statsmodels (public domain).",
+      "href": "../slides/week6.html#debrief-q2"
+    },
+    {
+      "deck": "week6",
+      "id": "wrap-up",
+      "n": 18,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 6 · wrap-up Three things to keep Shuffle to build the null Count how often chance does as well. p is conditional It assumes no effect; it never measures that assumption. Size first Effect size, interval, then the test, in plain words.",
+      "href": "../slides/week6.html#wrap-up"
+    },
+    {
+      "deck": "week6",
+      "id": "next",
+      "n": 19,
+      "session": 1,
+      "title": "Week 7: Many tests and forking paths",
+      "text": "Next Week 7: Many tests and forking paths Problem set 6 (50 minutes, AI off for the first attempt): labs/problem-sets/PS6.ipynb.",
+      "href": "../slides/week6.html#next"
+    },
+    {
+      "deck": "week7",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Many tests and forking paths",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Many tests and forking paths Week 7: Test enough things and something will look real Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week7.html#title"
+    },
+    {
+      "deck": "week7",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Many tests and forking paths",
+      "text": "This week Many tests and forking paths Session 1 · Multiple testing and false discoveries Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses",
+      "href": "../slides/week7.html#agenda"
+    },
+    {
+      "deck": "week7",
+      "id": "review-week6",
+      "n": 3,
+      "session": 0,
+      "title": "Read the result",
+      "text": "Review · week 6 Read the result A permutation test of a new checkout layout gives p = 0.21 on 40 shops. A manager writes: \"the layout has no effect\". What is the best correction? \"The data cannot tell at this size; the interval for the effect is wide.\" \"There is a 79% chance the layout works.\" \"The layout makes things worse.\" \"Retest at α = 0.01 to confirm there is no effect.\"",
+      "href": "../slides/week7.html#review-week6"
+    },
+    {
+      "deck": "week7",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Multiple testing and false discoveries",
+      "text": "Session 1 Multiple testing and false discoveries Measure by simulation how often uncorrected tests produce false findings Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls Spot forking paths in a reported analysis and name the pre-specification that prevents them 01",
+      "href": "../slides/week7.html#s1"
+    },
+    {
+      "deck": "week7",
+      "id": "many-tests",
+      "n": 5,
+      "session": 1,
+      "title": "Test enough true nulls and something will pass",
+      "text": "Block A · many tests Test enough true nulls and something will pass Tests, all with no true effect Expected false findings Chance of at least one 1 0.05 0.050 5 0.25 0.226 10 0.50 0.401 50 2.50 0.923",
+      "href": "../slides/week7.html#many-tests"
+    },
+    {
+      "deck": "week7",
+      "id": "dashboards",
+      "n": 6,
+      "session": 1,
+      "title": "Dashboards, subgroup tables and \"we also looked at\" paragraphs run many tests",
+      "text": "Block A · where it happens Dashboards, subgroup tables and \"we also looked at\" paragraphs run many tests One test per product line, region or customer segment Many outcomes for one change: sales, visits, basket size, returns Results reported only when they pass, so the reader never sees the count What goes wrong. A \"finding\" that is one of twenty tests is about as surprising as one heads in twenty coin tosses.",
+      "href": "../slides/week7.html#dashboards"
+    },
+    {
+      "deck": "week7",
+      "id": "check-many",
+      "n": 7,
+      "session": 1,
+      "title": "How surprising is this?",
+      "text": "Checkpoint How surprising is this? A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a \"significant\" change. Assume the policy did nothing. How many would you expect? None, since α is only 5% About 0.05 About 2 About 32",
+      "href": "../slides/week7.html#check-many"
+    },
+    {
+      "deck": "week7",
+      "id": "two-error-rates",
+      "n": 8,
+      "session": 1,
+      "title": "Control the chance of any false finding, or the share of false findings",
+      "text": "Block B · what to control Control the chance of any false finding, or the share of false findings Family-wise error rate The chance of at least one false finding in the family. Bonferroni: reject when p ≤ α / m. Holm: the same guarantee, step by step, more power. False discovery rate The expected share of false findings among all findings. Benjamini-Hochberg: largest k with p₍ₖ₎ ≤ k α / m.",
+      "href": "../slides/week7.html#two-error-rates"
+    },
+    {
+      "deck": "week7",
+      "id": "six-tests",
+      "n": 9,
+      "session": 1,
+      "title": "Six p-values, three procedures, three answers",
+      "text": "Block B · an example Six p-values, three procedures, three answers Sorted p Bonferroni, p ≤ 0.0083 Holm, 0.05 / (6, 5, 4, …) BH, k × 0.05 / 6 0.001 ✓ ✓ ✓ 0.006 ✓ ✓ ✓ 0.012 ✓ ✓ 0.019 ✓ 0.044 0.310",
+      "href": "../slides/week7.html#six-tests"
+    },
+    {
+      "deck": "week7",
+      "id": "corrections-code",
+      "n": 10,
+      "session": 1,
+      "title": "Write the corrections once, then check them against a library",
+      "text": "Block B · in code Write the corrections once, then check them against a library from scipy import stats from statsmodels.stats import ( multitest as mt) r = mt.multipletests( p, alpha=0.05, method=\"holm\") reject, p_adj = r[0], r[1] # BH-adjusted p-values q = stats.false_discovery_control(p)",
+      "href": "../slides/week7.html#corrections-code"
+    },
+    {
+      "deck": "week7",
+      "id": "check-correction",
+      "n": 11,
+      "session": 1,
+      "title": "Which procedure fits the purpose?",
+      "text": "Checkpoint Which procedure fits the purpose? A team screens 300 product ideas from survey data to pick some for a costly follow-up trial; a few false picks are acceptable if most picks are real. Which control fits? No correction: each test is at 5% Benjamini-Hochberg, controlling the share of false picks Bonferroni, controlling any false pick at all Test each idea at α = 0.01 instead",
+      "href": "../slides/week7.html#check-correction"
+    },
+    {
+      "deck": "week7",
+      "id": "forking-paths",
+      "n": 12,
+      "session": 1,
+      "title": "One test can hide many: every choice made after seeing the data is a fork",
+      "text": "Block C · forking paths One test can hide many: every choice made after seeing the data is a fork Which outcome: units, value, share of baskets Which units: all branches, large ones, one sector What to do with outliers, which weeks, which test No fishing needed Each choice can be reasonable. Making them after looking still inflates the false-finding rate, even when only one test is run.",
+      "href": "../slides/week7.html#forking-paths"
+    },
+    {
+      "deck": "week7",
+      "id": "pre-specify",
+      "n": 13,
+      "session": 1,
+      "title": "Write the analysis down before you look, and report every test you ran",
+      "text": "Block C · the cure Write the analysis down before you look, and report every test you ran Before Question, outcome, groups, test, outlier rule, family of claims. During Any change to the plan is logged with its reason. After Report the planned results first; label the rest exploratory.",
+      "href": "../slides/week7.html#pre-specify"
+    },
+    {
+      "deck": "week7",
+      "id": "check-forking",
+      "n": 14,
+      "session": 1,
+      "title": "Name the problem",
+      "text": "Checkpoint Name the problem A summary reports that a staff-training course \"significantly reduced errors among evening-shift staff over 40 (p = 0.03)\". The full data covered all shifts and ages; no subgroup was planned. What is the main problem? Evening staff may be less careful None: p = 0.03 is below 0.05 The subgroup is too small for a permutation test A forking path: the subgroup was picked after seeing the data",
+      "href": "../slides/week7.html#check-forking"
+    },
+    {
+      "deck": "week7",
+      "id": "lab-7-1",
+      "n": 15,
+      "session": 1,
+      "title": "Twenty tests on pure noise, with and without correction",
+      "text": "Lab 7.1 · 105 min Twenty tests on pure noise, with and without correction Test twenty lines with no true effect, then simulate a thousand dashboards with and without correction. W7_1.ipynb Set up; the promotion dashboard 10 min Bonferroni, Holm and Benjamini-Hochberg by hand on five p-values 15 min Twenty permutation tests on the dashboard 15 min The three corrections on the dashboard 10 min A thousand dashboards of pure noise: the table of false-finding rates 25 min Forking paths: one line, eight reasonable analyses 15 min Record how this was checked 15 min ✱ Stretch: Give four lines a true effect and compare Bonferroni with Benjamini-Hochberg",
+      "href": "../slides/week7.html#lab-7-1"
+    },
+    {
+      "deck": "week7",
+      "id": "debrief-rates",
+      "n": 16,
+      "session": 1,
+      "title": "Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5%",
+      "text": "Debrief · lab 7.1 Uncorrected, 63% of pure-noise dashboards showed a finding; corrected, 3.5% 1,000 simulated dashboards, 20 lines, no effect False-finding rate Single test, uncorrected 0.049 At least one of 20, uncorrected 0.627 Bonferroni 0.035 Holm 0.035 Benjamini-Hochberg 0.035",
+      "href": "../slides/week7.html#debrief-rates"
+    },
+    {
+      "deck": "week7",
+      "id": "debrief-forking",
+      "n": 17,
+      "session": 1,
+      "title": "One planned test erred 5% of the time; the best of eight paths, 19%",
+      "text": "Debrief · lab 7.1 One planned test erred 5% of the time; the best of eight paths, 19% 0.050 one planned test, 300 noise lines 0.190 smallest p of eight reasonable paths With four true effects among 20 lines (stretch), BH found more of them than Bonferroni (power 0.24 against 0.17) with few false discoveries.",
+      "href": "../slides/week7.html#debrief-forking"
+    },
+    {
+      "deck": "week7",
+      "id": "wrap-up",
+      "n": 18,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 7 · wrap-up Three things to keep Count the tests Twenty true nulls give a finding most of the time. Correct for the family Holm for decisive claims, BH for screening. Fix the path first Choices made after looking are hidden tests.",
+      "href": "../slides/week7.html#wrap-up"
+    },
+    {
+      "deck": "week7",
+      "id": "next",
+      "n": 19,
+      "session": 1,
+      "title": "Week 8: Error rates, power and honest reporting",
+      "text": "Next Week 8: Error rates, power and honest reporting Problem set 7 (50 minutes, AI off for the first attempt): labs/problem-sets/PS7.ipynb. Bring a public dataset idea for the capstone.",
+      "href": "../slides/week7.html#next"
+    },
+    {
+      "deck": "week8",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Error rates, power and honest reporting",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Error rates, power and honest reporting Week 8: How often a test errs, and how to say what was checked Data & AI Foundations Track8 weeks + capstone1 session · 1 labFND-MTH-104",
+      "href": "../slides/week8.html#title"
+    },
+    {
+      "deck": "week8",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Error rates, power and honest reporting",
+      "text": "This week Error rates, power and honest reporting Session 1 · Type I and II errors, power and reporting Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked",
+      "href": "../slides/week8.html#agenda"
+    },
+    {
+      "deck": "week8",
+      "id": "review-week7",
+      "n": 3,
+      "session": 0,
+      "title": "Which correction, and what does it promise?",
+      "text": "Review · week 7 Which correction, and what does it promise? A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits? Benjamini-Hochberg No correction, α = 0.05 each Holm, which controls the family-wise error rate Report only the claim with the smallest p-value",
+      "href": "../slides/week8.html#review-week7"
+    },
+    {
+      "deck": "week8",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Type I and II errors, power and reporting",
+      "text": "Session 1 Type I and II errors, power and reporting Estimate a test's Type I error rate and power by simulation at several sample sizes Judge practical significance by comparing an interval with a threshold that matters Write a result with its scope, limits and a record of how it was checked 01",
+      "href": "../slides/week8.html#s1"
+    },
+    {
+      "deck": "week8",
+      "id": "simulate-errors",
+      "n": 5,
+      "session": 1,
+      "title": "Simulate the study many times, with and without an effect, and count rejections",
+      "text": "Block A · measure the errors Simulate the study many times, with and without an effect, and count rejections 1 · Generate Data as the study would collect it → 2 · Add No effect, or the effect that matters → 3 · Test Exactly as planned → 4 · Count Rejections: Type I rate, or power",
+      "href": "../slides/week8.html#simulate-errors"
+    },
+    {
+      "deck": "week8",
+      "id": "power-table",
+      "n": 6,
+      "session": 1,
+      "title": "For a half-standard-deviation effect, 10 per group finds it one time in five",
+      "text": "Block A · power grows with n For a half-standard-deviation effect, 10 per group finds it one time in five n per group Power of the t test, α = 0.05 10 0.185 30 0.478 100 0.940 Normal data, a difference of 0.5 standard deviations Smaller effects or longer tails need more data The Type I error rate stays at α at every n",
+      "href": "../slides/week8.html#power-table"
+    },
+    {
+      "deck": "week8",
+      "id": "check-power",
+      "n": 7,
+      "session": 1,
+      "title": "What does the null result say?",
+      "text": "Checkpoint What does the null result say? A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say? The new menu does not change spending The false-finding rate was 82% The new menu reduces spending The pilot was too small to tell; it would miss that effect about four times in five",
+      "href": "../slides/week8.html#check-power"
+    },
+    {
+      "deck": "week8",
+      "id": "false-share",
+      "n": 8,
+      "session": 1,
+      "title": "With few real effects and low power, nearly half the findings are false",
+      "text": "Block B · findings With few real effects and low power, nearly half the findings are false 100 ideas tested, 10 real Expected False findings: 90 × 0.05 4.5 True findings: 10 × 0.5 power 5.0 Share of findings that are false 47% Not 5% α is the rate among true nulls, not the share of findings that are wrong. That share depends on power and on how many ideas are real.",
+      "href": "../slides/week8.html#false-share"
+    },
+    {
+      "deck": "week8",
+      "id": "practical",
+      "n": 9,
+      "session": 1,
+      "title": "Compare the interval with the smallest effect that would change the decision",
+      "text": "Block B · practical significance Compare the interval with the smallest effect that would change the decision Worth it The whole interval is above the threshold. Not worth it The whole interval is below it, even if p is tiny. Unclear The interval straddles it: more data, or a decision that accepts the risk.",
+      "href": "../slides/week8.html#practical"
+    },
+    {
+      "deck": "week8",
+      "id": "check-practical",
+      "n": 10,
+      "session": 1,
+      "title": "Decide",
+      "text": "Checkpoint Decide A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p < 0.001. What is the decision? Adopt it: the saving is highly significant Do not adopt it: even the top of the interval is below 3 minutes Unclear: run a larger trial Adopt it: p below 0.001 means a large saving",
+      "href": "../slides/week8.html#check-practical"
+    },
+    {
+      "deck": "week8",
+      "id": "honest-report",
+      "n": 11,
+      "session": 1,
+      "title": "Every result travels with its scope, its limits and how it was checked",
+      "text": "Block C · honest reporting Every result travels with its scope, its limits and how it was checked Part of the note What it says Result The estimate, its interval, the test, in plain words Checked by A hand case, a second method, a rerun with a new seed, a known truth Limits Scope, confounding, the number of tests, suppressed groups Reviewer A second person reruns it before it is used",
+      "href": "../slides/week8.html#honest-report"
+    },
+    {
+      "deck": "week8",
+      "id": "ai-assisted",
+      "n": 12,
+      "session": 1,
+      "title": "In the capstone you may use an AI assistant; record how you checked what it gave you",
+      "text": "Block C · AI-assisted analysis In the capstone you may use an AI assistant; record how you checked what it gave you The capstone is AI-full and defended orally: you must be able to rerun every step yourself For each assisted step: what it produced, how you checked it, what was wrong Only public material goes into a generative AI tool: nothing classified above Public Checking assisted analysis run to run is taught in SPC-ANL-202.",
+      "href": "../slides/week8.html#ai-assisted"
+    },
+    {
+      "deck": "week8",
+      "id": "capstone-brief",
+      "n": 13,
+      "session": 1,
+      "title": "A two-page brief on a public dataset: estimate, interval, test, effect size and limits",
+      "text": "Block C · the capstone A two-page brief on a public dataset: estimate, interval, test, effect size and limits A public dataset whose licence allows reuse, with no personal data One question, written down with its analysis before you look The notebook reruns; intervals agree with a new seed Then a ten-minute oral check Three minutes on the brief; seven rerunning one test with a change the assessor specifies, and reading the result.",
+      "href": "../slides/week8.html#capstone-brief"
+    },
+    {
+      "deck": "week8",
+      "id": "check-report",
+      "n": 14,
+      "session": 1,
+      "title": "What is missing from this note?",
+      "text": "Checkpoint What is missing from this note? A note says: \"Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead.\" What is the weakest part? \"Checked by\": it says who wrote the code, not how the result was verified \"Result\": it should give the p-value instead of the interval \"Limits\": a limit should never be stated in a report \"Reviewer\": the analyst should review their own work",
+      "href": "../slides/week8.html#check-report"
+    },
+    {
+      "deck": "week8",
+      "id": "lab-8-1",
+      "n": 15,
+      "session": 1,
+      "title": "Type I error rate and power of a permutation test estimated by simulation at three sample sizes",
+      "text": "Lab 8.1 · 105 min Type I error rate and power of a permutation test estimated by simulation at three sample sizes Simulate a planned trial with and without a 10% uplift to estimate Type I error and power. W8_1.ipynb Set up; the planned trial and its question 10 min Type I and II errors by hand 10 min A fast permutation test with fixed shuffles 15 min The Type I error rate at 50, 200 and 800 per group 20 min Power at the same sizes for a 10% uplift 20 min Effect size and practical significance 15 min The note, and your capstone plan 15 min ✱ Stretch: Welch's t test on the same trials",
+      "href": "../slides/week8.html#lab-8-1"
+    },
+    {
+      "deck": "week8",
+      "id": "debrief-power",
+      "n": 16,
+      "session": 1,
+      "title": "A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800",
+      "text": "Debrief · lab 8.1 A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800 n per group Type I error rate Power, 10% uplift 50 0.050 0.100 200 0.034 0.263 800 0.035 0.658 1,000 simulated trials per cell, Monte Carlo error up to about ±0.03. The Type I error rate stayed near α at every size.",
+      "href": "../slides/week8.html#debrief-power"
+    },
+    {
+      "deck": "week8",
+      "id": "debrief-decision",
+      "n": 17,
+      "session": 1,
+      "title": "One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear",
+      "text": "Debrief · lab 8.1 One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear p = 0.08: not below 0.05, and the uplift was real in the simulation The interval straddles the 1.50 threshold: unclear, not \"no effect\" At 200 per group, 3 trials in 4 would miss this uplift: plan the size first (SPC-STA-201, SPC-EXP-201)",
+      "href": "../slides/week8.html#debrief-decision"
+    },
+    {
+      "deck": "week8",
+      "id": "wrap-up",
+      "n": 18,
+      "session": 1,
+      "title": "Three things to keep",
+      "text": "Week 8 · wrap-up Three things to keep Simulate the plan Count false findings and missed effects before you run the study. Decide on the interval Against the threshold that matters, not on p. Note every result Scope, limits, how it was checked, who reran it.",
+      "href": "../slides/week8.html#wrap-up"
+    },
+    {
+      "deck": "week8",
+      "id": "next",
+      "n": 19,
+      "session": 1,
+      "title": "The capstone, and the second supervised test",
+      "text": "Next The capstone, and the second supervised test Problem set 8 (50 minutes, AI off for the first attempt): labs/problem-sets/PS8.ipynb. Then the second test, 90 minutes, AI off, and the capstone brief.",
+      "href": "../slides/week8.html#next"
+    },
+    {
+      "deck": "capstone",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Capstone oral checks",
+      "text": "SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing Capstone oral checks Capstone: Ten minutes each: three to walk through the brief, seven to rerun one test with the assessor's change and read the result Data & AI Foundations Track8 weeks + capstone3 min talk and demo · 7 min Q&AFND-MTH-104",
+      "href": "../slides/capstone.html#title"
+    },
+    {
+      "deck": "capstone",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "How the oral checks run",
+      "text": "Capstone How the oral checks run Expectations and final preparation the rubric, the oral check, a last rerun of each notebook Oral checks ten minutes each: the brief, then a rerun with a change Review and closing the trainer's review, what next",
+      "href": "../slides/capstone.html#agenda"
+    },
+    {
+      "deck": "capstone",
+      "id": "rubric",
+      "n": 3,
+      "session": 0,
+      "title": "The rubric",
+      "text": "How the brief and notebook are scored (30% of the course) The rubric Question, data, licence, scope; small groups suppressed 15% Bootstrap interval, resampled as collected, stable on rerun 25% Permutation test, effect size with interval, plain reading 25% Limits: confounding, many tests, forking paths 20% Reruns; how each result and AI step was checked 15%",
+      "href": "../slides/capstone.html#rubric"
+    },
+    {
+      "deck": "capstone",
+      "id": "oral-format",
+      "n": 4,
+      "session": 0,
+      "title": "Ten minutes: three on the brief, seven rerunning one test with a change",
+      "text": "The oral check · 10% of the course Ten minutes: three on the brief, seven rerunning one test with a change 1 · The brief The question, the estimate with its interval, the test, the limits. Three minutes. 2 · The change The assessor names one change: a subgroup, a statistic, a number of shuffles, a seed. 3 · The rerun You make the change, rerun the test and read the new result aloud. Say what you expect before you run it, then compare. The reading matters as much as the code.",
+      "href": "../slides/capstone.html#oral-format"
+    },
+    {
+      "deck": "capstone",
+      "id": "oral-scoring",
+      "n": 5,
+      "session": 0,
+      "title": "The oral check rewards a correct rerun and an honest reading",
+      "text": "What the assessor listens for The oral check rewards a correct rerun and an honest reading The assessor checks A strong answer The change is made correctly The right line changed; the notebook reruns The new result is read Effect size and interval first; the p-value read as a conditional What the change means Says whether it strengthens or weakens the conclusion, and why",
+      "href": "../slides/capstone.html#oral-scoring"
+    },
+    {
+      "deck": "capstone",
+      "id": "running-order",
+      "n": 6,
+      "session": 0,
+      "title": "Who is checked when",
+      "text": "Running order Who is checked when # Participant Dataset 1 2 3 4 5 6 7 8",
+      "href": "../slides/capstone.html#running-order"
+    },
+    {
+      "deck": "capstone",
+      "id": "final-prep",
+      "n": 7,
+      "session": 0,
+      "title": "Final preparation · 20 minutes",
+      "text": "Before the first oral check Final preparation · 20 minutes Restart your notebook and run it from the top. Know where your test's code is.",
+      "href": "../slides/capstone.html#final-prep"
+    },
+    {
+      "deck": "capstone",
+      "id": "now-presenting",
+      "n": 8,
+      "session": 0,
+      "title": "The brief",
+      "text": "Oral check The brief The change and the rerun",
+      "href": "../slides/capstone.html#now-presenting"
+    },
+    {
+      "deck": "capstone",
+      "id": "review",
+      "n": 9,
+      "session": 0,
+      "title": "What the briefs showed",
+      "text": "Trainer review What the briefs showed Strongest patterns What several briefs got right. Common gaps What most briefs would fix next. One surprise Something nobody expected.",
+      "href": "../slides/capstone.html#review"
+    },
+    {
+      "deck": "capstone",
+      "id": "what-next",
+      "n": 10,
+      "session": 0,
+      "title": "Keep going",
+      "text": "After the course Keep going Your brief stays yours: keep the notebook reproducible, with its seed, source and licence SPC-STA-201 Statistical Inference by Simulation: clustered data, better intervals, power by simulating the planned analysis SPC-EXP-201 Designing and Reading Experiments: pre-registration and sample size SPC-ANL-202 Analysis with AI Assistants: checking assisted analysis run to run",
+      "href": "../slides/capstone.html#what-next"
+    },
+    {
+      "deck": "capstone",
+      "id": "thanks",
+      "n": 11,
+      "session": 0,
+      "title": "Thank you",
+      "text": "SDAIA Academy Thank you Statistics by Simulation: Variation, Estimation and Testing",
+      "href": "../slides/capstone.html#thanks"
+    }
+  ]
+}

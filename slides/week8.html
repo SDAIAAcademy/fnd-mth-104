@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8 · Error rates, power and honest reporting · Statistics by Simulation: Variation, Estimation and Testing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="week8.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistics by Simulation: Variation, Estimation and Testing" data-track="foundations" data-day="Week 8">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing</div>
+  <h1>Error rates, power and honest reporting</h1>
+  <p class="lead mt">Week 8: How often a test errs, and how to say what was checked</p>
+  <div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>1 session · 1 lab</span><span>FND-MTH-104</span></div>
+  <aside class="notes"><p>The last teaching week. Week 6 defined the two errors a test can make; this week measures both by simulation, turns the result into a decision, and sets up the capstone brief.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">This week</div>
+  <h2>Error rates, power and honest reporting</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Type I and II errors, power and reporting</b><small>Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked</small></div></div></div>
+</section>
+
+<section class="slide" id="review-week7" data-lo="LO6" data-n="3">
+  <div class="kicker">Review · week 7</div>
+  <h2>Which correction, and what does it promise?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6" data-id="review-week7-q1">
+    <p class="lead">A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits?</p>
+    <div class="opts">
+      <div class="opt" data-why="Controls the share of false claims, not the chance of any" data-k="A">Benjamini-Hochberg</div>
+      <div class="opt" data-why="Leaves about a 23% chance of at least one false claim with five true nulls" data-k="B">No correction, α = 0.05 each</div>
+      <div class="opt" data-ok data-k="C">Holm, which controls the family-wise error rate</div>
+      <div class="opt" data-why="One test per claim is still five tests" data-k="D">Report only the claim with the smallest p-value</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Each false claim is costly, so control the chance of any: Holm does, with more power than Bonferroni.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Type I and II errors, power and reporting</h1>
+  <ul class="bullets outcomes"><li>Estimate a test's Type I error rate and power by simulation at several sample sizes</li><li>Judge practical significance by comparing an interval with a threshold that matters</li><li>Write a result with its scope, limits and a record of how it was checked</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="simulate-errors" data-lo="LO5 LO6" data-n="5" data-session="1">
+  <div class="kicker">Block A · measure the errors</div>
+  <h2>Simulate the study many times, with and without an effect, and count rejections</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Generate</b>Data as the study would collect it</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Add</b>No effect, or the effect that matters</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Test</b>Exactly as planned</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Count</b>Rejections: Type I rate, or power</div>
+  </div>
+  <aside class="notes"><p>The same loop as weeks 2 and 7, with the planned test inside it. Power by simulating the full planned analysis, with clustering and attrition, is SPC-STA-201; this is the first look the entry asks for.</p></aside>
+</section>
+
+<section class="slide" id="power-table" data-lo="LO5" data-n="6" data-session="1">
+  <div class="kicker">Block A · power grows with n</div>
+  <h2>For a half-standard-deviation effect, 10 per group finds it one time in five</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th class="num">n per group</th><th class="num">Power of the t test, α = 0.05</th></tr>
+      <tr><td class="num">10</td><td class="num">0.185</td></tr>
+      <tr><td class="num">30</td><td class="num">0.478</td></tr>
+      <tr class="hl"><td class="num">100</td><td class="num">0.940</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>Normal data, a difference of 0.5 standard deviations</li>
+      <li>Smaller effects or longer tails need more data</li>
+      <li>The Type I error rate stays at α at every n</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 8 (the t-test power formula in statsmodels). The lab measures a permutation test on the skewed baskets by simulation, where no formula is needed.</p></aside>
+</section>
+
+<section class="slide" id="check-power" data-lo="LO5" data-n="7" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does the null result say?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5" data-id="check-power-q1">
+    <p class="lead">A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads a weak test's silence as evidence of absence" data-k="A">The new menu does not change spending</div>
+      <div class="opt" data-why="Confuses power with the Type I error rate" data-k="B">The false-finding rate was 82%</div>
+      <div class="opt" data-why="Invents a direction the test did not show" data-k="C">The new menu reduces spending</div>
+      <div class="opt" data-ok data-k="D">The pilot was too small to tell; it would miss that effect about four times in five</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> With 18% power a real effect usually goes undetected; report the wide interval, not "no effect".</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
+</section>
+
+<section class="slide" id="false-share" data-lo="LO2" data-n="8" data-session="1">
+  <div class="kicker">Block B · findings</div>
+  <h2>With few real effects and low power, nearly half the findings are false</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>100 ideas tested, 10 real</th><th class="num">Expected</th></tr>
+      <tr><td>False findings: 90 × 0.05</td><td class="num">4.5</td></tr>
+      <tr><td>True findings: 10 × 0.5 power</td><td class="num">5.0</td></tr>
+      <tr class="hl"><td>Share of findings that are false</td><td class="num">47%</td></tr>
+    </table>
+    <div class="card c-coral"><h4>Not 5%</h4><p class="small mb0">α is the rate among true nulls, not the share of findings that are wrong. That share depends on power and on how many ideas are real.</p></div>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 8. This is FND-MTH-103's base-rate reasoning applied to findings. A frequent LO2 misreading: "p &lt; 0.05, so there is a 5% chance this finding is false".</p></aside>
+</section>
+
+<section class="slide" id="practical" data-lo="LO5" data-n="9" data-session="1">
+  <div class="kicker">Block B · practical significance</div>
+  <h2>Compare the interval with the smallest effect that would change the decision</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Worth it</h4><p class="small mb0">The whole interval is above the threshold.</p></div>
+    <div class="card c-coral"><h4>Not worth it</h4><p class="small mb0">The whole interval is below it, even if p is tiny.</p></div>
+    <div class="card c-purple"><h4>Unclear</h4><p class="small mb0">The interval straddles it: more data, or a decision that accepts the risk.</p></div>
+  </div>
+  <aside class="notes"><p>The threshold comes from the business, before the analysis: the cost of the change divided by what each unit of effect is worth. The lab uses the finance analyst's 1.50 riyals a basket.</p></aside>
+</section>
+
+<section class="slide" id="check-practical" data-lo="LO5" data-n="10" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Decide</h2>
+  <div class="quiz" data-type="single" data-lo="LO5" data-id="check-practical-q1">
+    <p class="lead">A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p &lt; 0.001. What is the decision?</p>
+    <div class="opts">
+      <div class="opt" data-why="Confuses statistical with practical significance" data-k="A">Adopt it: the saving is highly significant</div>
+      <div class="opt" data-ok data-k="B">Do not adopt it: even the top of the interval is below 3 minutes</div>
+      <div class="opt" data-why="The interval is narrow and wholly below the threshold: nothing is unclear" data-k="C">Unclear: run a larger trial</div>
+      <div class="opt" data-why="Thinks a small p-value means a large saving" data-k="D">Adopt it: p below 0.001 means a large saving</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The effect is real and too small to matter: the interval sits below the threshold.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="honest-report" data-lo="LO3 LO6" data-n="11" data-session="1">
+  <div class="kicker">Block C · honest reporting</div>
+  <h2>Every result travels with its scope, its limits and how it was checked</h2>
+  <table class="t">
+    <tr><th>Part of the note</th><th>What it says</th></tr>
+    <tr><td>Result</td><td>The estimate, its interval, the test, in plain words</td></tr>
+    <tr><td>Checked by</td><td>A hand case, a second method, a rerun with a new seed, a known truth</td></tr>
+    <tr><td>Limits</td><td>Scope, confounding, the number of tests, suppressed groups</td></tr>
+    <tr class="hl"><td>Reviewer</td><td>A second person reruns it before it is used</td></tr>
+  </table>
+  <aside class="notes"><p>The four-part note of every lab is the capstone's standard. The reviewer line is segregation of duties: the analyst who ran it does not sign it off alone.</p></aside>
+</section>
+
+<section class="slide" id="ai-assisted" data-lo="LO3" data-n="12" data-session="1">
+  <div class="kicker">Block C · AI-assisted analysis</div>
+  <h2>In the capstone you may use an AI assistant; record how you checked what it gave you</h2>
+  <ul class="bullets">
+    <li>The capstone is AI-full and defended orally: you must be able to rerun every step yourself</li>
+    <li>For each assisted step: what it produced, how you checked it, what was wrong</li>
+    <li>Only public material goes into a generative AI tool: nothing classified above Public</li>
+  </ul>
+  <div class="callout note mt">Checking assisted analysis run to run is taught in SPC-ANL-202.</div>
+  <aside class="notes"><p>The tests and the first attempt at each problem set stay AI-off. In the oral check the assessor asks for a change to one test and watches the participant rerun it and read the result.</p></aside>
+</section>
+
+<section class="slide" id="capstone-brief" data-lo="LO4 LO5" data-n="13" data-session="1">
+  <div class="kicker">Block C · the capstone</div>
+  <h2>A two-page brief on a public dataset: estimate, interval, test, effect size and limits</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>A public dataset whose licence allows reuse, with no personal data</li>
+      <li>One question, written down with its analysis before you look</li>
+      <li>The notebook reruns; intervals agree with a new seed</li>
+    </ul>
+    <div class="card c-teal"><h4>Then a ten-minute oral check</h4><p class="small mb0">Three minutes on the brief; seven rerunning one test with a change the assessor specifies, and reading the result.</p></div>
+  </div>
+  <aside class="notes"><p>The rubric is on the capstone deck and in the README. The dataset clinic (30 minutes) comes first; the datasets bundled with statsmodels and marked public domain are a ready list.</p></aside>
+</section>
+
+<section class="slide" id="check-report" data-lo="LO3" data-n="14" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What is missing from this note?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="check-report-q1">
+    <p class="lead">A note says: "Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead." What is the weakest part?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">"Checked by": it says who wrote the code, not how the result was verified</div>
+      <div class="opt" data-why="The result gives size and interval as it should" data-k="B">"Result": it should give the p-value instead of the interval</div>
+      <div class="opt" data-why="Naming the scope is exactly what the limits line is for" data-k="C">"Limits": a limit should never be stated in a report</div>
+      <div class="opt" data-why="A second person rerunning it is the point of the reviewer line" data-k="D">"Reviewer": the analyst should review their own work</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A check is something run: a hand case, a second method, a rerun. An assistant writing the code is not a check.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-8-1" data-auto="lab" data-lab="8.1" data-label="Lab 8.1" data-n="15" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 8.1 · 105 min</div><h2>Type I error rate and power of a permutation test estimated by simulation at three sample sizes</h2><p class="lead small">Simulate a planned trial with and without a 10% uplift to estimate Type I error and power.</p><a class="nb" href="../labs/W8_1.ipynb">W8_1.ipynb</a></div><ul class="checklist"><li>Set up; the planned trial and its question <span class="min">10 min</span></li><li>Type I and II errors by hand <span class="min">10 min</span></li><li>A fast permutation test with fixed shuffles <span class="min">15 min</span></li><li>The Type I error rate at 50, 200 and 800 per group <span class="min">20 min</span></li><li>Power at the same sizes for a 10% uplift <span class="min">20 min</span></li><li>Effect size and practical significance <span class="min">15 min</span></li><li>The note, and your capstone plan <span class="min">15 min</span></li><li class="stretch">✱ Stretch: Welch's t test on the same trials</li></ul></div>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's fifth lab line. Watch for: multiplying the control group as well as the treated; drawing new shuffles inside every simulated trial (slow but valid); forgetting to write the capstone plan before seeing any capstone result. Quick mode runs 200 trials per setting: rates move by a few points.</p></aside>
+</section>
+
+<section class="slide" id="debrief-power" data-lo="LO5 LO6" data-n="16" data-session="1">
+  <div class="kicker">Debrief · lab 8.1</div>
+  <h2>A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800</h2>
+  <table class="t">
+    <tr><th class="num">n per group</th><th class="num">Type I error rate</th><th class="num">Power, 10% uplift</th></tr>
+    <tr><td class="num">50</td><td class="num">0.050</td><td class="num">0.100</td></tr>
+    <tr><td class="num">200</td><td class="num">0.034</td><td class="num">0.263</td></tr>
+    <tr class="hl"><td class="num">800</td><td class="num">0.035</td><td class="num">0.658</td></tr>
+  </table>
+  <p class="small mt">1,000 simulated trials per cell, Monte Carlo error up to about ±0.03. The Type I error rate stayed near α at every size.</p>
+  <aside class="notes"><p>From the solution run of lab 8.1. The uplift is 2.19 riyals, 0.12 standard deviations of a long-tailed outcome: small against the spread. Welch's t test gave similar power (0.098, 0.221, 0.671) in the stretch.</p></aside>
+</section>
+
+<section class="slide" id="debrief-decision" data-lo="LO5" data-n="17" data-session="1">
+  <div class="kicker">Debrief · lab 8.1</div>
+  <h2>One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear</h2>
+  <ul class="bullets">
+    <li>p = 0.08: not below 0.05, and the uplift was real in the simulation</li>
+    <li>The interval straddles the 1.50 threshold: unclear, not "no effect"</li>
+    <li>At 200 per group, 3 trials in 4 would miss this uplift: plan the size first (SPC-STA-201, SPC-EXP-201)</li>
+  </ul>
+  <aside class="notes"><p>From the solution run of lab 8.1. A good place to end the teaching weeks: the data were generated with a true uplift, and an honest report of this one trial still says "unclear".</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="18" data-session="1">
+  <div class="kicker">Week 8 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Simulate the plan</h4><p class="small mb0">Count false findings and missed effects before you run the study.</p></div>
+    <div class="card c-coral"><h4>Decide on the interval</h4><p class="small mb0">Against the threshold that matters, not on p.</p></div>
+    <div class="card c-purple"><h4>Note every result</h4><p class="small mb0">Scope, limits, how it was checked, who reran it.</p></div>
+  </div>
+  <aside class="notes"><p>Collect the three-line capstone plans from step 7 of the lab. Check each names a licence and fixes the analysis before results.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="19" data-session="1">
+  <div class="kicker">Next</div>
+  <h2>The capstone, and the second supervised test</h2>
+  <p class="lead">Problem set 8 (50 minutes, AI off for the first attempt): labs/problem-sets/PS8.ipynb. Then the second test, 90 minutes, AI off, and the capstone brief.</p>
+  <aside class="notes"><p>The second test covers weeks 5 to 8 and holds the LO2 ten-statement sheet and the LO3 one-page critique; its items and keys are in the trainer pack. Capstone: dataset clinic, independent analysis, peer dry run, then the oral checks.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"../index.html"},"deck":{"id":"week8","kind":"day","day":8,"label":"Week 8","title":"Error rates, power and honest reporting","prev":"week7.html","next":"capstone.html","md":"week8.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Type I and II errors, power and reporting","slide":"s1","outcomes":["Estimate a test's Type I error rate and power by simulation at several sample sizes","Judge practical significance by comparing an interval with a threshold that matters","Write a result with its scope, limits and a record of how it was checked"],"minutes":210,"lab":{"id":"8.1","title":"Type I error rate and power of a permutation test estimated by simulation at three sample sizes","minutes":105,"href":"../labs/W8_1.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Error rates, power and honest reporting","kind":"title","session":0,"hash":"8188929c","md":"#### [week8#title] Error rates, power and honest reporting\n\n*SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing*\n\nWeek 8: How often a test errs, and how to say what was checked\n\nData & AI Foundations Track · 8 weeks + capstone · 1 session · 1 lab · FND-MTH-104","notes":"The last teaching week. Week 6 defined the two errors a test can make; this week measures both by simulation, turns the result into a decision, and sets up the capstone brief.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Error rates, power and honest reporting","kind":"content","session":0,"hash":"4e447749","md":"#### [week8#agenda] Error rates, power and honest reporting\n\n*This week*\n\n- **Session 1 · Type I and II errors, power and reporting**: Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked","notes":"","minutes":null,"lo":[]},{"id":"review-week7","n":3,"title":"Which correction, and what does it promise?","kind":"quiz","session":0,"hash":"49bff6f6","md":"#### [week8#review-week7] Which correction, and what does it promise?\n\n*Review · week 7*\n\n**Question:** A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits?\n\n- A. Benjamini-Hochberg\n- B. No correction, α = 0.05 each\n- C. Holm, which controls the family-wise error rate\n- D. Report only the claim with the smallest p-value","notes":"Answer C.","minutes":null,"lo":["LO6"]},{"id":"s1","n":4,"title":"Type I and II errors, power and reporting","kind":"section","session":1,"hash":"d6e4e406","md":"#### [week8#s1] Type I and II errors, power and reporting\n\n*Session 1*\n\n- Estimate a test's Type I error rate and power by simulation at several sample sizes\n- Judge practical significance by comparing an interval with a threshold that matters\n- Write a result with its scope, limits and a record of how it was checked","notes":"","minutes":null,"lo":["LO2","LO5","LO6"]},{"id":"simulate-errors","n":5,"title":"Simulate the study many times, with and without an effect, and count rejections","kind":"content","session":1,"hash":"3d2c91a0","md":"#### [week8#simulate-errors] Simulate the study many times, with and without an effect, and count rejections\n\n*Block A · measure the errors*\n\n1. **1 · Generate** Data as the study would collect it\n2. **2 · Add** No effect, or the effect that matters\n3. **3 · Test** Exactly as planned\n4. **4 · Count** Rejections: Type I rate, or power","notes":"The same loop as weeks 2 and 7, with the planned test inside it. Power by simulating the full planned analysis, with clustering and attrition, is SPC-STA-201; this is the first look the entry asks for.","minutes":null,"lo":["LO5","LO6"]},{"id":"power-table","n":6,"title":"For a half-standard-deviation effect, 10 per group finds it one time in five","kind":"content","session":1,"hash":"52ba5e76","md":"#### [week8#power-table] For a half-standard-deviation effect, 10 per group finds it one time in five\n\n*Block A · power grows with n*\n\n| n per group | Power of the t test, α = 0.05 |\n| --- | --- |\n| 10 | 0.185 |\n| 30 | 0.478 |\n| 100 | 0.940 |\n\n- Normal data, a difference of 0.5 standard deviations\n- Smaller effects or longer tails need more data\n- The Type I error rate stays at α at every n","notes":"From slide_numbers.py, week 8 (the t-test power formula in statsmodels). The lab measures a permutation test on the skewed baskets by simulation, where no formula is needed.","minutes":null,"lo":["LO5"]},{"id":"check-power","n":7,"title":"What does the null result say?","kind":"quiz","session":1,"hash":"d5eed0ed","md":"#### [week8#check-power] What does the null result say?\n\n*Checkpoint*\n\n**Question:** A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say?\n\n- A. The new menu does not change spending\n- B. The false-finding rate was 82%\n- C. The new menu reduces spending\n- D. The pilot was too small to tell; it would miss that effect about four times in five","notes":"Answer D.","minutes":null,"lo":["LO5"]},{"id":"false-share","n":8,"title":"With few real effects and low power, nearly half the findings are false","kind":"content","session":1,"hash":"ffac859f","md":"#### [week8#false-share] With few real effects and low power, nearly half the findings are false\n\n*Block B · findings*\n\n| 100 ideas tested, 10 real | Expected |\n| --- | --- |\n| False findings: 90 × 0.05 | 4.5 |\n| True findings: 10 × 0.5 power | 5.0 |\n| Share of findings that are false | 47% |\n\n- **Not 5%.** α is the rate among true nulls, not the share of findings that are wrong. That share depends on power and on how many ideas are real.","notes":"From slide_numbers.py, week 8. This is FND-MTH-103's base-rate reasoning applied to findings. A frequent LO2 misreading: \"p \u003c 0.05, so there is a 5% chance this finding is false\".","minutes":null,"lo":["LO2"]},{"id":"practical","n":9,"title":"Compare the interval with the smallest effect that would change the decision","kind":"content","session":1,"hash":"fa9385b5","md":"#### [week8#practical] Compare the interval with the smallest effect that would change the decision\n\n*Block B · practical significance*\n\n- **Worth it.** The whole interval is above the threshold.\n- **Not worth it.** The whole interval is below it, even if p is tiny.\n- **Unclear.** The interval straddles it: more data, or a decision that accepts the risk.","notes":"The threshold comes from the business, before the analysis: the cost of the change divided by what each unit of effect is worth. The lab uses the finance analyst's 1.50 riyals a basket.","minutes":null,"lo":["LO5"]},{"id":"check-practical","n":10,"title":"Decide","kind":"quiz","session":1,"hash":"1aa45115","md":"#### [week8#check-practical] Decide\n\n*Checkpoint*\n\n**Question:** A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p \u003c 0.001. What is the decision?\n\n- A. Adopt it: the saving is highly significant\n- B. Do not adopt it: even the top of the interval is below 3 minutes\n- C. Unclear: run a larger trial\n- D. Adopt it: p below 0.001 means a large saving","notes":"Answer B.","minutes":null,"lo":["LO5"]},{"id":"honest-report","n":11,"title":"Every result travels with its scope, its limits and how it was checked","kind":"content","session":1,"hash":"eaaa45a2","md":"#### [week8#honest-report] Every result travels with its scope, its limits and how it was checked\n\n*Block C · honest reporting*\n\n| Part of the note | What it says |\n| --- | --- |\n| Result | The estimate, its interval, the test, in plain words |\n| Checked by | A hand case, a second method, a rerun with a new seed, a known truth |\n| Limits | Scope, confounding, the number of tests, suppressed groups |\n| Reviewer | A second person reruns it before it is used |","notes":"The four-part note of every lab is the capstone's standard. The reviewer line is segregation of duties: the analyst who ran it does not sign it off alone.","minutes":null,"lo":["LO3","LO6"]},{"id":"ai-assisted","n":12,"title":"In the capstone you may use an AI assistant; record how you checked what it gave you","kind":"content","session":1,"hash":"405d7b27","md":"#### [week8#ai-assisted] In the capstone you may use an AI assistant; record how you checked what it gave you\n\n*Block C · AI-assisted analysis*\n\n- The capstone is AI-full and defended orally: you must be able to rerun every step yourself\n- For each assisted step: what it produced, how you checked it, what was wrong\n- Only public material goes into a generative AI tool: nothing classified above Public\n\n> Checking assisted analysis run to run is taught in SPC-ANL-202.","notes":"The tests and the first attempt at each problem set stay AI-off. In the oral check the assessor asks for a change to one test and watches the participant rerun it and read the result.","minutes":null,"lo":["LO3"]},{"id":"capstone-brief","n":13,"title":"A two-page brief on a public dataset: estimate, interval, test, effect size and limits","kind":"content","session":1,"hash":"e9fabe64","md":"#### [week8#capstone-brief] A two-page brief on a public dataset: estimate, interval, test, effect size and limits\n\n*Block C · the capstone*\n\n- A public dataset whose licence allows reuse, with no personal data\n- One question, written down with its analysis before you look\n- The notebook reruns; intervals agree with a new seed\n\n- **Then a ten-minute oral check.** Three minutes on the brief; seven rerunning one test with a change the assessor specifies, and reading the result.","notes":"The rubric is on the capstone deck and in the README. The dataset clinic (30 minutes) comes first; the datasets bundled with statsmodels and marked public domain are a ready list.","minutes":null,"lo":["LO4","LO5"]},{"id":"check-report","n":14,"title":"What is missing from this note?","kind":"quiz","session":1,"hash":"11711cd4","md":"#### [week8#check-report] What is missing from this note?\n\n*Checkpoint*\n\n**Question:** A note says: \"Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead.\" What is the weakest part?\n\n- A. \"Checked by\": it says who wrote the code, not how the result was verified\n- B. \"Result\": it should give the p-value instead of the interval\n- C. \"Limits\": a limit should never be stated in a report\n- D. \"Reviewer\": the analyst should review their own work","notes":"Answer A.","minutes":null,"lo":["LO3"]},{"id":"lab-8-1","n":15,"title":"Type I error rate and power of a permutation test estimated by simulation at three sample sizes","kind":"lab","session":1,"hash":"d7c0500a","md":"#### [week8#lab-8-1] Type I error rate and power of a permutation test estimated by simulation at three sample sizes\n\nLab 8.1 · 105 min\n\nSimulate a planned trial with and without a 10% uplift to estimate Type I error and power.\n\n[W8_1.ipynb](https://sdaiaacademy.github.io/fnd-mth-104/labs/W8_1.ipynb)\n\n- [ ] Set up; the planned trial and its question (10 min)\n- [ ] Type I and II errors by hand (10 min)\n- [ ] A fast permutation test with fixed shuffles (15 min)\n- [ ] The Type I error rate at 50, 200 and 800 per group (20 min)\n- [ ] Power at the same sizes for a 10% uplift (20 min)\n- [ ] Effect size and practical significance (15 min)\n- [ ] The note, and your capstone plan (15 min)\n- [ ] ✱ Stretch: Welch's t test on the same trials","notes":"AI-tutor: hints only. This lab is the catalog entry's fifth lab line. Watch for: multiplying the control group as well as the treated; drawing new shuffles inside every simulated trial (slow but valid); forgetting to write the capstone plan before seeing any capstone result. Quick mode runs 200 trials per setting: rates move by a few points.","minutes":null,"lo":[]},{"id":"debrief-power","n":16,"title":"A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800","kind":"content","session":1,"hash":"1419b0eb","md":"#### [week8#debrief-power] A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800\n\n*Debrief · lab 8.1*\n\n| n per group | Type I error rate | Power, 10% uplift |\n| --- | --- | --- |\n| 50 | 0.050 | 0.100 |\n| 200 | 0.034 | 0.263 |\n| 800 | 0.035 | 0.658 |\n\n1,000 simulated trials per cell, Monte Carlo error up to about ±0.03. The Type I error rate stayed near α at every size.","notes":"From the solution run of lab 8.1. The uplift is 2.19 riyals, 0.12 standard deviations of a long-tailed outcome: small against the spread. Welch's t test gave similar power (0.098, 0.221, 0.671) in the stretch.","minutes":null,"lo":["LO5","LO6"]},{"id":"debrief-decision","n":17,"title":"One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear","kind":"content","session":1,"hash":"245e73ae","md":"#### [week8#debrief-decision] One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear\n\n*Debrief · lab 8.1*\n\n- p = 0.08: not below 0.05, and the uplift was real in the simulation\n- The interval straddles the 1.50 threshold: unclear, not \"no effect\"\n- At 200 per group, 3 trials in 4 would miss this uplift: plan the size first (SPC-STA-201, SPC-EXP-201)","notes":"From the solution run of lab 8.1. A good place to end the teaching weeks: the data were generated with a true uplift, and an honest report of this one trial still says \"unclear\".","minutes":null,"lo":["LO5"]},{"id":"wrap-up","n":18,"title":"Three things to keep","kind":"content","session":1,"hash":"d04a7e11","md":"#### [week8#wrap-up] Three things to keep\n\n*Week 8 · wrap-up*\n\n- **Simulate the plan.** Count false findings and missed effects before you run the study.\n- **Decide on the interval.** Against the threshold that matters, not on p.\n- **Note every result.** Scope, limits, how it was checked, who reran it.","notes":"Collect the three-line capstone plans from step 7 of the lab. Check each names a licence and fixes the analysis before results.","minutes":null,"lo":[]},{"id":"next","n":19,"title":"The capstone, and the second supervised test","kind":"content","session":1,"hash":"e3c15bd8","md":"#### [week8#next] The capstone, and the second supervised test\n\n*Next*\n\nProblem set 8 (50 minutes, AI off for the first attempt): labs/problem-sets/PS8.ipynb. Then the second test, 90 minutes, AI off, and the capstone brief.","notes":"The second test covers weeks 5 to 8 and holds the LO2 ten-statement sheet and the LO3 one-page critique; its items and keys are in the trainer pack. Capstone: dataset clinic, independent analysis, peer dry run, then the oral checks.","minutes":null,"lo":[]}],"activities":[{"id":"review-week7-q1","slide":"review-week7","type":"single","prompt":"A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits?","options":[{"key":"A","text":"Benjamini-Hochberg"},{"key":"B","text":"No correction, α = 0.05 each"},{"key":"C","text":"Holm, which controls the family-wise error rate"},{"key":"D","text":"Report only the claim with the smallest p-value"}],"correct":[2],"explanation":"Each false claim is costly, so control the chance of any: Holm does, with more power than Bonferroni.","misconceptions":["Controls the share of false claims, not the chance of any","Leaves about a 23% chance of at least one false claim with five true nulls","","One test per claim is still five tests"],"lo":["LO6"]},{"id":"check-power-q1","slide":"check-power","type":"single","prompt":"A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say?","options":[{"key":"A","text":"The new menu does not change spending"},{"key":"B","text":"The false-finding rate was 82%"},{"key":"C","text":"The new menu reduces spending"},{"key":"D","text":"The pilot was too small to tell; it would miss that effect about four times in five"}],"correct":[3],"explanation":"With 18% power a real effect usually goes undetected; report the wide interval, not \"no effect\".","misconceptions":["Reads a weak test's silence as evidence of absence","Confuses power with the Type I error rate","Invents a direction the test did not show",""],"lo":["LO5"]},{"id":"check-practical-q1","slide":"check-practical","type":"single","prompt":"A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p \u003c 0.001. What is the decision?","options":[{"key":"A","text":"Adopt it: the saving is highly significant"},{"key":"B","text":"Do not adopt it: even the top of the interval is below 3 minutes"},{"key":"C","text":"Unclear: run a larger trial"},{"key":"D","text":"Adopt it: p below 0.001 means a large saving"}],"correct":[1],"explanation":"The effect is real and too small to matter: the interval sits below the threshold.","misconceptions":["Confuses statistical with practical significance","","The interval is narrow and wholly below the threshold: nothing is unclear","Thinks a small p-value means a large saving"],"lo":["LO5"]},{"id":"check-report-q1","slide":"check-report","type":"single","prompt":"A note says: \"Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead.\" What is the weakest part?","options":[{"key":"A","text":"\"Checked by\": it says who wrote the code, not how the result was verified"},{"key":"B","text":"\"Result\": it should give the p-value instead of the interval"},{"key":"C","text":"\"Limits\": a limit should never be stated in a report"},{"key":"D","text":"\"Reviewer\": the analyst should review their own work"}],"correct":[0],"explanation":"A check is something run: a hand case, a second method, a rerun. An assistant writing the code is not a check.","misconceptions":["","The result gives size and interval as it should","Naming the scope is exactly what the limits line is for","A second person rerunning it is the point of the reviewer line"],"lo":["LO3"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"week8.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

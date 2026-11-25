@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Sampling variation · Statistics by Simulation: Variation, Estimation and Testing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="week2.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistics by Simulation: Variation, Estimation and Testing" data-track="foundations" data-day="Week 2">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing</div>
+  <h1>Sampling variation</h1>
+  <p class="lead mt">Week 2: The same question, a different sample, a different answer</p>
+  <div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>1 session · 1 lab</span><span>FND-MTH-104</span></div>
+  <aside class="notes"><p>Return problem set 1 scores if the checker results are in. This week turns one sample into many: the whole course rests on the idea that a statistic varies from sample to sample, and that the variation can be measured.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">This week</div>
+  <h2>Sampling variation</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Populations, samples and standard error</b><small>Populations, samples and sampling frames, sampling distributions and the standard error by simulation</small></div></div></div>
+</section>
+
+<section class="slide" id="review-week1" data-lo="LO4" data-n="3">
+  <div class="kicker">Review · week 1</div>
+  <h2>Which change moves the median?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="review-week1-q1">
+    <p class="lead">Eleven parcel weights have a median of 2.4 kg. Which single change can move the median?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks the median tracks the largest value: only the order of the middle values matters" data-k="A">Doubling the heaviest parcel</div>
+      <div class="opt" data-why="Thinks any edit to the tail reaches the middle: the lightest parcel stays below the median" data-k="B">Halving the lightest parcel</div>
+      <div class="opt" data-ok data-k="C">Adding two more parcels, both heavier than 2.4 kg</div>
+      <div class="opt" data-why="Thinks rounding reorders the values: a median of 2.4 kg is already at one decimal and rounding keeps the order" data-k="D">Rounding every weight to one decimal</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Two values above the middle shift which parcel is in the middle: the median moves up or stays, depending on the next value.</div>
+  </div>
+  <aside class="notes"><p>Answer C. Rounding to one decimal cannot move a median already given to one decimal. Use the answer to recall robustness: the median moves only when the middle of the order changes.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Populations, samples and standard error</h1>
+  <ul class="bullets outcomes"><li>Name the population, the sample, the parameter and the statistic of a stated study</li><li>Estimate a standard error by drawing repeated samples and compare it with s/√n</li><li>Explain why a larger sample shrinks the standard error but not the bias of a wrong frame</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="vocabulary" data-lo="LO1" data-n="5" data-session="1">
+  <div class="kicker">Block A · words</div>
+  <h2>A parameter describes the population; a statistic is computed from the sample</h2>
+  <table class="t">
+    <tr><th>Word</th><th>In a quality check of one day's 2,000 croissants, 30 weighed</th></tr>
+    <tr><td><b>Population</b></td><td>All 2,000 croissants of the day</td></tr>
+    <tr><td><b>Sample</b></td><td>The 30 weighed</td></tr>
+    <tr><td><b>Parameter</b></td><td>The mean weight of all 2,000: unknown</td></tr>
+    <tr class="hl"><td><b>Statistic</b></td><td>The mean weight of the 30: known, and different for another 30</td></tr>
+  </table>
+  <aside class="notes"><p>Ask for a population, sample, parameter and statistic from each participant's own work. The quality lead never sees the parameter; she sees one statistic and needs to know how far it can be from the parameter.</p></aside>
+</section>
+
+<section class="slide" id="samples-differ" data-lo="LO1" data-n="6" data-session="1">
+  <div class="kicker">Block A · variation</div>
+  <h2>Every sample gives a different answer, even from the same population</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>A population of three values: 3, 9, 12. All samples of two:</p>
+      <table class="t small">
+        <tr><th>Sample</th><th class="num">Mean</th></tr>
+        <tr><td>3, 9</td><td class="num">6.0</td></tr>
+        <tr><td>3, 12</td><td class="num">7.5</td></tr>
+        <tr><td>9, 12</td><td class="num">10.5</td></tr>
+      </table>
+    </div>
+    <div class="card c-teal"><h4>The sampling distribution</h4><p class="small mb0">The list of every possible value of the statistic, with how often each occurs. Here: 6.0, 7.5 and 10.5, each one time in three. Their standard deviation is 1.87.</p></div>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 2. The mean of the three sample means is 8, the population mean: a sample mean is right on average. The lab does the same by hand with a different population before doing it with 40,000 baskets.</p></aside>
+</section>
+
+<section class="slide" id="simulate-it" data-lo="LO1" data-n="7" data-session="1">
+  <div class="kicker">Block A · simulation</div>
+  <h2>When the population is known, draw thousands of samples and look</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Draw</b>A sample of n from the population</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Compute</b>The statistic</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Repeat</b>Two thousand times</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Look</b>Centre, spread, shape</div>
+  </div>
+  <pre class="code mt" data-file="numpy"><code class="language-python">stats = [np.mean(rng.choice(pop, n, replace=<span class="hljs-literal">False</span>)) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2000</span>)]</code></pre>
+  <aside class="notes"><p>The course works this way all term: when you cannot do the mathematics, simulate the process and count. Seed the generator so a rerun gives the same numbers; FND-MTH-103 covered seeds and Monte Carlo error.</p></aside>
+</section>
+
+<section class="slide" id="check-vocabulary" data-lo="LO1" data-n="8" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which number is a statistic?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="check-vocabulary-q1">
+    <p class="lead">An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">The share of errors among the 80 checked, 7.5%</div>
+      <div class="opt" data-why="Names the population size, a fixed count, not something computed from the sample" data-k="B">The 1,200 invoices of the month</div>
+      <div class="opt" data-why="Names the parameter: the error share of all 1,200 is what the sample estimates" data-k="C">The share of errors among all 1,200 invoices</div>
+      <div class="opt" data-why="Confuses the design choice with a result: the sample size is chosen, not computed" data-k="D">The number of invoices checked, 80</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A statistic is computed from the sample; 6 / 80 = 7.5% would differ for another 80 invoices.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide" id="standard-error" data-lo="LO1" data-n="9" data-session="1">
+  <div class="kicker">Block B · standard error</div>
+  <h2>The standard error is the spread of a statistic from sample to sample</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Not the spread of the values: the spread of the <b>statistic</b></li>
+      <li>It answers: how far does my estimate typically land from the truth?</li>
+      <li>By simulation: the standard deviation of the thousands of statistics</li>
+    </ul>
+    <div class="card c-coral"><h4>Two spreads, two questions</h4><p class="small mb0">Standard deviation of baskets: how different are customers? Standard error of the mean basket: how sure is my estimate?</p></div>
+  </div>
+  <aside class="notes"><p>The most common confusion of the term. Ask a participant to explain the card to a neighbour in their own words.</p></aside>
+</section>
+
+<section class="slide" id="root-n" data-lo="LO1" data-n="10" data-session="1">
+  <div class="kicker">Block B · the formula</div>
+  <h2>For a mean, the standard error falls like one over the square root of n</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>σ = 12</th><th class="num">n</th><th class="num">σ / √n</th></tr>
+      <tr><td></td><td class="num">36</td><td class="num">2.00</td></tr>
+      <tr><td></td><td class="num">144</td><td class="num">1.00</td></tr>
+      <tr class="hl"><td></td><td class="num">576</td><td class="num">0.50</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>Four times the data halves the standard error</li>
+      <li>σ is unknown in practice: s / √n from one sample stands in</li>
+      <li>For a median there is no simple formula: simulate</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 2. Precision is expensive: each halving costs four times the sample. The lab compares the simulated standard error with σ/√n and with s/√n from one sample.</p></aside>
+</section>
+
+<section class="slide" id="clt-recap" data-lo="LO1" data-n="11" data-session="1">
+  <div class="kicker">Block B · recap from FND-MTH-103</div>
+  <h2>Sample means tend to a normal shape as n grows, slowly on a long tail</h2>
+  <ul class="bullets">
+    <li>The central limit theorem: for large n the sampling distribution of a mean is close to normal</li>
+    <li>"Large" depends on the population: the longer its tail, the larger n must be</li>
+    <li>Simulation shows the actual shape at your n; you do not need to assume it</li>
+  </ul>
+  <div class="callout note mt"><b>Pointer.</b> FND-MTH-103 covered the theorem and where the normal approximation fails. Here it is one reason to prefer simulation.</div>
+  <aside class="notes"><p>One slide only: this is FND-MTH-103's topic. The lab measures the skewness of the sampling distribution at n = 10 and n = 400 on the baskets.</p></aside>
+</section>
+
+<section class="slide" id="check-se" data-lo="LO1" data-n="12" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>How many more croissants?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="check-se-q1">
+    <p class="lead">Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes the standard error falls in proportion to n: it falls with the square root" data-k="A">50</div>
+      <div class="opt" data-ok data-k="B">100</div>
+      <div class="opt" data-why="Squares the ratio twice" data-k="C">400</div>
+      <div class="opt" data-why="Thinks the standard error depends only on the spread of weights, not on n" data-k="D">25, but weighed more carefully</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Halving the standard error needs four times the sample: 4 × 25 = 100.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="frame" data-lo="LO1" data-n="13" data-session="1">
+  <div class="kicker">Block C · the frame</div>
+  <h2>The sampling frame decides which population a sample can speak for</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>The <b>frame</b> is the list you can actually draw from: members with contact details, a phone directory, today's visitors</li>
+      <li>A random sample from the frame represents the frame, not those outside it</li>
+      <li>If those outside differ, the estimate is <b>biased</b></li>
+    </ul>
+    <div class="card c-purple"><h4>Example</h4><p class="small mb0">A survey of daytime callers misses everyone who shops after work; their baskets may differ.</p></div>
+  </div>
+  <aside class="notes"><p>Ask the room for the frame of a survey they know and who it misses. The lab measures, against a known truth, how far a members-only frame is from all customers.</p></aside>
+</section>
+
+<section class="slide" id="bias-precision" data-lo="LO1" data-n="14" data-session="1">
+  <div class="kicker">Block C · two errors</div>
+  <h2>Sample size fixes imprecision; it does not fix bias</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Imprecision</h4><p class="small mb0">Estimates scatter around the truth. Shrinks with n, like 1/√n. Measured by the standard error.</p></div>
+    <div class="card c-coral"><h4>Bias</h4><p class="small mb0">Estimates centre on the wrong value. The same at every n. Not shown by the standard error at all.</p></div>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> A huge sample from the wrong frame gives a narrow interval around the wrong number.</div>
+  <aside class="notes"><p>Draw two targets on the board: shots scattered around the centre, and shots tightly grouped away from it. The second is worse and looks better.</p></aside>
+</section>
+
+<section class="slide" id="check-frame" data-lo="LO1" data-n="15" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Precise, but about what?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="check-frame-q1">
+    <p class="lead">A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks 5,000 is too few: the standard error is already small" data-k="A">The sample is too small for a stable mean</div>
+      <div class="opt" data-why="Confuses spread of the data with error of the estimate" data-k="B">Visit counts have a large standard deviation</div>
+      <div class="opt" data-why="Blames rounding, which affects the last digit only" data-k="C">Visits are whole numbers, so the mean is rounded</div>
+      <div class="opt" data-ok data-k="D">The frame leaves out members who enter another way</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The estimate is precise about app users only; if others visit more or less, it is biased whatever the size.</div>
+  </div>
+  <aside class="notes"><p>Answer D. Ask what frame would fix it: every entry, however the member came in.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-2-1" data-auto="lab" data-lab="2.1" data-label="Lab 2.1" data-n="16" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 2.1 · 105 min</div><h2>Repeated sampling from a synthetic population</h2><p class="lead small">Draw thousands of samples from a known quarter of baskets and measure the standard error.</p><a class="nb" href="../labs/W2_1.ipynb">W2_1.ipynb</a></div><ul class="checklist"><li>Set up; the quarter as a known population <span class="min">10 min</span></li><li>Every sample of a tiny population, by hand <span class="min">10 min</span></li><li>Two thousand samples at three sizes <span class="min">20 min</span></li><li>The standard error by simulation against s/√n <span class="min">15 min</span></li><li>The sampling distribution of the median <span class="min">15 min</span></li><li>A frame of loyalty members only <span class="min">15 min</span></li><li>The shape of the sampling distribution at n = 10 <span class="min">10 min</span></li><li>Record how this was checked <span class="min">10 min</span></li><li class="stretch">✱ Stretch: Does sixteen times n quarter the median's standard error too?</li></ul></div>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's first lab line and the main evidence for LO1. Watch for: sampling with replacement (rng.choice defaults to replace=True); ddof=0 against ddof=1 confusion; comparing the standard error with the standard deviation of baskets.</p></aside>
+</section>
+
+<section class="slide" id="debrief-se" data-lo="LO1" data-n="17" data-session="1">
+  <div class="kicker">Debrief · lab 2.1</div>
+  <h2>The simulated standard errors followed σ/√n; one sample's s/√n did not always</h2>
+  <table class="t">
+    <tr><th class="num">n</th><th class="num">Simulated SE</th><th class="num">σ / √n</th><th class="num">One sample's s / √n</th></tr>
+    <tr><td class="num">25</td><td class="num">3.60</td><td class="num">3.55</td><td class="num">2.76</td></tr>
+    <tr><td class="num">100</td><td class="num">1.81</td><td class="num">1.78</td><td class="num">1.31</td></tr>
+    <tr class="hl"><td class="num">400</td><td class="num">0.86</td><td class="num">0.89</td><td class="num">0.87</td></tr>
+  </table>
+  <p class="small mt">Population of 40,000 baskets: mean 21.93, median 17.61, sd 17.77, skewness 6.57.</p>
+  <aside class="notes"><p>From the solution run of lab 2.1. The small samples missed the large baskets, so their s was too small. The median's standard error was 2.80, 1.35 and 0.68 at the three sizes, smaller than the mean's: on a long tail the median is the more precise summary of the centre.</p></aside>
+</section>
+
+<section class="slide" id="debrief-frame" data-lo="LO1" data-n="18" data-session="1">
+  <div class="kicker">Debrief · lab 2.1</div>
+  <h2>The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">+2.66</div><div class="lbl">bias at n = 100</div></div>
+    <div class="stat center"><div class="big">+2.55</div><div class="lbl">bias at n = 1,600</div></div>
+  </div>
+  <div class="callout warn mt">Sixteen times the sample made the estimate more precise about members, and no closer to all customers.</div>
+  <aside class="notes"><p>From the solution run of lab 2.1. Ask: what frame would the customer insight lead need? A random sample of till receipts across branches and hours, not of members.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="19" data-session="1">
+  <div class="kicker">Week 2 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Statistics vary</h4><p class="small mb0">A new sample, a new answer; the sampling distribution shows how much.</p></div>
+    <div class="card c-coral"><h4>SE is that variation</h4><p class="small mb0">The spread of the statistic; for a mean it falls like 1/√n.</p></div>
+    <div class="card c-purple"><h4>Frames decide</h4><p class="small mb0">Size buys precision, never representativeness.</p></div>
+  </div>
+  <aside class="notes"><p>Ask one participant to read their lab note's "limits" line aloud.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="20" data-session="1">
+  <div class="kicker">Next</div>
+  <h2>Week 3: Observational and experimental data</h2>
+  <p class="lead">Problem set 2 (50 minutes, AI off for the first attempt): labs/problem-sets/PS2.ipynb.</p>
+  <aside class="notes"><p>Next week asks a different question: not how much a sample varies, but whether a comparison compares like with like.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"../index.html"},"deck":{"id":"week2","kind":"day","day":2,"label":"Week 2","title":"Sampling variation","prev":"week1.html","next":"week3.html","md":"week2.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Populations, samples and standard error","slide":"s1","outcomes":["Name the population, the sample, the parameter and the statistic of a stated study","Estimate a standard error by drawing repeated samples and compare it with s/√n","Explain why a larger sample shrinks the standard error but not the bias of a wrong frame"],"minutes":210,"lab":{"id":"2.1","title":"Repeated sampling from a synthetic population","minutes":105,"href":"../labs/W2_1.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Sampling variation","kind":"title","session":0,"hash":"7c0b665b","md":"#### [week2#title] Sampling variation\n\n*SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing*\n\nWeek 2: The same question, a different sample, a different answer\n\nData & AI Foundations Track · 8 weeks + capstone · 1 session · 1 lab · FND-MTH-104","notes":"Return problem set 1 scores if the checker results are in. This week turns one sample into many: the whole course rests on the idea that a statistic varies from sample to sample, and that the variation can be measured.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Sampling variation","kind":"content","session":0,"hash":"ad4b6d88","md":"#### [week2#agenda] Sampling variation\n\n*This week*\n\n- **Session 1 · Populations, samples and standard error**: Populations, samples and sampling frames, sampling distributions and the standard error by simulation","notes":"","minutes":null,"lo":[]},{"id":"review-week1","n":3,"title":"Which change moves the median?","kind":"quiz","session":0,"hash":"33fb6d91","md":"#### [week2#review-week1] Which change moves the median?\n\n*Review · week 1*\n\n**Question:** Eleven parcel weights have a median of 2.4 kg. Which single change can move the median?\n\n- A. Doubling the heaviest parcel\n- B. Halving the lightest parcel\n- C. Adding two more parcels, both heavier than 2.4 kg\n- D. Rounding every weight to one decimal","notes":"Answer C. Rounding to one decimal cannot move a median already given to one decimal. Use the answer to recall robustness: the median moves only when the middle of the order changes.","minutes":null,"lo":["LO4"]},{"id":"s1","n":4,"title":"Populations, samples and standard error","kind":"section","session":1,"hash":"03628b3a","md":"#### [week2#s1] Populations, samples and standard error\n\n*Session 1*\n\n- Name the population, the sample, the parameter and the statistic of a stated study\n- Estimate a standard error by drawing repeated samples and compare it with s/√n\n- Explain why a larger sample shrinks the standard error but not the bias of a wrong frame","notes":"","minutes":null,"lo":["LO1"]},{"id":"vocabulary","n":5,"title":"A parameter describes the population; a statistic is computed from the sample","kind":"content","session":1,"hash":"68357654","md":"#### [week2#vocabulary] A parameter describes the population; a statistic is computed from the sample\n\n*Block A · words*\n\n| Word | In a quality check of one day's 2,000 croissants, 30 weighed |\n| --- | --- |\n| **Population** | All 2,000 croissants of the day |\n| **Sample** | The 30 weighed |\n| **Parameter** | The mean weight of all 2,000: unknown |\n| **Statistic** | The mean weight of the 30: known, and different for another 30 |","notes":"Ask for a population, sample, parameter and statistic from each participant's own work. The quality lead never sees the parameter; she sees one statistic and needs to know how far it can be from the parameter.","minutes":null,"lo":["LO1"]},{"id":"samples-differ","n":6,"title":"Every sample gives a different answer, even from the same population","kind":"content","session":1,"hash":"a57b48a3","md":"#### [week2#samples-differ] Every sample gives a different answer, even from the same population\n\n*Block A · variation*\n\nA population of three values: 3, 9, 12. All samples of two:\n\n| Sample | Mean |\n| --- | --- |\n| 3, 9 | 6.0 |\n| 3, 12 | 7.5 |\n| 9, 12 | 10.5 |\n\n- **The sampling distribution.** The list of every possible value of the statistic, with how often each occurs. Here: 6.0, 7.5 and 10.5, each one time in three. Their standard deviation is 1.87.","notes":"From slide_numbers.py, week 2. The mean of the three sample means is 8, the population mean: a sample mean is right on average. The lab does the same by hand with a different population before doing it with 40,000 baskets.","minutes":null,"lo":["LO1"]},{"id":"simulate-it","n":7,"title":"When the population is known, draw thousands of samples and look","kind":"content","session":1,"hash":"39f309ed","md":"#### [week2#simulate-it] When the population is known, draw thousands of samples and look\n\n*Block A · simulation*\n\n1. **1 · Draw** A sample of n from the population\n2. **2 · Compute** The statistic\n3. **3 · Repeat** Two thousand times\n4. **4 · Look** Centre, spread, shape\n\n```python\n# file: numpy\nstats = [np.mean(rng.choice(pop, n, replace=False)) for _ in range(2000)]\n```","notes":"The course works this way all term: when you cannot do the mathematics, simulate the process and count. Seed the generator so a rerun gives the same numbers; FND-MTH-103 covered seeds and Monte Carlo error.","minutes":null,"lo":["LO1"]},{"id":"check-vocabulary","n":8,"title":"Which number is a statistic?","kind":"quiz","session":1,"hash":"cc7fa2e0","md":"#### [week2#check-vocabulary] Which number is a statistic?\n\n*Checkpoint*\n\n**Question:** An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic?\n\n- A. The share of errors among the 80 checked, 7.5%\n- B. The 1,200 invoices of the month\n- C. The share of errors among all 1,200 invoices\n- D. The number of invoices checked, 80","notes":"Answer A.","minutes":null,"lo":["LO1"]},{"id":"standard-error","n":9,"title":"The standard error is the spread of a statistic from sample to sample","kind":"content","session":1,"hash":"a5639235","md":"#### [week2#standard-error] The standard error is the spread of a statistic from sample to sample\n\n*Block B · standard error*\n\n- Not the spread of the values: the spread of the **statistic**\n- It answers: how far does my estimate typically land from the truth?\n- By simulation: the standard deviation of the thousands of statistics\n\n- **Two spreads, two questions.** Standard deviation of baskets: how different are customers? Standard error of the mean basket: how sure is my estimate?","notes":"The most common confusion of the term. Ask a participant to explain the card to a neighbour in their own words.","minutes":null,"lo":["LO1"]},{"id":"root-n","n":10,"title":"For a mean, the standard error falls like one over the square root of n","kind":"content","session":1,"hash":"1e634884","md":"#### [week2#root-n] For a mean, the standard error falls like one over the square root of n\n\n*Block B · the formula*\n\n| σ = 12 | n | σ / √n |\n| --- | --- | --- |\n|  | 36 | 2.00 |\n|  | 144 | 1.00 |\n|  | 576 | 0.50 |\n\n- Four times the data halves the standard error\n- σ is unknown in practice: s / √n from one sample stands in\n- For a median there is no simple formula: simulate","notes":"From slide_numbers.py, week 2. Precision is expensive: each halving costs four times the sample. The lab compares the simulated standard error with σ/√n and with s/√n from one sample.","minutes":null,"lo":["LO1"]},{"id":"clt-recap","n":11,"title":"Sample means tend to a normal shape as n grows, slowly on a long tail","kind":"content","session":1,"hash":"d6fde1f0","md":"#### [week2#clt-recap] Sample means tend to a normal shape as n grows, slowly on a long tail\n\n*Block B · recap from FND-MTH-103*\n\n- The central limit theorem: for large n the sampling distribution of a mean is close to normal\n- \"Large\" depends on the population: the longer its tail, the larger n must be\n- Simulation shows the actual shape at your n; you do not need to assume it\n\n> **Pointer.** FND-MTH-103 covered the theorem and where the normal approximation fails. Here it is one reason to prefer simulation.","notes":"One slide only: this is FND-MTH-103's topic. The lab measures the skewness of the sampling distribution at n = 10 and n = 400 on the baskets.","minutes":null,"lo":["LO1"]},{"id":"check-se","n":12,"title":"How many more croissants?","kind":"quiz","session":1,"hash":"2c481d5b","md":"#### [week2#check-se] How many more croissants?\n\n*Checkpoint*\n\n**Question:** Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh?\n\n- A. 50\n- B. 100\n- C. 400\n- D. 25, but weighed more carefully","notes":"Answer B.","minutes":null,"lo":["LO1"]},{"id":"frame","n":13,"title":"The sampling frame decides which population a sample can speak for","kind":"content","session":1,"hash":"a0166a5e","md":"#### [week2#frame] The sampling frame decides which population a sample can speak for\n\n*Block C · the frame*\n\n- The **frame** is the list you can actually draw from: members with contact details, a phone directory, today's visitors\n- A random sample from the frame represents the frame, not those outside it\n- If those outside differ, the estimate is **biased**\n\n- **Example.** A survey of daytime callers misses everyone who shops after work; their baskets may differ.","notes":"Ask the room for the frame of a survey they know and who it misses. The lab measures, against a known truth, how far a members-only frame is from all customers.","minutes":null,"lo":["LO1"]},{"id":"bias-precision","n":14,"title":"Sample size fixes imprecision; it does not fix bias","kind":"content","session":1,"hash":"0751e769","md":"#### [week2#bias-precision] Sample size fixes imprecision; it does not fix bias\n\n*Block C · two errors*\n\n- **Imprecision.** Estimates scatter around the truth. Shrinks with n, like 1/√n. Measured by the standard error.\n- **Bias.** Estimates centre on the wrong value. The same at every n. Not shown by the standard error at all.\n\n> **What goes wrong.** A huge sample from the wrong frame gives a narrow interval around the wrong number.","notes":"Draw two targets on the board: shots scattered around the centre, and shots tightly grouped away from it. The second is worse and looks better.","minutes":null,"lo":["LO1"]},{"id":"check-frame","n":15,"title":"Precise, but about what?","kind":"quiz","session":1,"hash":"c34a2f5b","md":"#### [week2#check-frame] Precise, but about what?\n\n*Checkpoint*\n\n**Question:** A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness?\n\n- A. The sample is too small for a stable mean\n- B. Visit counts have a large standard deviation\n- C. Visits are whole numbers, so the mean is rounded\n- D. The frame leaves out members who enter another way","notes":"Answer D. Ask what frame would fix it: every entry, however the member came in.","minutes":null,"lo":["LO1"]},{"id":"lab-2-1","n":16,"title":"Repeated sampling from a synthetic population","kind":"lab","session":1,"hash":"a07c0a4f","md":"#### [week2#lab-2-1] Repeated sampling from a synthetic population\n\nLab 2.1 · 105 min\n\nDraw thousands of samples from a known quarter of baskets and measure the standard error.\n\n[W2_1.ipynb](https://sdaiaacademy.github.io/fnd-mth-104/labs/W2_1.ipynb)\n\n- [ ] Set up; the quarter as a known population (10 min)\n- [ ] Every sample of a tiny population, by hand (10 min)\n- [ ] Two thousand samples at three sizes (20 min)\n- [ ] The standard error by simulation against s/√n (15 min)\n- [ ] The sampling distribution of the median (15 min)\n- [ ] A frame of loyalty members only (15 min)\n- [ ] The shape of the sampling distribution at n = 10 (10 min)\n- [ ] Record how this was checked (10 min)\n- [ ] ✱ Stretch: Does sixteen times n quarter the median's standard error too?","notes":"AI-tutor: hints only. This lab is the catalog entry's first lab line and the main evidence for LO1. Watch for: sampling with replacement (rng.choice defaults to replace=True); ddof=0 against ddof=1 confusion; comparing the standard error with the standard deviation of baskets.","minutes":null,"lo":[]},{"id":"debrief-se","n":17,"title":"The simulated standard errors followed σ/√n; one sample's s/√n did not always","kind":"content","session":1,"hash":"792d5cde","md":"#### [week2#debrief-se] The simulated standard errors followed σ/√n; one sample's s/√n did not always\n\n*Debrief · lab 2.1*\n\n| n | Simulated SE | σ / √n | One sample's s / √n |\n| --- | --- | --- | --- |\n| 25 | 3.60 | 3.55 | 2.76 |\n| 100 | 1.81 | 1.78 | 1.31 |\n| 400 | 0.86 | 0.89 | 0.87 |\n\nPopulation of 40,000 baskets: mean 21.93, median 17.61, sd 17.77, skewness 6.57.","notes":"From the solution run of lab 2.1. The small samples missed the large baskets, so their s was too small. The median's standard error was 2.80, 1.35 and 0.68 at the three sizes, smaller than the mean's: on a long tail the median is the more precise summary of the centre.","minutes":null,"lo":["LO1"]},{"id":"debrief-frame","n":18,"title":"The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600","kind":"content","session":1,"hash":"af58cd9b","md":"#### [week2#debrief-frame] The members-only frame was 2.5 riyals too high at 100 baskets and at 1,600\n\n*Debrief · lab 2.1*\n\n- **+2.66** bias at n = 100\n- **+2.55** bias at n = 1,600\n\n> Sixteen times the sample made the estimate more precise about members, and no closer to all customers.","notes":"From the solution run of lab 2.1. Ask: what frame would the customer insight lead need? A random sample of till receipts across branches and hours, not of members.","minutes":null,"lo":["LO1"]},{"id":"wrap-up","n":19,"title":"Three things to keep","kind":"content","session":1,"hash":"81ede67a","md":"#### [week2#wrap-up] Three things to keep\n\n*Week 2 · wrap-up*\n\n- **Statistics vary.** A new sample, a new answer; the sampling distribution shows how much.\n- **SE is that variation.** The spread of the statistic; for a mean it falls like 1/√n.\n- **Frames decide.** Size buys precision, never representativeness.","notes":"Ask one participant to read their lab note's \"limits\" line aloud.","minutes":null,"lo":[]},{"id":"next","n":20,"title":"Week 3: Observational and experimental data","kind":"content","session":1,"hash":"f391bd2d","md":"#### [week2#next] Week 3: Observational and experimental data\n\n*Next*\n\nProblem set 2 (50 minutes, AI off for the first attempt): labs/problem-sets/PS2.ipynb.","notes":"Next week asks a different question: not how much a sample varies, but whether a comparison compares like with like.","minutes":null,"lo":[]}],"activities":[{"id":"review-week1-q1","slide":"review-week1","type":"single","prompt":"Eleven parcel weights have a median of 2.4 kg. Which single change can move the median?","options":[{"key":"A","text":"Doubling the heaviest parcel"},{"key":"B","text":"Halving the lightest parcel"},{"key":"C","text":"Adding two more parcels, both heavier than 2.4 kg"},{"key":"D","text":"Rounding every weight to one decimal"}],"correct":[2],"explanation":"Two values above the middle shift which parcel is in the middle: the median moves up or stays, depending on the next value.","misconceptions":["Thinks the median tracks the largest value: only the order of the middle values matters","Thinks any edit to the tail reaches the middle: the lightest parcel stays below the median","","Thinks rounding reorders the values: a median of 2.4 kg is already at one decimal and rounding keeps the order"],"lo":["LO4"]},{"id":"check-vocabulary-q1","slide":"check-vocabulary","type":"single","prompt":"An auditor checks 80 of a branch's 1,200 invoices for the month and finds 6 with errors. Which of these is a statistic?","options":[{"key":"A","text":"The share of errors among the 80 checked, 7.5%"},{"key":"B","text":"The 1,200 invoices of the month"},{"key":"C","text":"The share of errors among all 1,200 invoices"},{"key":"D","text":"The number of invoices checked, 80"}],"correct":[0],"explanation":"A statistic is computed from the sample; 6 / 80 = 7.5% would differ for another 80 invoices.","misconceptions":["","Names the population size, a fixed count, not something computed from the sample","Names the parameter: the error share of all 1,200 is what the sample estimates","Confuses the design choice with a result: the sample size is chosen, not computed"],"lo":["LO1"]},{"id":"check-se-q1","slide":"check-se","type":"single","prompt":"Weighing 25 croissants gives a standard error of 2 g for the mean weight. The quality lead wants a standard error of 1 g. About how many croissants must she weigh?","options":[{"key":"A","text":"50"},{"key":"B","text":"100"},{"key":"C","text":"400"},{"key":"D","text":"25, but weighed more carefully"}],"correct":[1],"explanation":"Halving the standard error needs four times the sample: 4 × 25 = 100.","misconceptions":["Assumes the standard error falls in proportion to n: it falls with the square root","","Squares the ratio twice","Thinks the standard error depends only on the spread of weights, not on n"],"lo":["LO1"]},{"id":"check-frame-q1","slide":"check-frame","type":"single","prompt":"A gym estimates members' weekly visits from 5,000 check-ins logged by its entrance machine, which records only members who use the app to enter. What is the main weakness?","options":[{"key":"A","text":"The sample is too small for a stable mean"},{"key":"B","text":"Visit counts have a large standard deviation"},{"key":"C","text":"Visits are whole numbers, so the mean is rounded"},{"key":"D","text":"The frame leaves out members who enter another way"}],"correct":[3],"explanation":"The estimate is precise about app users only; if others visit more or less, it is biased whatever the size.","misconceptions":["Thinks 5,000 is too few: the standard error is already small","Confuses spread of the data with error of the estimate","Blames rounding, which affects the last digit only",""],"lo":["LO1"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"week2.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

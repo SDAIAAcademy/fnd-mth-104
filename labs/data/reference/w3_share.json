@@ -1,0 +1,10 @@
+{
+ "share_with_display": {
+  "large": 0.83333,
+  "small": 0.16667
+ },
+ "rate_without_display": {
+  "large": 0.09022,
+  "small": 0.05026
+ }
+}

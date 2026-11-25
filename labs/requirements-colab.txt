@@ -1,0 +1,5 @@
+# The free hosted notebook already has NumPy, SciPy, pandas and statsmodels; this states the versions the labs need
+numpy>=2.1
+scipy>=1.15
+pandas>=2.2
+statsmodels>=0.14

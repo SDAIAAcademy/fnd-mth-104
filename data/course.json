@@ -1,0 +1,790 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-25T08:32:01Z",
+    "version": "2027.1.0",
+    "commit": "0b561fb"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "langs": [
+    "en"
+  ],
+  "alt": {},
+  "course": {
+    "id": "fnd-mth-104",
+    "code": "FND-MTH-104",
+    "version": "2027.1.0",
+    "title": "Statistics by Simulation: Variation, Estimation and Testing",
+    "tagline": "Reason about variation, estimates and tests by simulating them, and report effect sizes with intervals, their limits and how each was checked",
+    "description": "Participants approach inference by simulation before formulas. They draw repeated samples to see variation, build bootstrap intervals for means, medians, differences and slopes, run permutation tests, and report effect sizes with intervals rather than bare p-values. They find multiple-testing and forking-path problems in reported results. Each lab ends with a note on how the result was checked, and the capstone is an analysis brief on a public dataset, defended orally. Power analysis and study design follow in SPC-STA-201 and SPC-EXP-201.",
+    "track": "foundations",
+    "track_name": "Data & AI Foundations Track",
+    "level": 100,
+    "badge": null,
+    "audience": "Beginners. Career changers and non-computing graduates closing bridging gaps before advanced study, and computing graduates refreshing the mathematics behind models; a placement test lets participants skip any course whose content they already command.",
+    "prerequisites": [
+      "FND-MTH-103 Probability for Data and AI",
+      "Probability shown in the placement test is accepted in place of FND-MTH-103",
+      "Computes group summaries with a DataFrame library (FND-DAT-102 or the pre-work notebook)"
+    ],
+    "url": "https://sdaiaacademy.github.io/fnd-mth-104/",
+    "repo": "SDAIAAcademy/fnd-mth-104",
+    "home": "../index.html",
+    "format": "extended",
+    "format_note": "Extended: 8 weeks part-time, one session and one lab a week, weekly graded problem sets and a capstone",
+    "shape": "8 weeks + capstone",
+    "hours": {
+      "instruction": 14,
+      "lab": 14,
+      "guided_self_study": 8,
+      "assessment": 3,
+      "capstone": 6,
+      "total": 45
+    },
+    "unit": "week",
+    "outcomes": [
+      {
+        "id": "LO1",
+        "text": "Distinguish population, sample, parameter, statistic and sampling distribution, and explain what a standard error measures, given repeated samples from a known synthetic population",
+        "level": "Awareness",
+        "evidence": "supervised AI-off test, at least 70% correct"
+      },
+      {
+        "id": "LO2",
+        "text": "Explain what p-values and confidence intervals mean and identify misreadings of them, given ten statements from synthetic reports",
+        "level": "Awareness",
+        "evidence": "each statement classified and corrected, eight of ten correct"
+      },
+      {
+        "id": "LO3",
+        "text": "Identify multiple-testing, forking-path and confounding problems in a reported analysis, given a one-page synthetic summary",
+        "level": "Awareness",
+        "evidence": "a written critique naming each problem and its effect"
+      },
+      {
+        "id": "LO4",
+        "text": "Compute bootstrap intervals for means, medians, group differences and regression slopes, given public data with skewed variables",
+        "level": "Applied",
+        "evidence": "a notebook whose intervals agree on rerun with a new seed"
+      },
+      {
+        "id": "LO5",
+        "text": "Implement permutation tests and report each result as an effect size with an interval, given two public datasets and stated questions",
+        "level": "Applied",
+        "evidence": "notebooks with test code, intervals and a plain-language reading"
+      },
+      {
+        "id": "LO6",
+        "text": "Apply family-wise and false-discovery-rate corrections and measure by simulation how often uncorrected tests produce false findings, given twenty outcomes with no true effect",
+        "level": "Applied",
+        "evidence": "a table of false-finding rates with and without correction"
+      }
+    ],
+    "case_study": {
+      "name": "The bakery chain (fictional)",
+      "summary": "An unnamed chain of 24 neighbourhood bakeries in one city, with branches coded BR01 to BR24 and product lines L01 to L20; the labs speak to its operations manager, quality lead, finance analyst and customer insight lead by role only. Its data (a month of baskets, a known quarter of 40,000 baskets, waste records, a randomised discount trial and a promotion dashboard) is synthetic, written with seed 104; weeks 5 and 6 add two public-domain datasets bundled with statsmodels, read at run time and never copied into the course."
+    },
+    "days": [
+      {
+        "id": "week1",
+        "kind": "day",
+        "n": 1,
+        "number": 1,
+        "label": "Week 1",
+        "title": "Describing data",
+        "subtitle": "A typical value, its spread, and who is missing from the data",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week1.html",
+        "md": "../slides/week1.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week1.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Centre, spread, shape and missing values",
+            "summary": "Centre and spread with the median and interquartile range, distribution shape and outliers, and missing data in summaries",
+            "outcomes": [
+              "Choose between the mean, the median and a trimmed mean for a long-tailed variable and justify the choice",
+              "Compute and read the interquartile range and the fences, and decide whether an extreme value is an error",
+              "Report a summary with the share and the likely direction of missing data"
+            ],
+            "lo": [
+              "LO1",
+              "LO4"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "1.1",
+              "title": "Describing the chain's baskets",
+              "summary": "Describe a month of baskets with robust summaries, settle two extreme baskets, and find who is missing.",
+              "minutes": 105,
+              "href": "../labs/W1_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up and load the month of baskets",
+                  "minutes": 10
+                },
+                {
+                  "text": "Centre: mean, median and trimmed mean",
+                  "minutes": 15
+                },
+                {
+                  "text": "Spread: SD, IQR and the fences",
+                  "minutes": 15
+                },
+                {
+                  "text": "Shape: skewness, bins and the log scale",
+                  "minutes": 15
+                },
+                {
+                  "text": "Two extreme baskets: an error or a real order?",
+                  "minutes": 15
+                },
+                {
+                  "text": "Missing waits: decode and locate them",
+                  "minutes": 20
+                },
+                {
+                  "text": "Branch summaries with the missing share",
+                  "minutes": 10
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "The mean wait under three ways of handling missing waits"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week2",
+        "kind": "day",
+        "n": 2,
+        "number": 2,
+        "label": "Week 2",
+        "title": "Sampling variation",
+        "subtitle": "The same question, a different sample, a different answer",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week2.html",
+        "md": "../slides/week2.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week2.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Populations, samples and standard error",
+            "summary": "Populations, samples and sampling frames, sampling distributions and the standard error by simulation",
+            "outcomes": [
+              "Name the population, the sample, the parameter and the statistic of a stated study",
+              "Estimate a standard error by drawing repeated samples and compare it with s/√n",
+              "Explain why a larger sample shrinks the standard error but not the bias of a wrong frame"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "2.1",
+              "title": "Repeated sampling from a synthetic population",
+              "summary": "Draw thousands of samples from a known quarter of baskets and measure the standard error.",
+              "minutes": 105,
+              "href": "../labs/W2_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; the quarter as a known population",
+                  "minutes": 10
+                },
+                {
+                  "text": "Every sample of a tiny population, by hand",
+                  "minutes": 10
+                },
+                {
+                  "text": "Two thousand samples at three sizes",
+                  "minutes": 20
+                },
+                {
+                  "text": "The standard error by simulation against s/√n",
+                  "minutes": 15
+                },
+                {
+                  "text": "The sampling distribution of the median",
+                  "minutes": 15
+                },
+                {
+                  "text": "A frame of loyalty members only",
+                  "minutes": 15
+                },
+                {
+                  "text": "The shape of the sampling distribution at n = 10",
+                  "minutes": 10
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 10
+                }
+              ],
+              "stretch": "Does sixteen times n quarter the median's standard error too?"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week3",
+        "kind": "day",
+        "n": 3,
+        "number": 3,
+        "label": "Week 3",
+        "title": "Observational and experimental data",
+        "subtitle": "Who chose the treatment decides what a comparison can show",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week3.html",
+        "md": "../slides/week3.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week3.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Confounding and Simpson's paradox",
+            "summary": "Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys",
+            "outcomes": [
+              "Tell observational from experimental data from how the treatment was assigned",
+              "Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels",
+              "Explain what a randomised assignment guarantees and what it does not"
+            ],
+            "lo": [
+              "LO1",
+              "LO3"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "3.1",
+              "title": "Confounding in the waste records, against a randomised trial",
+              "summary": "Explain why the display looks worse overall and better within each size, beside a randomised trial.",
+              "minutes": 105,
+              "href": "../labs/W3_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; observational and experimental data",
+                  "minutes": 10
+                },
+                {
+                  "text": "Simpson's paradox by hand on a small table",
+                  "minutes": 15
+                },
+                {
+                  "text": "Waste rate by display, all branches together",
+                  "minutes": 10
+                },
+                {
+                  "text": "Waste rate by display within each branch size",
+                  "minutes": 15
+                },
+                {
+                  "text": "Who chose the display: the confounder",
+                  "minutes": 10
+                },
+                {
+                  "text": "The randomised trial: balance and the difference",
+                  "minutes": 20
+                },
+                {
+                  "text": "Balance of size and sector in the two studies",
+                  "minutes": 15
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 10
+                }
+              ],
+              "stretch": "Standardise the display comparison to the chain's mix of branch sizes"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week4",
+        "kind": "day",
+        "n": 4,
+        "number": 4,
+        "label": "Week 4",
+        "title": "The bootstrap",
+        "subtitle": "Resample the sample to see how much an estimate could move",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week4.html",
+        "md": "../slides/week4.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week4.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "The bootstrap and its coverage",
+            "summary": "The bootstrap and its assumptions, percentile intervals, and interval coverage checked by simulation",
+            "outcomes": [
+              "Build a percentile bootstrap interval for a mean and a median",
+              "Check an interval method's coverage by simulation against a known truth",
+              "Explain why bootstrap intervals under-cover for small samples from a long-tailed population"
+            ],
+            "lo": [
+              "LO2",
+              "LO4"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "4.1",
+              "title": "Bootstrap intervals with coverage checked against a known truth",
+              "summary": "Build bootstrap intervals and count how often they contain the known mean and median.",
+              "minutes": 105,
+              "href": "../labs/W4_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; one sample and the truth",
+                  "minutes": 10
+                },
+                {
+                  "text": "Every resample of a sample of two, by hand",
+                  "minutes": 10
+                },
+                {
+                  "text": "A percentile bootstrap for any statistic",
+                  "minutes": 20
+                },
+                {
+                  "text": "Intervals for the mean and the median from one sample of 50",
+                  "minutes": 10
+                },
+                {
+                  "text": "Coverage by simulation at n = 10, 30 and 100",
+                  "minutes": 25
+                },
+                {
+                  "text": "Compare with SciPy's bootstrap: percentile and its default method",
+                  "minutes": 15
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 15
+                }
+              ],
+              "stretch": "The coverage of the t interval for the mean at the same sizes"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week5",
+        "kind": "day",
+        "n": 5,
+        "number": 5,
+        "label": "Week 5",
+        "title": "Intervals for differences and slopes",
+        "subtitle": "Resample the way the data were collected",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week5.html",
+        "md": "../slides/week5.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week5.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Differences and slopes",
+            "summary": "Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared",
+            "outcomes": [
+              "Build a bootstrap interval for a difference between two groups by resampling each group",
+              "Build a bootstrap interval for a regression slope by resampling whole rows",
+              "Show that intervals agree on rerun with a new seed, and suppress small groups before reporting"
+            ],
+            "lo": [
+              "LO2",
+              "LO4"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "5.1",
+              "title": "Bootstrap intervals for differences and slopes on public skewed data",
+              "summary": "Intervals for a mean, a median, a difference and a slope on two public datasets, checked on rerun.",
+              "minutes": 105,
+              "href": "../labs/W5_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; the public data and its licence",
+                  "minutes": 10
+                },
+                {
+                  "text": "Suppress small groups before any table",
+                  "minutes": 10
+                },
+                {
+                  "text": "Intervals for the mean and the median of visits",
+                  "minutes": 15
+                },
+                {
+                  "text": "An interval for a difference between plans",
+                  "minutes": 20
+                },
+                {
+                  "text": "A slope by hand, then in code",
+                  "minutes": 10
+                },
+                {
+                  "text": "A bootstrap interval for a slope",
+                  "minutes": 20
+                },
+                {
+                  "text": "Rerun with a new seed and compare every interval",
+                  "minutes": 10
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 10
+                }
+              ],
+              "stretch": "The slope on the log scale, and what it means"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week6",
+        "kind": "day",
+        "n": 6,
+        "number": 6,
+        "label": "Week 6",
+        "title": "Permutation tests",
+        "subtitle": "Shuffle the labels to see what chance alone produces",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week6.html",
+        "md": "../slides/week6.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week6.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Null models, p-values and effect sizes",
+            "summary": "Null models and permutation tests, what p-values do not mean, Type I and Type II errors, and effect size with practical significance",
+            "outcomes": [
+              "State the null model of a comparison and test it by permutation",
+              "Read a p-value correctly and correct common misreadings",
+              "Report a result as an effect size with an interval and a plain-language reading"
+            ],
+            "lo": [
+              "LO2",
+              "LO5"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "6.1",
+              "title": "Permutation tests for a group difference and a correlation on public data",
+              "summary": "Test a group difference and a correlation by permutation, and report effect sizes with intervals.",
+              "minutes": 105,
+              "href": "../labs/W6_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; the two questions and their null models",
+                  "minutes": 10
+                },
+                {
+                  "text": "Every split of a tiny two-group sample, by hand",
+                  "minutes": 15
+                },
+                {
+                  "text": "A permutation test for a difference in means",
+                  "minutes": 20
+                },
+                {
+                  "text": "The effect size with an interval",
+                  "minutes": 15
+                },
+                {
+                  "text": "A permutation test for a correlation",
+                  "minutes": 15
+                },
+                {
+                  "text": "Compare with SciPy's permutation test",
+                  "minutes": 10
+                },
+                {
+                  "text": "A plain-language reading of each result",
+                  "minutes": 10
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 10
+                }
+              ],
+              "stretch": "Q1 for poor health only, and why it is weaker"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week7",
+        "kind": "day",
+        "n": 7,
+        "number": 7,
+        "label": "Week 7",
+        "title": "Many tests and forking paths",
+        "subtitle": "Test enough things and something will look real",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week7.html",
+        "md": "../slides/week7.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week7.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Multiple testing and false discoveries",
+            "summary": "Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses",
+            "outcomes": [
+              "Measure by simulation how often uncorrected tests produce false findings",
+              "Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls",
+              "Spot forking paths in a reported analysis and name the pre-specification that prevents them"
+            ],
+            "lo": [
+              "LO3",
+              "LO6"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "7.1",
+              "title": "Twenty tests on pure noise, with and without correction",
+              "summary": "Test twenty lines with no true effect, then simulate a thousand dashboards with and without correction.",
+              "minutes": 105,
+              "href": "../labs/W7_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; the promotion dashboard",
+                  "minutes": 10
+                },
+                {
+                  "text": "Bonferroni, Holm and Benjamini-Hochberg by hand on five p-values",
+                  "minutes": 15
+                },
+                {
+                  "text": "Twenty permutation tests on the dashboard",
+                  "minutes": 15
+                },
+                {
+                  "text": "The three corrections on the dashboard",
+                  "minutes": 10
+                },
+                {
+                  "text": "A thousand dashboards of pure noise: the table of false-finding rates",
+                  "minutes": 25
+                },
+                {
+                  "text": "Forking paths: one line, eight reasonable analyses",
+                  "minutes": 15
+                },
+                {
+                  "text": "Record how this was checked",
+                  "minutes": 15
+                }
+              ],
+              "stretch": "Give four lines a true effect and compare Bonferroni with Benjamini-Hochberg"
+            }
+          }
+        ]
+      },
+      {
+        "id": "week8",
+        "kind": "day",
+        "n": 8,
+        "number": 8,
+        "label": "Week 8",
+        "title": "Error rates, power and honest reporting",
+        "subtitle": "How often a test errs, and how to say what was checked",
+        "shape": "1 session · 1 lab",
+        "deck": "../slides/week8.html",
+        "md": "../slides/week8.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/week8.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Type I and II errors, power and reporting",
+            "summary": "Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked",
+            "outcomes": [
+              "Estimate a test's Type I error rate and power by simulation at several sample sizes",
+              "Judge practical significance by comparing an interval with a threshold that matters",
+              "Write a result with its scope, limits and a record of how it was checked"
+            ],
+            "lo": [
+              "LO2",
+              "LO5",
+              "LO6"
+            ],
+            "minutes": 210,
+            "lab": {
+              "id": "8.1",
+              "title": "Type I error rate and power of a permutation test estimated by simulation at three sample sizes",
+              "summary": "Simulate a planned trial with and without a 10% uplift to estimate Type I error and power.",
+              "minutes": 105,
+              "href": "../labs/W8_1.ipynb",
+              "steps": [
+                {
+                  "text": "Set up; the planned trial and its question",
+                  "minutes": 10
+                },
+                {
+                  "text": "Type I and II errors by hand",
+                  "minutes": 10
+                },
+                {
+                  "text": "A fast permutation test with fixed shuffles",
+                  "minutes": 15
+                },
+                {
+                  "text": "The Type I error rate at 50, 200 and 800 per group",
+                  "minutes": 20
+                },
+                {
+                  "text": "Power at the same sizes for a 10% uplift",
+                  "minutes": 20
+                },
+                {
+                  "text": "Effect size and practical significance",
+                  "minutes": 15
+                },
+                {
+                  "text": "The note, and your capstone plan",
+                  "minutes": 15
+                }
+              ],
+              "stretch": "Welch's t test on the same trials"
+            }
+          }
+        ]
+      },
+      {
+        "id": "capstone",
+        "kind": "capstone",
+        "n": 9,
+        "number": null,
+        "label": "Capstone",
+        "title": "Capstone oral checks",
+        "subtitle": "Ten minutes each: three to walk through the brief, seven to rerun one test with the assessor's change and read the result",
+        "shape": "",
+        "deck": "../slides/capstone.html",
+        "md": "../slides/capstone.md",
+        "url": "https://sdaiaacademy.github.io/fnd-mth-104/slides/capstone.html",
+        "sessions": []
+      }
+    ],
+    "capstone": {
+      "summary": "A two-page analysis brief on a public dataset with estimate, interval, test, effect size and limits, submitted with its notebook and defended in a ten-minute oral check",
+      "submission": "A link to a public GitHub repository with the two-page brief, the notebook with its outputs, and the dataset's source and licence; then a ten-minute oral check in which the participant walks through the brief and reruns one test with a change the assessor specifies",
+      "talk_minutes": 3,
+      "qa_minutes": 7,
+      "rubric": [
+        {
+          "criterion": "Question, dataset, source and licence, unit and scope stated; groups under 30 rows suppressed",
+          "weight": 15
+        },
+        {
+          "criterion": "Estimate with a bootstrap interval resampled the way the data were collected; the interval agrees on rerun with a new seed",
+          "weight": 25
+        },
+        {
+          "criterion": "Test with its null model stated, a permutation test, the effect size with an interval and a plain-language reading",
+          "weight": 25
+        },
+        {
+          "criterion": "Limits: confounding, multiple comparisons and forking paths named where they apply, and what the analysis cannot show",
+          "weight": 20
+        },
+        {
+          "criterion": "Notebook reruns from top to bottom; a record of how each result, and any AI-assisted step, was checked",
+          "weight": 15
+        }
+      ]
+    },
+    "labs": {
+      "kind": "notebooks",
+      "base": "labs/"
+    },
+    "tools": [
+      {
+        "slot": "Resampling and testing",
+        "examples": [
+          "SciPy stats",
+          "statsmodels",
+          "R with the infer package"
+        ]
+      },
+      {
+        "slot": "DataFrame library",
+        "examples": [
+          "pandas",
+          "Polars"
+        ]
+      },
+      {
+        "slot": "Notebook environment",
+        "examples": [
+          "JupyterLab",
+          "marimo",
+          "a free hosted notebook service"
+        ]
+      },
+      {
+        "slot": "Hint-only tutor",
+        "examples": [
+          "an open-weight model in tutor mode",
+          "an approved assistant with a tutor instruction"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "group": "Data",
+        "items": [
+          {
+            "title": "statsmodels: the RAND Health Insurance Experiment dataset (randhie), public domain",
+            "url": "https://www.statsmodels.org/stable/datasets/generated/randhie.html"
+          },
+          {
+            "title": "statsmodels: the Engel food expenditure dataset (engel), public domain",
+            "url": "https://www.statsmodels.org/stable/datasets/generated/engel.html"
+          }
+        ]
+      },
+      {
+        "group": "Methods and tools",
+        "items": [
+          {
+            "title": "SciPy: scipy.stats.bootstrap (default method BCa)",
+            "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"
+          },
+          {
+            "title": "SciPy: scipy.stats.permutation_test (two-sided p-value: twice the smaller one-sided p-value)",
+            "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html"
+          },
+          {
+            "title": "statsmodels: multipletests (Bonferroni, Holm, Benjamini-Hochberg)",
+            "url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html"
+          },
+          {
+            "title": "Gelman and Loken (2013), The garden of forking paths: why multiple comparisons can be a problem, even when there is no fishing expedition",
+            "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/p_hacking.pdf"
+          },
+          {
+            "title": "American Statistical Association (2016), news release on its Statement on Statistical Significance and P-Values, listing the six principles",
+            "url": "https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf"
+          },
+          {
+            "title": "NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3: Bonferroni's method",
+            "url": "https://www.itl.nist.gov/div898/handbook/prc/section4/prc473.htm"
+          },
+          {
+            "title": "SciPy: scipy.stats.false_discovery_control (the Benjamini-Hochberg procedure, citing Benjamini and Hochberg, 1995)",
+            "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.false_discovery_control.html"
+          }
+        ]
+      }
+    ]
+  }
+}

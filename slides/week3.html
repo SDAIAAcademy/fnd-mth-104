@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3 · Observational and experimental data · Statistics by Simulation: Variation, Estimation and Testing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="week3.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistics by Simulation: Variation, Estimation and Testing" data-track="foundations" data-day="Week 3">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing</div>
+  <h1>Observational and experimental data</h1>
+  <p class="lead mt">Week 3: Who chose the treatment decides what a comparison can show</p>
+  <div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>1 session · 1 lab</span><span>FND-MTH-104</span></div>
+  <aside class="notes"><p>Weeks 1 and 2 asked how much a number varies. This week asks whether a comparison compares like with like. It is the week participants most often say changed how they read reports.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">This week</div>
+  <h2>Observational and experimental data</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Confounding and Simpson's paradox</b><small>Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys</small></div></div></div>
+</section>
+
+<section class="slide" id="review-week2" data-lo="LO1" data-n="3">
+  <div class="kicker">Review · week 2</div>
+  <h2>What shrinks when the sample grows?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="review-week2-q1">
+    <p class="lead">A survey's sample grows from 200 to 800 people drawn from the same frame. What happens to the standard error of the mean and to the bias from the frame?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks more data removes bias: the frame still misses the same people" data-k="A">Both are halved</div>
+      <div class="opt" data-why="Gets the factor wrong: four times n halves the standard error" data-k="B">The standard error falls to a quarter; the bias is unchanged</div>
+      <div class="opt" data-why="Thinks the standard error depends only on the population" data-k="C">Neither changes</div>
+      <div class="opt" data-ok data-k="D">The standard error is halved; the bias is unchanged</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> SE ∝ 1/√n, so four times n halves it; the frame bias does not depend on n.</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Confounding and Simpson's paradox</h1>
+  <ul class="bullets outcomes"><li>Tell observational from experimental data from how the treatment was assigned</li><li>Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels</li><li>Explain what a randomised assignment guarantees and what it does not</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="two-kinds" data-lo="LO1 LO3" data-n="5" data-session="1">
+  <div class="kicker">Block A · two kinds of data</div>
+  <h2>Who chose the treatment decides what a comparison can show</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral"><h4>Observational</h4><p class="small mb0">Someone else decided who got what: managers, customers, history. The groups may differ in many ways besides the treatment.</p></div>
+    <div class="card c-teal"><h4>Experimental</h4><p class="small mb0">A random draw decided. The groups differ in the treatment, and otherwise only by chance.</p></div>
+  </div>
+  <div class="callout note mt"><b>Ask of every comparison:</b> how were the groups formed?</div>
+  <aside class="notes"><p>Most business data is observational: logs, sales, records. That does not make it useless; it makes the question "who chose?" essential.</p></aside>
+</section>
+
+<section class="slide" id="examples-kinds" data-lo="LO3" data-n="6" data-session="1">
+  <div class="kicker">Block A · examples</div>
+  <h2>The same question can be studied either way</h2>
+  <table class="t">
+    <tr><th>Question</th><th>Observational version</th><th>Experimental version</th></tr>
+    <tr><td>Does a loyalty discount raise visits?</td><td>Compare customers who signed up with those who did not</td><td>Offer the discount to a random half</td></tr>
+    <tr><td>Does a new oven cut burnt trays?</td><td>Compare branches that bought one</td><td>Install it in branches drawn at random</td></tr>
+    <tr class="hl"><td>Does training cut errors?</td><td>Compare staff who chose the course</td><td>Enrol a random half first</td></tr>
+  </table>
+  <aside class="notes"><p>For each observational version, ask the room what else differs between the groups: keen customers sign up; busy branches buy ovens; careful staff choose training.</p></aside>
+</section>
+
+<section class="slide" id="check-kind" data-lo="LO3" data-n="7" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Observational or experimental?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="check-kind-q1">
+    <p class="lead">A depot tries a new route plan. Drivers who volunteered used it for a month; their deliveries were 6% faster than other drivers'. What kind of evidence is this, and what is its main weakness?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks a planned change is an experiment: here the drivers chose themselves" data-k="A">Experimental; the month is too short</div>
+      <div class="opt" data-ok data-k="B">Observational; volunteers may be faster drivers anyway</div>
+      <div class="opt" data-why="Raises sample size, which affects precision, not who chose" data-k="C">Observational; too few deliveries were timed</div>
+      <div class="opt" data-why="Thinks comparing two groups at the same time makes it experimental" data-k="D">Experimental; the groups worked in the same month</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The drivers chose the plan, so anything that made them volunteer can also make them faster.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="confounder" data-lo="LO3" data-n="8" data-session="1">
+  <div class="kicker">Block B · confounding</div>
+  <h2>A confounder drives both who gets the treatment and the outcome</h2>
+  <div class="flow">
+    <div class="step c-purple"><b>Confounder</b>Branch size</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>Treatment</b>Who gets the new equipment</div>
+  </div>
+  <div class="flow mt">
+    <div class="step c-purple"><b>Confounder</b>Branch size</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Outcome</b>The waste rate</div>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> The comparison of treated and untreated mixes the treatment's effect with the confounder's.</div>
+  <aside class="notes"><p>Sketch the triangle on the board: confounder at the top, treatment and outcome at the bottom, the arrow we want between them. The lab's case has exactly this shape; do not reveal its direction before the lab.</p></aside>
+</section>
+
+<section class="slide" id="simpson-lines" data-lo="LO3" data-n="9" data-session="1">
+  <div class="kicker">Block B · Simpson's paradox</div>
+  <h2>Line P damages fewer items in each product and more overall</h2>
+  <table class="t">
+    <tr><th>Damaged / packed</th><th class="num">Rolls</th><th class="num">Cakes</th><th class="num">Overall</th></tr>
+    <tr><td>Line P</td><td class="num">6 / 200 = 3%</td><td class="num">40 / 400 = 10%</td><td class="num">46 / 600 = 7.7%</td></tr>
+    <tr class="hl"><td>Line Q</td><td class="num">20 / 500 = 4%</td><td class="num">13 / 100 = 13%</td><td class="num">33 / 600 = 5.5%</td></tr>
+  </table>
+  <p class="small mt">P packs mostly cakes, which are damaged more on any line.</p>
+  <aside class="notes"><p>From slide_numbers.py, week 3. Let the room find the reason before showing the line under the table. Which line is better? P, within each product. The overall rate compares mixes, not lines.</p></aside>
+</section>
+
+<section class="slide" id="compare-within" data-lo="LO3" data-n="10" data-session="1">
+  <div class="kicker">Block B · what helps</div>
+  <h2>Compare within levels of the confounder, then combine with the same weights</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li><b>Stratify:</b> compare within rolls and within cakes</li>
+      <li><b>Standardise:</b> apply each line's rates to the same mix of products</li>
+      <li>Both need the confounder to be <b>known and recorded</b></li>
+    </ul>
+    <div class="card c-coral"><h4>The limit</h4><p class="small mb0">An unrecorded confounder cannot be adjusted for. Only a random assignment protects against those.</p></div>
+  </div>
+  <aside class="notes"><p>Standardising the packing lines to a 50/50 mix: P (3% + 10%) / 2 = 6.5%, Q (4% + 13%) / 2 = 8.5%. The lab's stretch standardises the display comparison to the chain's mix of branch sizes.</p></aside>
+</section>
+
+<section class="slide" id="check-simpson" data-lo="LO3" data-n="11" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which hospital would you choose?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="check-simpson-q1">
+    <p class="lead">Hospital H has a higher overall death rate than hospital K, but a lower rate both for routine and for emergency admissions. H takes most of the region's emergencies. Which hospital has the better record for a given kind of admission?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads the overall rate as like-for-like: it compares different mixes of patients" data-k="A">K, because its overall rate is lower</div>
+      <div class="opt" data-why="Thinks a reversal means the data are wrong: it means the mix differs" data-k="B">Neither: the figures contradict each other</div>
+      <div class="opt" data-ok data-k="C">H, because it does better within each kind of admission</div>
+      <div class="opt" data-why="Thinks equal sizes are needed to compare rates at all" data-k="D">Neither until both treat the same number of patients</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Admission type confounds the overall rate; within each type H does better.</div>
+  </div>
+  <aside class="notes"><p>Answer C. Remind the room that "better record" is still not proof of better care: other unrecorded differences could remain.</p></aside>
+</section>
+
+<section class="slide" id="randomisation" data-lo="LO1 LO3" data-n="12" data-session="1">
+  <div class="kicker">Block C · randomisation</div>
+  <h2>A random assignment makes every difference between groups a matter of chance</h2>
+  <ul class="bullets">
+    <li>Recorded or not, every characteristic is shared out by the same draw</li>
+    <li>The groups are <b>not identical</b>: by chance one may hold more large branches</li>
+    <li>So the difference in outcomes still varies: is it larger than chance alone would give? Week 6 answers that with a permutation test</li>
+  </ul>
+  <div class="callout tip mt"><b>Check balance:</b> count the obvious characteristics in each arm, and report any imbalance rather than "fixing" it afterwards.</div>
+  <aside class="notes"><p>A common error: rerunning the draw until the groups look balanced and not saying so. Planned stratified or blocked assignment is the honest way to force balance; it is in SPC-EXP-201.</p></aside>
+</section>
+
+<section class="slide" id="limits-experiment" data-lo="LO3" data-n="13" data-session="1">
+  <div class="kicker">Block C · limits</div>
+  <h2>An experiment answers one question about the units it was run on</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Scope</h4><p class="small mb0">24 branches in one city in one season: say so.</p></div>
+    <div class="card c-coral"><h4>Compliance</h4><p class="small mb0">A branch assigned the discount may not apply it every evening.</p></div>
+    <div class="card c-purple"><h4>Size</h4><p class="small mb0">Few units mean a lot of chance variation in the difference.</p></div>
+  </div>
+  <aside class="notes"><p>These three go into the limits line of the lab note. Non-compliance and intention-to-treat analysis are taught in SPC-EXP-201.</p></aside>
+</section>
+
+<section class="slide" id="check-random" data-lo="LO3" data-n="14" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does randomisation buy?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="check-random-q1">
+    <p class="lead">Twenty schools are assigned a reading programme at random, ten each way. The programme schools happen to have slightly more pupils on average. What is the right reading?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">A chance imbalance: report it; the comparison is still fair on average</div>
+      <div class="opt" data-why="Thinks any imbalance proves the draw was faulty" data-k="B">The randomisation failed and must be redone</div>
+      <div class="opt" data-why="Thinks randomisation removes all variation, so any difference is the programme" data-k="C">Any difference in reading scores is caused by the programme</div>
+      <div class="opt" data-why="Treats the experiment as observational" data-k="D">The study is now observational</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Random assignment guarantees only that imbalances are due to chance; report them and test the outcome against chance.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-1" data-auto="lab" data-lab="3.1" data-label="Lab 3.1" data-n="15" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.1 · 105 min</div><h2>Confounding in the waste records, against a randomised trial</h2><p class="lead small">Explain why the display looks worse overall and better within each size, beside a randomised trial.</p><a class="nb" href="../labs/W3_1.ipynb">W3_1.ipynb</a></div><ul class="checklist"><li>Set up; observational and experimental data <span class="min">10 min</span></li><li>Simpson's paradox by hand on a small table <span class="min">15 min</span></li><li>Waste rate by display, all branches together <span class="min">10 min</span></li><li>Waste rate by display within each branch size <span class="min">15 min</span></li><li>Who chose the display: the confounder <span class="min">10 min</span></li><li>The randomised trial: balance and the difference <span class="min">20 min</span></li><li>Balance of size and sector in the two studies <span class="min">15 min</span></li><li>Record how this was checked <span class="min">10 min</span></li><li class="stretch">✱ Stretch: Standardise the display comparison to the chain's mix of branch sizes</li></ul></div>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is an addition to the entry's lab lines. Watch for: averaging branch-month rates instead of summing wasted and baked units; counting rows instead of branches in the balance table.</p></aside>
+</section>
+
+<section class="slide" id="debrief-display" data-lo="LO3" data-n="16" data-session="1">
+  <div class="kicker">Debrief · lab 3.1</div>
+  <h2>The display looked 1.06 points worse overall and was better within each size</h2>
+  <table class="t">
+    <tr><th>Waste rate</th><th class="num">No display</th><th class="num">Display</th><th class="num">Difference</th></tr>
+    <tr><td>Large branches</td><td class="num">9.0%</td><td class="num">7.6%</td><td class="num">−1.41</td></tr>
+    <tr><td>Small branches</td><td class="num">5.0%</td><td class="num">3.8%</td><td class="num">−1.22</td></tr>
+    <tr class="hl"><td>All branches</td><td class="num">6.2%</td><td class="num">7.3%</td><td class="num">+1.06</td></tr>
+  </table>
+  <p class="small mt">Managers put the display in 10 of 12 large branches and 2 of 12 small ones.</p>
+  <aside class="notes"><p>From the solution run of lab 3.1. Standardised to the chain's mix of sizes the display is 1.35 points better (stretch). Still observational: other choices by managers may confound it.</p></aside>
+</section>
+
+<section class="slide" id="debrief-trial" data-lo="LO3" data-n="17" data-session="1">
+  <div class="kicker">Debrief · lab 3.1</div>
+  <h2>The randomised discount cut waste by 0.87 points against control</h2>
+  <ul class="bullets">
+    <li>Each arm had 6 large branches of 12: balanced on size, this time, by chance</li>
+    <li>Sectors were not balanced: one sector had 5 control branches and no discount branch</li>
+    <li>With 24 branches, is −0.87 more than chance? The permutation test of week 6 answers that kind of question</li>
+  </ul>
+  <aside class="notes"><p>From the solution run of lab 3.1. The sector imbalance is a good example of the review slide's point: report it, do not redraw.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="18" data-session="1">
+  <div class="kicker">Week 3 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Ask who chose</h4><p class="small mb0">Observational groups can differ in everything.</p></div>
+    <div class="card c-coral"><h4>Compare within</h4><p class="small mb0">A recorded confounder can reverse an overall comparison.</p></div>
+    <div class="card c-purple"><h4>Randomise when you can</h4><p class="small mb0">It handles the confounders nobody recorded.</p></div>
+  </div>
+  <aside class="notes"><p>The LO3 critique in the second test asks for exactly this: name the problem and its effect on the conclusion.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="19" data-session="1">
+  <div class="kicker">Next</div>
+  <h2>Week 4: The bootstrap</h2>
+  <p class="lead">Problem set 3 (50 minutes, AI off for the first attempt): labs/problem-sets/PS3.ipynb. The first supervised test follows week 4.</p>
+  <aside class="notes"><p>Tell participants what the first test covers: weeks 1 to 4, on paper and at the keyboard, AI off. Its items are in the trainer pack.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"../index.html"},"deck":{"id":"week3","kind":"day","day":3,"label":"Week 3","title":"Observational and experimental data","prev":"week2.html","next":"week4.html","md":"week3.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Confounding and Simpson's paradox","slide":"s1","outcomes":["Tell observational from experimental data from how the treatment was assigned","Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels","Explain what a randomised assignment guarantees and what it does not"],"minutes":210,"lab":{"id":"3.1","title":"Confounding in the waste records, against a randomised trial","minutes":105,"href":"../labs/W3_1.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Observational and experimental data","kind":"title","session":0,"hash":"9160e9fa","md":"#### [week3#title] Observational and experimental data\n\n*SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing*\n\nWeek 3: Who chose the treatment decides what a comparison can show\n\nData & AI Foundations Track · 8 weeks + capstone · 1 session · 1 lab · FND-MTH-104","notes":"Weeks 1 and 2 asked how much a number varies. This week asks whether a comparison compares like with like. It is the week participants most often say changed how they read reports.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Observational and experimental data","kind":"content","session":0,"hash":"2fb89bb4","md":"#### [week3#agenda] Observational and experimental data\n\n*This week*\n\n- **Session 1 · Confounding and Simpson's paradox**: Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys","notes":"","minutes":null,"lo":[]},{"id":"review-week2","n":3,"title":"What shrinks when the sample grows?","kind":"quiz","session":0,"hash":"3096b7bc","md":"#### [week3#review-week2] What shrinks when the sample grows?\n\n*Review · week 2*\n\n**Question:** A survey's sample grows from 200 to 800 people drawn from the same frame. What happens to the standard error of the mean and to the bias from the frame?\n\n- A. Both are halved\n- B. The standard error falls to a quarter; the bias is unchanged\n- C. Neither changes\n- D. The standard error is halved; the bias is unchanged","notes":"Answer D.","minutes":null,"lo":["LO1"]},{"id":"s1","n":4,"title":"Confounding and Simpson's paradox","kind":"section","session":1,"hash":"74466362","md":"#### [week3#s1] Confounding and Simpson's paradox\n\n*Session 1*\n\n- Tell observational from experimental data from how the treatment was assigned\n- Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels\n- Explain what a randomised assignment guarantees and what it does not","notes":"","minutes":null,"lo":["LO1","LO3"]},{"id":"two-kinds","n":5,"title":"Who chose the treatment decides what a comparison can show","kind":"content","session":1,"hash":"7ae817a9","md":"#### [week3#two-kinds] Who chose the treatment decides what a comparison can show\n\n*Block A · two kinds of data*\n\n- **Observational.** Someone else decided who got what: managers, customers, history. The groups may differ in many ways besides the treatment.\n- **Experimental.** A random draw decided. The groups differ in the treatment, and otherwise only by chance.\n\n> **Ask of every comparison:** how were the groups formed?","notes":"Most business data is observational: logs, sales, records. That does not make it useless; it makes the question \"who chose?\" essential.","minutes":null,"lo":["LO1","LO3"]},{"id":"examples-kinds","n":6,"title":"The same question can be studied either way","kind":"content","session":1,"hash":"fe2fe91e","md":"#### [week3#examples-kinds] The same question can be studied either way\n\n*Block A · examples*\n\n| Question | Observational version | Experimental version |\n| --- | --- | --- |\n| Does a loyalty discount raise visits? | Compare customers who signed up with those who did not | Offer the discount to a random half |\n| Does a new oven cut burnt trays? | Compare branches that bought one | Install it in branches drawn at random |\n| Does training cut errors? | Compare staff who chose the course | Enrol a random half first |","notes":"For each observational version, ask the room what else differs between the groups: keen customers sign up; busy branches buy ovens; careful staff choose training.","minutes":null,"lo":["LO3"]},{"id":"check-kind","n":7,"title":"Observational or experimental?","kind":"quiz","session":1,"hash":"0f617c80","md":"#### [week3#check-kind] Observational or experimental?\n\n*Checkpoint*\n\n**Question:** A depot tries a new route plan. Drivers who volunteered used it for a month; their deliveries were 6% faster than other drivers'. What kind of evidence is this, and what is its main weakness?\n\n- A. Experimental; the month is too short\n- B. Observational; volunteers may be faster drivers anyway\n- C. Observational; too few deliveries were timed\n- D. Experimental; the groups worked in the same month","notes":"Answer B.","minutes":null,"lo":["LO3"]},{"id":"confounder","n":8,"title":"A confounder drives both who gets the treatment and the outcome","kind":"content","session":1,"hash":"50635dd8","md":"#### [week3#confounder] A confounder drives both who gets the treatment and the outcome\n\n*Block B · confounding*\n\n**Confounder** Branch size → **Treatment** Who gets the new equipment\n\n**Confounder** Branch size → **Outcome** The waste rate\n\n> **What goes wrong.** The comparison of treated and untreated mixes the treatment's effect with the confounder's.","notes":"Sketch the triangle on the board: confounder at the top, treatment and outcome at the bottom, the arrow we want between them. The lab's case has exactly this shape; do not reveal its direction before the lab.","minutes":null,"lo":["LO3"]},{"id":"simpson-lines","n":9,"title":"Line P damages fewer items in each product and more overall","kind":"content","session":1,"hash":"b98acbf6","md":"#### [week3#simpson-lines] Line P damages fewer items in each product and more overall\n\n*Block B · Simpson's paradox*\n\n| Damaged / packed | Rolls | Cakes | Overall |\n| --- | --- | --- | --- |\n| Line P | 6 / 200 = 3% | 40 / 400 = 10% | 46 / 600 = 7.7% |\n| Line Q | 20 / 500 = 4% | 13 / 100 = 13% | 33 / 600 = 5.5% |\n\nP packs mostly cakes, which are damaged more on any line.","notes":"From slide_numbers.py, week 3. Let the room find the reason before showing the line under the table. Which line is better? P, within each product. The overall rate compares mixes, not lines.","minutes":null,"lo":["LO3"]},{"id":"compare-within","n":10,"title":"Compare within levels of the confounder, then combine with the same weights","kind":"content","session":1,"hash":"44145731","md":"#### [week3#compare-within] Compare within levels of the confounder, then combine with the same weights\n\n*Block B · what helps*\n\n- **Stratify:** compare within rolls and within cakes\n- **Standardise:** apply each line's rates to the same mix of products\n- Both need the confounder to be **known and recorded**\n\n- **The limit.** An unrecorded confounder cannot be adjusted for. Only a random assignment protects against those.","notes":"Standardising the packing lines to a 50/50 mix: P (3% + 10%) / 2 = 6.5%, Q (4% + 13%) / 2 = 8.5%. The lab's stretch standardises the display comparison to the chain's mix of branch sizes.","minutes":null,"lo":["LO3"]},{"id":"check-simpson","n":11,"title":"Which hospital would you choose?","kind":"quiz","session":1,"hash":"b9317957","md":"#### [week3#check-simpson] Which hospital would you choose?\n\n*Checkpoint*\n\n**Question:** Hospital H has a higher overall death rate than hospital K, but a lower rate both for routine and for emergency admissions. H takes most of the region's emergencies. Which hospital has the better record for a given kind of admission?\n\n- A. K, because its overall rate is lower\n- B. Neither: the figures contradict each other\n- C. H, because it does better within each kind of admission\n- D. Neither until both treat the same number of patients","notes":"Answer C. Remind the room that \"better record\" is still not proof of better care: other unrecorded differences could remain.","minutes":null,"lo":["LO3"]},{"id":"randomisation","n":12,"title":"A random assignment makes every difference between groups a matter of chance","kind":"content","session":1,"hash":"91867486","md":"#### [week3#randomisation] A random assignment makes every difference between groups a matter of chance\n\n*Block C · randomisation*\n\n- Recorded or not, every characteristic is shared out by the same draw\n- The groups are **not identical**: by chance one may hold more large branches\n- So the difference in outcomes still varies: is it larger than chance alone would give? Week 6 answers that with a permutation test\n\n> **Check balance:** count the obvious characteristics in each arm, and report any imbalance rather than \"fixing\" it afterwards.","notes":"A common error: rerunning the draw until the groups look balanced and not saying so. Planned stratified or blocked assignment is the honest way to force balance; it is in SPC-EXP-201.","minutes":null,"lo":["LO1","LO3"]},{"id":"limits-experiment","n":13,"title":"An experiment answers one question about the units it was run on","kind":"content","session":1,"hash":"b6f749d1","md":"#### [week3#limits-experiment] An experiment answers one question about the units it was run on\n\n*Block C · limits*\n\n- **Scope.** 24 branches in one city in one season: say so.\n- **Compliance.** A branch assigned the discount may not apply it every evening.\n- **Size.** Few units mean a lot of chance variation in the difference.","notes":"These three go into the limits line of the lab note. Non-compliance and intention-to-treat analysis are taught in SPC-EXP-201.","minutes":null,"lo":["LO3"]},{"id":"check-random","n":14,"title":"What does randomisation buy?","kind":"quiz","session":1,"hash":"26e409cc","md":"#### [week3#check-random] What does randomisation buy?\n\n*Checkpoint*\n\n**Question:** Twenty schools are assigned a reading programme at random, ten each way. The programme schools happen to have slightly more pupils on average. What is the right reading?\n\n- A. A chance imbalance: report it; the comparison is still fair on average\n- B. The randomisation failed and must be redone\n- C. Any difference in reading scores is caused by the programme\n- D. The study is now observational","notes":"Answer A.","minutes":null,"lo":["LO3"]},{"id":"lab-3-1","n":15,"title":"Confounding in the waste records, against a randomised trial","kind":"lab","session":1,"hash":"12dd387c","md":"#### [week3#lab-3-1] Confounding in the waste records, against a randomised trial\n\nLab 3.1 · 105 min\n\nExplain why the display looks worse overall and better within each size, beside a randomised trial.\n\n[W3_1.ipynb](https://sdaiaacademy.github.io/fnd-mth-104/labs/W3_1.ipynb)\n\n- [ ] Set up; observational and experimental data (10 min)\n- [ ] Simpson's paradox by hand on a small table (15 min)\n- [ ] Waste rate by display, all branches together (10 min)\n- [ ] Waste rate by display within each branch size (15 min)\n- [ ] Who chose the display: the confounder (10 min)\n- [ ] The randomised trial: balance and the difference (20 min)\n- [ ] Balance of size and sector in the two studies (15 min)\n- [ ] Record how this was checked (10 min)\n- [ ] ✱ Stretch: Standardise the display comparison to the chain's mix of branch sizes","notes":"AI-tutor: hints only. This lab is an addition to the entry's lab lines. Watch for: averaging branch-month rates instead of summing wasted and baked units; counting rows instead of branches in the balance table.","minutes":null,"lo":[]},{"id":"debrief-display","n":16,"title":"The display looked 1.06 points worse overall and was better within each size","kind":"content","session":1,"hash":"3c333ecf","md":"#### [week3#debrief-display] The display looked 1.06 points worse overall and was better within each size\n\n*Debrief · lab 3.1*\n\n| Waste rate | No display | Display | Difference |\n| --- | --- | --- | --- |\n| Large branches | 9.0% | 7.6% | −1.41 |\n| Small branches | 5.0% | 3.8% | −1.22 |\n| All branches | 6.2% | 7.3% | +1.06 |\n\nManagers put the display in 10 of 12 large branches and 2 of 12 small ones.","notes":"From the solution run of lab 3.1. Standardised to the chain's mix of sizes the display is 1.35 points better (stretch). Still observational: other choices by managers may confound it.","minutes":null,"lo":["LO3"]},{"id":"debrief-trial","n":17,"title":"The randomised discount cut waste by 0.87 points against control","kind":"content","session":1,"hash":"ab53251e","md":"#### [week3#debrief-trial] The randomised discount cut waste by 0.87 points against control\n\n*Debrief · lab 3.1*\n\n- Each arm had 6 large branches of 12: balanced on size, this time, by chance\n- Sectors were not balanced: one sector had 5 control branches and no discount branch\n- With 24 branches, is −0.87 more than chance? The permutation test of week 6 answers that kind of question","notes":"From the solution run of lab 3.1. The sector imbalance is a good example of the review slide's point: report it, do not redraw.","minutes":null,"lo":["LO3"]},{"id":"wrap-up","n":18,"title":"Three things to keep","kind":"content","session":1,"hash":"4b44188a","md":"#### [week3#wrap-up] Three things to keep\n\n*Week 3 · wrap-up*\n\n- **Ask who chose.** Observational groups can differ in everything.\n- **Compare within.** A recorded confounder can reverse an overall comparison.\n- **Randomise when you can.** It handles the confounders nobody recorded.","notes":"The LO3 critique in the second test asks for exactly this: name the problem and its effect on the conclusion.","minutes":null,"lo":[]},{"id":"next","n":19,"title":"Week 4: The bootstrap","kind":"content","session":1,"hash":"217dc65c","md":"#### [week3#next] Week 4: The bootstrap\n\n*Next*\n\nProblem set 3 (50 minutes, AI off for the first attempt): labs/problem-sets/PS3.ipynb. The first supervised test follows week 4.","notes":"Tell participants what the first test covers: weeks 1 to 4, on paper and at the keyboard, AI off. Its items are in the trainer pack.","minutes":null,"lo":[]}],"activities":[{"id":"review-week2-q1","slide":"review-week2","type":"single","prompt":"A survey's sample grows from 200 to 800 people drawn from the same frame. What happens to the standard error of the mean and to the bias from the frame?","options":[{"key":"A","text":"Both are halved"},{"key":"B","text":"The standard error falls to a quarter; the bias is unchanged"},{"key":"C","text":"Neither changes"},{"key":"D","text":"The standard error is halved; the bias is unchanged"}],"correct":[3],"explanation":"SE ∝ 1/√n, so four times n halves it; the frame bias does not depend on n.","misconceptions":["Thinks more data removes bias: the frame still misses the same people","Gets the factor wrong: four times n halves the standard error","Thinks the standard error depends only on the population",""],"lo":["LO1"]},{"id":"check-kind-q1","slide":"check-kind","type":"single","prompt":"A depot tries a new route plan. Drivers who volunteered used it for a month; their deliveries were 6% faster than other drivers'. What kind of evidence is this, and what is its main weakness?","options":[{"key":"A","text":"Experimental; the month is too short"},{"key":"B","text":"Observational; volunteers may be faster drivers anyway"},{"key":"C","text":"Observational; too few deliveries were timed"},{"key":"D","text":"Experimental; the groups worked in the same month"}],"correct":[1],"explanation":"The drivers chose the plan, so anything that made them volunteer can also make them faster.","misconceptions":["Thinks a planned change is an experiment: here the drivers chose themselves","","Raises sample size, which affects precision, not who chose","Thinks comparing two groups at the same time makes it experimental"],"lo":["LO3"]},{"id":"check-simpson-q1","slide":"check-simpson","type":"single","prompt":"Hospital H has a higher overall death rate than hospital K, but a lower rate both for routine and for emergency admissions. H takes most of the region's emergencies. Which hospital has the better record for a given kind of admission?","options":[{"key":"A","text":"K, because its overall rate is lower"},{"key":"B","text":"Neither: the figures contradict each other"},{"key":"C","text":"H, because it does better within each kind of admission"},{"key":"D","text":"Neither until both treat the same number of patients"}],"correct":[2],"explanation":"Admission type confounds the overall rate; within each type H does better.","misconceptions":["Reads the overall rate as like-for-like: it compares different mixes of patients","Thinks a reversal means the data are wrong: it means the mix differs","","Thinks equal sizes are needed to compare rates at all"],"lo":["LO3"]},{"id":"check-random-q1","slide":"check-random","type":"single","prompt":"Twenty schools are assigned a reading programme at random, ten each way. The programme schools happen to have slightly more pupils on average. What is the right reading?","options":[{"key":"A","text":"A chance imbalance: report it; the comparison is still fair on average"},{"key":"B","text":"The randomisation failed and must be redone"},{"key":"C","text":"Any difference in reading scores is caused by the programme"},{"key":"D","text":"The study is now observational"}],"correct":[0],"explanation":"Random assignment guarantees only that imbalances are due to chance; report them and test the outcome against chance.","misconceptions":["","Thinks any imbalance proves the draw was faulty","Thinks randomisation removes all variation, so any difference is the programme","Treats the experiment as observational"],"lo":["LO3"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"week3.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

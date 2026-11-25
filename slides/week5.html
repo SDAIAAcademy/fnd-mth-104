@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="foundations">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 5 · Intervals for differences and slopes · Statistics by Simulation: Variation, Estimation and Testing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="week5.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistics by Simulation: Variation, Estimation and Testing" data-track="foundations" data-day="Week 5">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing</div>
+  <h1>Intervals for differences and slopes</h1>
+  <p class="lead mt">Week 5: Resample the way the data were collected</p>
+  <div class="meta"><span class="track">Data &amp; AI Foundations Track</span><span>8 weeks + capstone</span><span>1 session · 1 lab</span><span>FND-MTH-104</span></div>
+  <aside class="notes"><p>Return the first test if marked; take its two most common errors into block A. This week the bootstrap meets real, public data and two new targets: a difference between groups and a slope.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">This week</div>
+  <h2>Intervals for differences and slopes</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Differences and slopes</b><small>Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared</small></div></div></div>
+</section>
+
+<section class="slide" id="review-week4" data-lo="LO2" data-n="3">
+  <div class="kicker">Review · week 4</div>
+  <h2>What does the 95% describe?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2" data-id="review-week4-q1">
+    <p class="lead">An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads an interval for a median as a range for single waits" data-k="A">95% of waits fall inside it</div>
+      <div class="opt" data-ok data-k="B">Its method contains the true median in about 95% of samples, if the method's coverage is right</div>
+      <div class="opt" data-why="Puts the probability on the fixed true median" data-k="C">The true median has a 95% chance of being inside this interval</div>
+      <div class="opt" data-why="Confuses the interval with the bootstrap resamples" data-k="D">95% of the bootstrap resamples contain the true median</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The level describes how often the method works, and only as far as its coverage holds at this n.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Differences and slopes</h1>
+  <ul class="bullets outcomes"><li>Build a bootstrap interval for a difference between two groups by resampling each group</li><li>Build a bootstrap interval for a regression slope by resampling whole rows</li><li>Show that intervals agree on rerun with a new seed, and suppress small groups before reporting</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="public-data" data-lo="LO4" data-n="5" data-session="1">
+  <div class="kicker">Block A · public data</div>
+  <h2>Before any analysis of public data: source, licence, unit and what a row is</h2>
+  <table class="t">
+    <tr><th>Question</th><th>Why it matters</th></tr>
+    <tr><td>Who published it, and under which licence?</td><td>Whether you may use and share results; the source caption on every table</td></tr>
+    <tr><td>What is one row?</td><td>A person, a person-year, a household: it decides what can be resampled</td></tr>
+    <tr class="hl"><td>How were groups formed?</td><td>Random assignment, or observation (week 3)</td></tr>
+  </table>
+  <aside class="notes"><p>The lab uses two datasets bundled with statsmodels and marked public domain in its documentation: a subset of the RAND Health Insurance Experiment and Engel's food expenditure data. They are read from the installed package; nothing is downloaded or copied into the course.</p></aside>
+</section>
+
+<section class="slide" id="suppression" data-lo="LO4" data-n="6" data-session="1">
+  <div class="kicker">Block A · reporting rule</div>
+  <h2>Suppress small groups before any table leaves your notebook</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>The course's rule: no group of fewer than 30 rows is reported</li>
+      <li>Blank the value <b>and</b> the exact count: "under 30"</li>
+      <li>A small group's mean is imprecise, and can point to identifiable people</li>
+    </ul>
+    <pre class="code" data-file="pandas"><code class="language-python">cells = df.groupby([<span class="hljs-string">&quot;plan&quot;</span>, <span class="hljs-string">&quot;health&quot;</span>])[<span class="hljs-string">&quot;visits&quot;</span>].agg(
+    n=<span class="hljs-string">&quot;size&quot;</span>, mean=<span class="hljs-string">&quot;mean&quot;</span>)
+shown = U.suppress(cells, <span class="hljs-string">&quot;n&quot;</span>, min_n=<span class="hljs-number">30</span>)</code></pre>
+  </div>
+  <aside class="notes"><p>The threshold of 30 is this course's own rule, not a national standard. Organisations set their own; follow theirs at work. The lab's table of visits by plan and health has small cells that must disappear.</p></aside>
+</section>
+
+<section class="slide" id="check-suppress" data-lo="LO4" data-n="7" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What leaves the notebook?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="check-suppress-q1">
+    <p class="lead">A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell?</p>
+    <div class="opts">
+      <div class="opt" data-why="A warning flag still publishes the value of a group of eleven" data-k="A">The mean, flagged as based on few customers</div>
+      <div class="opt" data-why="Merging changes the group after seeing its value, and is a choice to report, not a default" data-k="B">The cell merged into its largest neighbour, without saying so</div>
+      <div class="opt" data-ok data-k="C">"Suppressed", with the count shown only as under 30</div>
+      <div class="opt" data-why="The median of eleven is just as revealing" data-k="D">The median of the 11 instead of their mean</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The rule removes both the value and the exact size of a small group.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="difference" data-lo="LO4" data-n="8" data-session="1">
+  <div class="kicker">Block B · differences</div>
+  <h2>For a difference between two groups, resample each group separately</h2>
+  <div class="cols cols-2">
+    <pre class="code" data-file="numpy"><code class="language-python">d = [rng.choice(a, <span class="hljs-built_in">len</span>(a)).mean()
+     - rng.choice(b, <span class="hljs-built_in">len</span>(b)).mean()
+     <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(B)]
+low, high = np.percentile(d, [<span class="hljs-number">2.5</span>, <span class="hljs-number">97.5</span>])</code></pre>
+    <ul class="bullets">
+      <li>Each group keeps its own size, as it was collected</li>
+      <li>Pooling the groups would resample "no difference": that is next week's test</li>
+      <li>Any statistic: difference of means, of medians, a ratio</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Make the contrast explicit now, because week 6 shuffles the pooled values: the bootstrap estimates how big the difference is; the permutation test asks whether chance alone could make it.</p></aside>
+</section>
+
+<section class="slide" id="oven-example" data-lo="LO2 LO4" data-n="9" data-session="1">
+  <div class="kicker">Block B · an example</div>
+  <h2>Two oven settings, an interval for the difference that includes zero</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>Bake minutes</th><th class="num">Mean</th></tr>
+      <tr><td>Setting A, 60 batches</td><td class="num">18.51</td></tr>
+      <tr><td>Setting B, 50 batches</td><td class="num">17.90</td></tr>
+      <tr class="hl"><td>A − B (95% interval)</td><td class="num">0.61 (−2.71 to 3.81)</td></tr>
+    </table>
+    <div class="card c-teal"><h4>Reading</h4><p class="small mb0">The data fit a difference anywhere from B being 2.7 minutes slower to A being 3.8 slower: this sample cannot say which setting is faster.</p></div>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 5 (synthetic, seed 5). An interval that includes zero is not evidence of no difference: it is evidence that the data cannot tell, at this sample size.</p></aside>
+</section>
+
+<section class="slide" id="overlap" data-lo="LO2" data-n="10" data-session="1">
+  <div class="kicker">Block B · a misreading</div>
+  <h2>Compare groups with an interval for their difference, not by overlapping intervals</h2>
+  <ul class="bullets">
+    <li>Two 95% intervals can overlap while the interval for the difference excludes zero</li>
+    <li>The rule "no overlap means a real difference" is too strict; "overlap means none" is wrong</li>
+    <li>The question is about the difference: estimate the difference</li>
+  </ul>
+  <aside class="notes"><p>This is one of the ten-statement misreadings of LO2. The lab builds the difference's interval directly.</p></aside>
+</section>
+
+<section class="slide" id="check-difference" data-lo="LO4" data-n="11" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>How do you resample?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="check-difference-q1">
+    <p class="lead">You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">220 calls with replacement from team one, 90 from team two</div>
+      <div class="opt" data-why="Pooling resamples the null of no difference" data-k="B">310 calls from the pooled calls, split 220 and 90</div>
+      <div class="opt" data-why="Changing the sizes changes the spread of each median" data-k="C">90 calls from each team</div>
+      <div class="opt" data-why="Without replacement each resample is the original team reordered" data-k="D">220 and 90 calls without replacement</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Each team is resampled at its own size, with replacement, as it was collected.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
+</section>
+
+<section class="slide" id="slope" data-lo="LO4" data-n="12" data-session="1">
+  <div class="kicker">Block C · slopes</div>
+  <h2>For a slope, resample whole rows so each x keeps its own y</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>Five points: (1, 2), (2, 4), (3, 5), (4, 4), (5, 7)</p>
+      <p class="lead">Least-squares slope: <b>1.0</b></p>
+      <p class="small">Σ(x − x̄)(y − ȳ) / Σ(x − x̄)² = 10 / 10</p>
+    </div>
+    <pre class="code" data-file="numpy"><code class="language-python">i = rng.integers(<span class="hljs-number">0</span>, n, n)     <span class="hljs-comment"># rows</span>
+b = slope(x[i], y[i])</code></pre>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> Resampling x and y separately breaks the pairs: every slope comes out near zero.</div>
+  <aside class="notes"><p>From slide_numbers.py, week 5. FND-MTH-101 derived least squares as a projection; here the slope is used, not derived. Residual and wild bootstraps exist; they are beyond this course.</p></aside>
+</section>
+
+<section class="slide" id="rerun" data-lo="LO4" data-n="13" data-session="1">
+  <div class="kicker">Block C · reruns</div>
+  <h2>An interval you report must survive a rerun with a new seed</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Run every interval twice, with two seeds</li>
+      <li>Measure the largest move of an end against the interval's width</li>
+      <li>Report to the precision that does not move</li>
+    </ul>
+    <div class="card c-purple"><h4>The outcome's evidence</h4><p class="small mb0">LO4 asks for a notebook whose intervals agree on rerun with a new seed. The lab builds that table.</p></div>
+  </div>
+  <aside class="notes"><p>Choosing the seed that gives the nicest interval is a forking path (week 7). Fix the seed for exact reproduction; vary it to show stability.</p></aside>
+</section>
+
+<section class="slide" id="check-slope" data-lo="LO4" data-n="14" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which resampling for a slope?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="check-slope-q1">
+    <p class="lead">You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample?</p>
+    <div class="opts">
+      <div class="opt" data-why="Breaks the pairs, which destroys the relation" data-k="A">140 areas and, separately, 140 energy values, both with replacement</div>
+      <div class="opt" data-why="That builds the null of no relation: a permutation test" data-k="B">The 140 energy values shuffled against fixed areas</div>
+      <div class="opt" data-why="Uses only part of the data, which widens the interval for no reason" data-k="C">70 buildings drawn without replacement</div>
+      <div class="opt" data-ok data-k="D">140 buildings drawn with replacement, each with its own area and energy</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Rows are the units; resampling them keeps each pair together.</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-5-1" data-auto="lab" data-lab="5.1" data-label="Lab 5.1" data-n="15" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 5.1 · 105 min</div><h2>Bootstrap intervals for differences and slopes on public skewed data</h2><p class="lead small">Intervals for a mean, a median, a difference and a slope on two public datasets, checked on rerun.</p><a class="nb" href="../labs/W5_1.ipynb">W5_1.ipynb</a></div><ul class="checklist"><li>Set up; the public data and its licence <span class="min">10 min</span></li><li>Suppress small groups before any table <span class="min">10 min</span></li><li>Intervals for the mean and the median of visits <span class="min">15 min</span></li><li>An interval for a difference between plans <span class="min">20 min</span></li><li>A slope by hand, then in code <span class="min">10 min</span></li><li>A bootstrap interval for a slope <span class="min">20 min</span></li><li>Rerun with a new seed and compare every interval <span class="min">10 min</span></li><li>Record how this was checked <span class="min">10 min</span></li><li class="stretch">✱ Stretch: The slope on the log scale, and what it means</li></ul></div>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is an addition to the entry's lab lines and the main evidence for LO4. Watch for: reporting the suppressed table before suppression; resampling the pooled groups; reading the degenerate median interval as certainty.</p></aside>
+</section>
+
+<section class="slide" id="debrief-difference" data-lo="LO4" data-n="16" data-session="1">
+  <div class="kicker">Debrief · lab 5.1</div>
+  <h2>Free care: about one more doctor visit a year than 95% coinsurance</h2>
+  <table class="t">
+    <tr><th>Outpatient visits a year</th><th class="num">Free care</th><th class="num">95% coinsurance</th><th class="num">Difference (95% interval)</th></tr>
+    <tr><td>Mean</td><td class="num">3.12</td><td class="num">2.11</td><td class="num">1.01 (0.83 to 1.18)</td></tr>
+    <tr class="hl"><td>Median</td><td class="num">2</td><td class="num">1</td><td class="num">1 (1 to 1)</td></tr>
+  </table>
+  <div class="callout warn mt"><b>Limit.</b> Rows are person-years and the subset has no person identifier, so the lab resampled rows, not people: these intervals are too narrow.</div>
+  <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain); 10,997 and 2,653 person-years. Three plan-by-health cells under 30 rows were suppressed.</p>
+  <aside class="notes"><p>From the solution run of lab 5.1. Rows are person-years, so the same person counts in several years, and the dataset carries no person identifier: the lab cannot follow the week's own rule of resampling as collected, so it states the limit instead. The intervals are too narrow; the direction of the difference is not in doubt, its width is. Ask the room which way the interval would move if people were resampled. Resampling people (a clustered bootstrap) is in SPC-STA-201. In the capstone, a dataset with an identifier for the repeated unit should be resampled by that unit.</p></aside>
+</section>
+
+<section class="slide" id="debrief-slope" data-lo="LO4" data-n="17" data-session="1">
+  <div class="kicker">Debrief · lab 5.1</div>
+  <h2>Food spending rose by 0.49 for each unit of income, and the intervals held on rerun</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">0.485</div><div class="lbl">slope, 95% interval 0.405 to 0.594</div></div>
+    <div class="stat center"><div class="big">&lt; 4%</div><div class="lbl">largest move of any end on rerun, as a share of its interval's width</div></div>
+  </div>
+  <p class="small mt">Source: Engel's food expenditure data bundled with statsmodels (public domain), 235 households.</p>
+  <aside class="notes"><p>From the solution run of lab 5.1. On the log scale the slope is an elasticity of 0.86 (0.81 to 0.90): food spending grows more slowly than income (stretch).</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="18" data-session="1">
+  <div class="kicker">Week 5 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Resample as collected</h4><p class="small mb0">Groups separately; rows whole.</p></div>
+    <div class="card c-coral"><h4>Estimate the difference</h4><p class="small mb0">Not the overlap of two intervals.</p></div>
+    <div class="card c-purple"><h4>Suppress, then report</h4><p class="small mb0">No group under 30 rows leaves the notebook.</p></div>
+  </div>
+  <aside class="notes"><p>Ask: which of this week's results comes from an experiment, and which from an observation? The plans were randomised; income was not.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="19" data-session="1">
+  <div class="kicker">Next</div>
+  <h2>Week 6: Permutation tests</h2>
+  <p class="lead">Problem set 5 (50 minutes, AI off for the first attempt): labs/problem-sets/PS5.ipynb.</p>
+  <aside class="notes"><p>Next week tests the same two questions, and reports each result as an effect size with these intervals.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-25T08:32:01Z","version":"2027.1.0","commit":"0b561fb"},"course":{"id":"fnd-mth-104","code":"FND-MTH-104","title":"Statistics by Simulation: Variation, Estimation and Testing","track":"foundations","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/fnd-mth-104/","repo":"SDAIAAcademy/fnd-mth-104","home":"../index.html"},"deck":{"id":"week5","kind":"day","day":5,"label":"Week 5","title":"Intervals for differences and slopes","prev":"week4.html","next":"week6.html","md":"week5.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Differences and slopes","slide":"s1","outcomes":["Build a bootstrap interval for a difference between two groups by resampling each group","Build a bootstrap interval for a regression slope by resampling whole rows","Show that intervals agree on rerun with a new seed, and suppress small groups before reporting"],"minutes":210,"lab":{"id":"5.1","title":"Bootstrap intervals for differences and slopes on public skewed data","minutes":105,"href":"../labs/W5_1.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Intervals for differences and slopes","kind":"title","session":0,"hash":"b200a9f5","md":"#### [week5#title] Intervals for differences and slopes\n\n*SDAIA Academy · Statistics by Simulation: Variation, Estimation and Testing*\n\nWeek 5: Resample the way the data were collected\n\nData & AI Foundations Track · 8 weeks + capstone · 1 session · 1 lab · FND-MTH-104","notes":"Return the first test if marked; take its two most common errors into block A. This week the bootstrap meets real, public data and two new targets: a difference between groups and a slope.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Intervals for differences and slopes","kind":"content","session":0,"hash":"aac02b87","md":"#### [week5#agenda] Intervals for differences and slopes\n\n*This week*\n\n- **Session 1 · Differences and slopes**: Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared","notes":"","minutes":null,"lo":[]},{"id":"review-week4","n":3,"title":"What does the 95% describe?","kind":"quiz","session":0,"hash":"00213d9b","md":"#### [week5#review-week4] What does the 95% describe?\n\n*Review · week 4*\n\n**Question:** An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct?\n\n- A. 95% of waits fall inside it\n- B. Its method contains the true median in about 95% of samples, if the method's coverage is right\n- C. The true median has a 95% chance of being inside this interval\n- D. 95% of the bootstrap resamples contain the true median","notes":"Answer B.","minutes":null,"lo":["LO2"]},{"id":"s1","n":4,"title":"Differences and slopes","kind":"section","session":1,"hash":"71268c0a","md":"#### [week5#s1] Differences and slopes\n\n*Session 1*\n\n- Build a bootstrap interval for a difference between two groups by resampling each group\n- Build a bootstrap interval for a regression slope by resampling whole rows\n- Show that intervals agree on rerun with a new seed, and suppress small groups before reporting","notes":"","minutes":null,"lo":["LO2","LO4"]},{"id":"public-data","n":5,"title":"Before any analysis of public data: source, licence, unit and what a row is","kind":"content","session":1,"hash":"6e0afa90","md":"#### [week5#public-data] Before any analysis of public data: source, licence, unit and what a row is\n\n*Block A · public data*\n\n| Question | Why it matters |\n| --- | --- |\n| Who published it, and under which licence? | Whether you may use and share results; the source caption on every table |\n| What is one row? | A person, a person-year, a household: it decides what can be resampled |\n| How were groups formed? | Random assignment, or observation (week 3) |","notes":"The lab uses two datasets bundled with statsmodels and marked public domain in its documentation: a subset of the RAND Health Insurance Experiment and Engel's food expenditure data. They are read from the installed package; nothing is downloaded or copied into the course.","minutes":null,"lo":["LO4"]},{"id":"suppression","n":6,"title":"Suppress small groups before any table leaves your notebook","kind":"content","session":1,"hash":"bfb30e90","md":"#### [week5#suppression] Suppress small groups before any table leaves your notebook\n\n*Block A · reporting rule*\n\n- The course's rule: no group of fewer than 30 rows is reported\n- Blank the value **and** the exact count: \"under 30\"\n- A small group's mean is imprecise, and can point to identifiable people\n\n```python\n# file: pandas\ncells = df.groupby([\"plan\", \"health\"])[\"visits\"].agg(\n    n=\"size\", mean=\"mean\")\nshown = U.suppress(cells, \"n\", min_n=30)\n```","notes":"The threshold of 30 is this course's own rule, not a national standard. Organisations set their own; follow theirs at work. The lab's table of visits by plan and health has small cells that must disappear.","minutes":null,"lo":["LO4"]},{"id":"check-suppress","n":7,"title":"What leaves the notebook?","kind":"quiz","session":1,"hash":"87224e17","md":"#### [week5#check-suppress] What leaves the notebook?\n\n*Checkpoint*\n\n**Question:** A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell?\n\n- A. The mean, flagged as based on few customers\n- B. The cell merged into its largest neighbour, without saying so\n- C. \"Suppressed\", with the count shown only as under 30\n- D. The median of the 11 instead of their mean","notes":"Answer C.","minutes":null,"lo":["LO4"]},{"id":"difference","n":8,"title":"For a difference between two groups, resample each group separately","kind":"content","session":1,"hash":"579ab31c","md":"#### [week5#difference] For a difference between two groups, resample each group separately\n\n*Block B · differences*\n\n```python\n# file: numpy\nd = [rng.choice(a, len(a)).mean()\n     - rng.choice(b, len(b)).mean()\n     for _ in range(B)]\nlow, high = np.percentile(d, [2.5, 97.5])\n```\n\n- Each group keeps its own size, as it was collected\n- Pooling the groups would resample \"no difference\": that is next week's test\n- Any statistic: difference of means, of medians, a ratio","notes":"Make the contrast explicit now, because week 6 shuffles the pooled values: the bootstrap estimates how big the difference is; the permutation test asks whether chance alone could make it.","minutes":null,"lo":["LO4"]},{"id":"oven-example","n":9,"title":"Two oven settings, an interval for the difference that includes zero","kind":"content","session":1,"hash":"8fe67b54","md":"#### [week5#oven-example] Two oven settings, an interval for the difference that includes zero\n\n*Block B · an example*\n\n| Bake minutes | Mean |\n| --- | --- |\n| Setting A, 60 batches | 18.51 |\n| Setting B, 50 batches | 17.90 |\n| A − B (95% interval) | 0.61 (−2.71 to 3.81) |\n\n- **Reading.** The data fit a difference anywhere from B being 2.7 minutes slower to A being 3.8 slower: this sample cannot say which setting is faster.","notes":"From slide_numbers.py, week 5 (synthetic, seed 5). An interval that includes zero is not evidence of no difference: it is evidence that the data cannot tell, at this sample size.","minutes":null,"lo":["LO2","LO4"]},{"id":"overlap","n":10,"title":"Compare groups with an interval for their difference, not by overlapping intervals","kind":"content","session":1,"hash":"301f0f83","md":"#### [week5#overlap] Compare groups with an interval for their difference, not by overlapping intervals\n\n*Block B · a misreading*\n\n- Two 95% intervals can overlap while the interval for the difference excludes zero\n- The rule \"no overlap means a real difference\" is too strict; \"overlap means none\" is wrong\n- The question is about the difference: estimate the difference","notes":"This is one of the ten-statement misreadings of LO2. The lab builds the difference's interval directly.","minutes":null,"lo":["LO2"]},{"id":"check-difference","n":11,"title":"How do you resample?","kind":"quiz","session":1,"hash":"da517c5b","md":"#### [week5#check-difference] How do you resample?\n\n*Checkpoint*\n\n**Question:** You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits?\n\n- A. 220 calls with replacement from team one, 90 from team two\n- B. 310 calls from the pooled calls, split 220 and 90\n- C. 90 calls from each team\n- D. 220 and 90 calls without replacement","notes":"Answer A.","minutes":null,"lo":["LO4"]},{"id":"slope","n":12,"title":"For a slope, resample whole rows so each x keeps its own y","kind":"content","session":1,"hash":"98760a0e","md":"#### [week5#slope] For a slope, resample whole rows so each x keeps its own y\n\n*Block C · slopes*\n\nFive points: (1, 2), (2, 4), (3, 5), (4, 4), (5, 7)\n\nLeast-squares slope: **1.0**\n\nΣ(x − x̄)(y − ȳ) / Σ(x − x̄)² = 10 / 10\n\n```python\n# file: numpy\ni = rng.integers(0, n, n)     # rows\nb = slope(x[i], y[i])\n```\n\n> **What goes wrong.** Resampling x and y separately breaks the pairs: every slope comes out near zero.","notes":"From slide_numbers.py, week 5. FND-MTH-101 derived least squares as a projection; here the slope is used, not derived. Residual and wild bootstraps exist; they are beyond this course.","minutes":null,"lo":["LO4"]},{"id":"rerun","n":13,"title":"An interval you report must survive a rerun with a new seed","kind":"content","session":1,"hash":"c18f6442","md":"#### [week5#rerun] An interval you report must survive a rerun with a new seed\n\n*Block C · reruns*\n\n- Run every interval twice, with two seeds\n- Measure the largest move of an end against the interval's width\n- Report to the precision that does not move\n\n- **The outcome's evidence.** LO4 asks for a notebook whose intervals agree on rerun with a new seed. The lab builds that table.","notes":"Choosing the seed that gives the nicest interval is a forking path (week 7). Fix the seed for exact reproduction; vary it to show stability.","minutes":null,"lo":["LO4"]},{"id":"check-slope","n":14,"title":"Which resampling for a slope?","kind":"quiz","session":1,"hash":"2cb8d2d0","md":"#### [week5#check-slope] Which resampling for a slope?\n\n*Checkpoint*\n\n**Question:** You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample?\n\n- A. 140 areas and, separately, 140 energy values, both with replacement\n- B. The 140 energy values shuffled against fixed areas\n- C. 70 buildings drawn without replacement\n- D. 140 buildings drawn with replacement, each with its own area and energy","notes":"Answer D.","minutes":null,"lo":["LO4"]},{"id":"lab-5-1","n":15,"title":"Bootstrap intervals for differences and slopes on public skewed data","kind":"lab","session":1,"hash":"0ed17cb0","md":"#### [week5#lab-5-1] Bootstrap intervals for differences and slopes on public skewed data\n\nLab 5.1 · 105 min\n\nIntervals for a mean, a median, a difference and a slope on two public datasets, checked on rerun.\n\n[W5_1.ipynb](https://sdaiaacademy.github.io/fnd-mth-104/labs/W5_1.ipynb)\n\n- [ ] Set up; the public data and its licence (10 min)\n- [ ] Suppress small groups before any table (10 min)\n- [ ] Intervals for the mean and the median of visits (15 min)\n- [ ] An interval for a difference between plans (20 min)\n- [ ] A slope by hand, then in code (10 min)\n- [ ] A bootstrap interval for a slope (20 min)\n- [ ] Rerun with a new seed and compare every interval (10 min)\n- [ ] Record how this was checked (10 min)\n- [ ] ✱ Stretch: The slope on the log scale, and what it means","notes":"AI-tutor: hints only. This lab is an addition to the entry's lab lines and the main evidence for LO4. Watch for: reporting the suppressed table before suppression; resampling the pooled groups; reading the degenerate median interval as certainty.","minutes":null,"lo":[]},{"id":"debrief-difference","n":16,"title":"Free care: about one more doctor visit a year than 95% coinsurance","kind":"content","session":1,"hash":"89f2cee3","md":"#### [week5#debrief-difference] Free care: about one more doctor visit a year than 95% coinsurance\n\n*Debrief · lab 5.1*\n\n| Outpatient visits a year | Free care | 95% coinsurance | Difference (95% interval) |\n| --- | --- | --- | --- |\n| Mean | 3.12 | 2.11 | 1.01 (0.83 to 1.18) |\n| Median | 2 | 1 | 1 (1 to 1) |\n\n> **Limit.** Rows are person-years and the subset has no person identifier, so the lab resampled rows, not people: these intervals are too narrow.\n\nSource: RAND Health Insurance Experiment subset bundled with statsmodels (public domain); 10,997 and 2,653 person-years. Three plan-by-health cells under 30 rows were suppressed.","notes":"From the solution run of lab 5.1. Rows are person-years, so the same person counts in several years, and the dataset carries no person identifier: the lab cannot follow the week's own rule of resampling as collected, so it states the limit instead. The intervals are too narrow; the direction of the difference is not in doubt, its width is. Ask the room which way the interval would move if people were resampled. Resampling people (a clustered bootstrap) is in SPC-STA-201. In the capstone, a dataset with an identifier for the repeated unit should be resampled by that unit.","minutes":null,"lo":["LO4"]},{"id":"debrief-slope","n":17,"title":"Food spending rose by 0.49 for each unit of income, and the intervals held on rerun","kind":"content","session":1,"hash":"11ba3c54","md":"#### [week5#debrief-slope] Food spending rose by 0.49 for each unit of income, and the intervals held on rerun\n\n*Debrief · lab 5.1*\n\n- **0.485** slope, 95% interval 0.405 to 0.594\n- **\u003c 4%** largest move of any end on rerun, as a share of its interval's width\n\nSource: Engel's food expenditure data bundled with statsmodels (public domain), 235 households.","notes":"From the solution run of lab 5.1. On the log scale the slope is an elasticity of 0.86 (0.81 to 0.90): food spending grows more slowly than income (stretch).","minutes":null,"lo":["LO4"]},{"id":"wrap-up","n":18,"title":"Three things to keep","kind":"content","session":1,"hash":"7831628f","md":"#### [week5#wrap-up] Three things to keep\n\n*Week 5 · wrap-up*\n\n- **Resample as collected.** Groups separately; rows whole.\n- **Estimate the difference.** Not the overlap of two intervals.\n- **Suppress, then report.** No group under 30 rows leaves the notebook.","notes":"Ask: which of this week's results comes from an experiment, and which from an observation? The plans were randomised; income was not.","minutes":null,"lo":[]},{"id":"next","n":19,"title":"Week 6: Permutation tests","kind":"content","session":1,"hash":"9f64605d","md":"#### [week5#next] Week 6: Permutation tests\n\n*Next*\n\nProblem set 5 (50 minutes, AI off for the first attempt): labs/problem-sets/PS5.ipynb.","notes":"Next week tests the same two questions, and reports each result as an effect size with these intervals.","minutes":null,"lo":[]}],"activities":[{"id":"review-week4-q1","slide":"review-week4","type":"single","prompt":"An analyst builds a 95% percentile bootstrap interval for the median waiting time from one sample. Which statement about it is correct?","options":[{"key":"A","text":"95% of waits fall inside it"},{"key":"B","text":"Its method contains the true median in about 95% of samples, if the method's coverage is right"},{"key":"C","text":"The true median has a 95% chance of being inside this interval"},{"key":"D","text":"95% of the bootstrap resamples contain the true median"}],"correct":[1],"explanation":"The level describes how often the method works, and only as far as its coverage holds at this n.","misconceptions":["Reads an interval for a median as a range for single waits","","Puts the probability on the fixed true median","Confuses the interval with the bootstrap resamples"],"lo":["LO2"]},{"id":"check-suppress-q1","slide":"check-suppress","type":"single","prompt":"A table of mean monthly spending by district and age band has one cell of 11 customers whose mean is unusually high. What do you publish for that cell?","options":[{"key":"A","text":"The mean, flagged as based on few customers"},{"key":"B","text":"The cell merged into its largest neighbour, without saying so"},{"key":"C","text":"\"Suppressed\", with the count shown only as under 30"},{"key":"D","text":"The median of the 11 instead of their mean"}],"correct":[2],"explanation":"The rule removes both the value and the exact size of a small group.","misconceptions":["A warning flag still publishes the value of a group of eleven","Merging changes the group after seeing its value, and is a choice to report, not a default","","The median of eleven is just as revealing"],"lo":["LO4"]},{"id":"check-difference-q1","slide":"check-difference","type":"single","prompt":"You want a bootstrap interval for the difference in median call length between two support teams (220 and 90 calls). Which resampling scheme fits?","options":[{"key":"A","text":"220 calls with replacement from team one, 90 from team two"},{"key":"B","text":"310 calls from the pooled calls, split 220 and 90"},{"key":"C","text":"90 calls from each team"},{"key":"D","text":"220 and 90 calls without replacement"}],"correct":[0],"explanation":"Each team is resampled at its own size, with replacement, as it was collected.","misconceptions":["","Pooling resamples the null of no difference","Changing the sizes changes the spread of each median","Without replacement each resample is the original team reordered"],"lo":["LO4"]},{"id":"check-slope-q1","slide":"check-slope","type":"single","prompt":"You fit the slope of energy use on floor area for 140 buildings and want a bootstrap interval for it. Which draws one resample?","options":[{"key":"A","text":"140 areas and, separately, 140 energy values, both with replacement"},{"key":"B","text":"The 140 energy values shuffled against fixed areas"},{"key":"C","text":"70 buildings drawn without replacement"},{"key":"D","text":"140 buildings drawn with replacement, each with its own area and energy"}],"correct":[3],"explanation":"Rows are the units; resampling them keeps each pair together.","misconceptions":["Breaks the pairs, which destroys the relation","That builds the null of no relation: a permutation test","Uses only part of the data, which widens the interval for no reason",""],"lo":["LO4"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"week5.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>
