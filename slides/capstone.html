@@ -1,94 +1,111 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">Today is theirs: keep your own talking to the opening and the closing. Confirm the running order and the demo setup (screen sharing, accounts, a recorded backup) first.</aside>
+  <aside class="notes"><p>Today is the participants': keep your own talking to the opening and the closing. Before the first oral check, confirm the running order, that each participant's repository opens and that their notebook runs on this machine or in the hosted notebook.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-label="Agenda">
   <div class="kicker">Capstone</div>
-  <h2>How the presentations run</h2>
+  <h2>How the oral checks run</h2>
   <div class="agenda">
-    <div class="item now"><div><b>Expectations and final prep</b><small>the rubric, a last rehearsal, then the first presentations</small></div></div>
-    <div class="item"><div><b>Presentations</b><small>each one timed, with questions after it</small></div></div>
-    <div class="item"><div><b>Review and closing</b><small>peer feedback, the trainer's review, what next</small></div></div>
+    <div class="item now"><div><b>Expectations and final preparation</b><small>the rubric, the oral check, a last rerun of each notebook</small></div></div>
+    <div class="item"><div><b>Oral checks</b><small>ten minutes each: the brief, then a rerun with a change</small></div></div>
+    <div class="item"><div><b>Review and closing</b><small>the trainer's review, what next</small></div></div>
   </div>
+  <aside class="notes"><p>The capstone's 6 hours: dataset clinic 30 minutes, independent analysis and brief 280, peer dry run 25, the oral check 10, changeover 5, written feedback 10. This deck runs the oral-check session.</p></aside>
 </section>
 
-<section class="slide" id="rubric" data-label="The rubric">
-  <div class="kicker">How presentations are scored</div>
+<section class="slide" id="rubric" data-label="The rubric" data-lo="LO4 LO5">
+  <div class="kicker">How the brief and notebook are scored (30% of the course)</div>
   <h2>The rubric</h2>
   <div class="bars">
-    <div class="row"><span>REPLACE: rubric criterion 1 and its weight (the weights add up to 100)</span><div class="bar c-teal" style="--w:100%"></div><span class="val">25%</span></div>
-    <div class="row"><span>REPLACE: rubric criterion 2 and its weight (the weights add up to 100)</span><div class="bar c-cyan" style="--w:100%"></div><span class="val">25%</span></div>
-    <div class="row"><span>REPLACE: rubric criterion 3 and its weight (the weights add up to 100)</span><div class="bar c-coral" style="--w:80%"></div><span class="val">20%</span></div>
-    <div class="row"><span>REPLACE: rubric criterion 4 and its weight (the weights add up to 100)</span><div class="bar c-purple" style="--w:80%"></div><span class="val">20%</span></div>
-    <div class="row"><span>REPLACE: rubric criterion 5 and its weight (the weights add up to 100)</span><div class="bar c-amber" style="--w:40%"></div><span class="val">10%</span></div>
+    <div class="row"><span>Question, data, licence, scope; small groups suppressed</span><div class="bar c-teal" style="--w:60%"></div><span class="val">15%</span></div>
+    <div class="row"><span>Bootstrap interval, resampled as collected, stable on rerun</span><div class="bar c-cyan" style="--w:100%"></div><span class="val">25%</span></div>
+    <div class="row"><span>Permutation test, effect size with interval, plain reading</span><div class="bar c-coral" style="--w:100%"></div><span class="val">25%</span></div>
+    <div class="row"><span>Limits: confounding, many tests, forking paths</span><div class="bar c-purple" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Reruns; how each result and AI step was checked</span><div class="bar c-amber" style="--w:60%"></div><span class="val">15%</span></div>
   </div>
-  <div class="callout tip mt"><b>Show results from at least two measured runs.</b> A claim without a number is a plan, not a result.</div>
-  <aside class="notes">Walk through each criterion with one example of what full marks look like.</aside>
+  <aside class="notes"><p>The full wording is in course.json and the README. The oral check is scored separately (10% of the course), so nothing counts twice. Full marks on the second criterion: the interval's resampling matches the data's structure, and the notebook shows a rerun with a new seed.</p></aside>
 </section>
 
-<section class="slide" id="format" data-label="Format">
-  <div class="kicker">Format</div>
-  <h2>10 minutes for each presentation</h2>
+<section class="slide" id="oral-format" data-label="The oral check" data-lo="LO5">
+  <div class="kicker">The oral check · 10% of the course</div>
+  <h2>Ten minutes: three on the brief, seven rerunning one test with a change</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>1 · The problem</h4><p class="small mb0">Who, what, why now. One slide.</p></div>
-    <div class="card c-cyan"><h4>2 · What you built</h4><p class="small mb0">Design, decisions, trade-offs. Then the live demo.</p></div>
-    <div class="card c-coral"><h4>3 · What you measured</h4><p class="small mb0">Baseline, improvement, failures found, what comes next.</p></div>
+    <div class="card c-teal"><h4>1 · The brief</h4><p class="small mb0">The question, the estimate with its interval, the test, the limits. Three minutes.</p></div>
+    <div class="card c-cyan"><h4>2 · The change</h4><p class="small mb0">The assessor names one change: a subgroup, a statistic, a number of shuffles, a seed.</p></div>
+    <div class="card c-coral"><h4>3 · The rerun</h4><p class="small mb0">You make the change, rerun the test and read the new result aloud.</p></div>
   </div>
-  <div class="callout note mt"><b>Peer feedback.</b> After each talk, everyone writes one strength, one question and one suggestion.</div>
+  <div class="callout note mt">Say what you expect before you run it, then compare. The reading matters as much as the code.</div>
+  <aside class="notes"><p>The change cards and what a good reading of each sounds like are in the trainer pack, not in this repository. Score the reading: effect size and interval first, p-value read correctly, and whether the change made the result more or less trustworthy (for example, a subgroup chosen now is a forking path).</p></aside>
+</section>
+
+<section class="slide" id="oral-scoring" data-label="Oral check scoring" data-lo="LO2 LO5">
+  <div class="kicker">What the assessor listens for</div>
+  <h2>The oral check rewards a correct rerun and an honest reading</h2>
+  <table class="t">
+    <tr><th>The assessor checks</th><th>A strong answer</th></tr>
+    <tr><td>The change is made correctly</td><td>The right line changed; the notebook reruns</td></tr>
+    <tr><td>The new result is read</td><td>Effect size and interval first; the p-value read as a conditional</td></tr>
+    <tr class="hl"><td>What the change means</td><td>Says whether it strengthens or weakens the conclusion, and why</td></tr>
+  </table>
+  <aside class="notes"><p>Mark against the oral-check sheet in the trainer pack. A participant who cannot rerun their own notebook without the assistant has not shown the work is theirs: the course's authenticity rule.</p></aside>
 </section>
 
 <section class="slide order" id="running-order" data-label="Running order">
   <div class="kicker">Running order</div>
-  <h2>Who presents when</h2>
+  <h2>Who is checked when</h2>
   <table class="t small">
-    <tr><th>#</th><th>Presenter</th><th>Project</th></tr>
-    <tr><td>1</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>2</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>3</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>4</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>5</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>6</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>7</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
-    <tr><td>8</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><th>#</th><th>Participant</th><th>Dataset</th></tr>
+    <tr><td>1</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>2</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>3</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>4</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>5</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>6</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>7</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
+    <tr><td>8</td><td><input placeholder="name"></td><td><input placeholder="dataset"></td></tr>
   </table>
-  <aside class="notes">Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your notes too.</aside>
+  <aside class="notes"><p>Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your own notes too. Allow five minutes of changeover between participants.</p></aside>
 </section>
 
-<section class="slide dark" id="final-prep" data-label="Before the first presentation">
-  <div class="kicker">Before the first presentation</div>
-  <h1>Final prep · 20 minutes</h1>
+<section class="slide dark" id="final-prep" data-label="Before the first check">
+  <div class="kicker">Before the first oral check</div>
+  <h1>Final preparation · 20 minutes</h1>
   <div class="timer" data-minutes="20"></div>
-  <p class="lead">Rehearse once, record a backup, try the demo on this screen.</p>
-  <aside class="notes">Press T to start the timer. Breaks are not slides: press B when the room needs one.</aside>
+  <p class="lead">Restart your notebook and run it from the top. Know where your test's code is.</p>
+  <aside class="notes"><p>Press T to start the timer. Breaks are not slides: press B when the room needs one.</p></aside>
 </section>
 
-<section class="slide dark presenting" id="now-presenting" data-label="Now presenting">
-  <div class="kicker center">Now presenting</div>
-  <div class="center"><input placeholder="Presenter · project"></div>
+<section class="slide dark presenting" id="now-presenting" data-label="Now checking">
+  <div class="kicker center">Oral check</div>
+  <div class="center"><input placeholder="Participant · dataset"></div>
   <div class="timers mt">
-    <div><h3>Talk and demo</h3><div class="timer" data-minutes="10"></div></div>
+    <div><h3>The brief</h3><div class="timer" data-minutes="3"></div></div>
+    <div><h3>The change and the rerun</h3><div class="timer" data-minutes="7"></div></div>
   </div>
-  <aside class="notes">Type the presenter's name and press T to start the timer. Reuse this slide for every presenter.</aside>
+  <aside class="notes"><p>Type the participant's name and press T to start the first timer; start the second when you name the change. Reuse this slide for every participant.</p></aside>
 </section>
 
 <section class="slide" id="review" data-label="Trainer review">
   <div class="kicker">Trainer review</div>
-  <h2>What the presentations showed</h2>
+  <h2>What the briefs showed</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Strongest patterns</h4><p class="small mb0">What several projects got right.</p></div>
-    <div class="card c-coral"><h4>Common gaps</h4><p class="small mb0">What most projects would fix next.</p></div>
+    <div class="card c-teal"><h4>Strongest patterns</h4><p class="small mb0">What several briefs got right.</p></div>
+    <div class="card c-coral"><h4>Common gaps</h4><p class="small mb0">What most briefs would fix next.</p></div>
     <div class="card c-purple"><h4>One surprise</h4><p class="small mb0">Something nobody expected.</p></div>
   </div>
-  <aside class="notes">Fill these in from your scoring notes during the last break. Name projects for strengths; keep gaps anonymous.</aside>
+  <aside class="notes"><p>Fill these in from your scoring notes during the last break. Name participants for strengths; keep gaps anonymous. Typical gaps: an interval that resamples rows when the unit is a person or a group; a subgroup chosen after looking; a "checked by" that names a tool instead of a check.</p></aside>
 </section>
 
 <section class="slide" id="what-next" data-label="After the course">
   <div class="kicker">After the course</div>
   <h2>Keep going</h2>
   <ul class="bullets">
-    <li><b>Your project stays yours:</b> keep it reproducible and add the next improvement you named today</li>
-    <li><b>Next Academy course:</b> REPLACE: the course that follows this one</li>
+    <li><b>Your brief stays yours:</b> keep the notebook reproducible, with its seed, source and licence</li>
+    <li><b>SPC-STA-201</b> Statistical Inference by Simulation: clustered data, better intervals, power by simulating the planned analysis</li>
+    <li><b>SPC-EXP-201</b> Designing and Reading Experiments: pre-registration and sample size</li>
+    <li><b>SPC-ANL-202</b> Analysis with AI Assistants: checking assisted analysis run to run</li>
   </ul>
+  <aside class="notes"><p>The catalog entry names SPC-STA-201 and SPC-EXP-201 as where power analysis and study design follow, and SPC-ANL-202 for run-to-run checking of assisted analysis.</p></aside>
 </section>
 
 <section class="slide dark" id="thanks" data-label="Thank you">
