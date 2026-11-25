@@ -34,7 +34,7 @@ Participants approach inference by simulation before formulas. They draw repeate
 | Week 2 | Sampling variation | Populations, samples and standard error | [`slides/week2.html`](slides/week2.html) |
 | Week 3 | Observational and experimental data | Confounding and Simpson's paradox | [`slides/week3.html`](slides/week3.html) |
 | Week 4 | The bootstrap | The bootstrap and its coverage | [`slides/week4.html`](slides/week4.html) |
-| Week 5 | Intervals for differences and slopes | Bootstrap intervals for differences and slopes | [`slides/week5.html`](slides/week5.html) |
+| Week 5 | Intervals for differences and slopes | Differences and slopes | [`slides/week5.html`](slides/week5.html) |
 | Week 6 | Permutation tests | Null models, p-values and effect sizes | [`slides/week6.html`](slides/week6.html) |
 | Week 7 | Many tests and forking paths | Multiple testing and false discoveries | [`slides/week7.html`](slides/week7.html) |
 | Week 8 | Error rates, power and honest reporting | Type I and II errors, power and reporting | [`slides/week8.html`](slides/week8.html) |

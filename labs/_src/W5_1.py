@@ -5,7 +5,7 @@
 # %% [markdown]
 # # Lab 5.1 · Bootstrap intervals for differences and slopes on public skewed data
 #
-# Week 5 · Session 1 (Bootstrap intervals for differences and slopes) · 105 min. An addition to
+# Week 5 · Session 1 (Differences and slopes) · 105 min. An addition to
 # the catalog entry's lab lines, so that week 5 has a lab.
 #
 # The chain's own data cannot be published, so this week you practise on two public datasets,

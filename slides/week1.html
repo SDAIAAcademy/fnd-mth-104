@@ -182,9 +182,13 @@
       <li>Some systems write 0, −1, 999 or a date like 1900-01-01 instead</li>
       <li>A code left as a number quietly enters the mean</li>
     </ul>
-    <pre class="code" data-file="pandas"><code class="language-python">df["x"].isna().mean()          # share empty
-(df["x"] &lt; 0).sum()             # impossible values
-df.loc[df["x"] &lt; 0, "x"] = np.nan  # decode, then report</code></pre>
+    <pre class="code" data-file="pandas"><code class="language-python"># share empty
+df["x"].isna().mean()
+# impossible values
+(df["x"] &lt; 0).sum()
+# decode, then report
+bad = df["x"] &lt; 0
+df.loc[bad, "x"] = np.nan</code></pre>
   </div>
   <aside class="notes"><p>A negative wait is impossible, so it is a code. Ask what a zero wait could mean: a real instant service or an unrecorded one. The data dictionary, or the person who runs the system, decides.</p></aside>
 </section>

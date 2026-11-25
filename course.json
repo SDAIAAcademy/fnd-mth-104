@@ -338,7 +338,7 @@
       "deck": "slides/week5.html",
       "sessions": [
         {
-          "title": "Bootstrap intervals for differences and slopes",
+          "title": "Differences and slopes",
           "summary": "Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared",
           "outcomes": [
             "Build a bootstrap interval for a difference between two groups by resampling each group",
