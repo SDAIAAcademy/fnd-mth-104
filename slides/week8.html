@@ -1,56 +1,218 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>The last teaching week. Week 6 defined the two errors a test can make; this week measures both by simulation, turns the result into a decision, and sets up the capstone brief.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week7" data-lo="LO6">
+  <div class="kicker">Review · week 7</div>
+  <h2>Which correction, and what does it promise?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6">
+    <p class="lead">A safety report makes five claims, each of which would trigger a costly recall. The analyst wants a low chance of even one false claim. Which procedure fits?</p>
+    <div class="opts">
+      <div class="opt" data-why="Controls the share of false claims, not the chance of any">Benjamini-Hochberg</div>
+      <div class="opt" data-why="Leaves about a 23% chance of at least one false claim with five true nulls">No correction, α = 0.05 each</div>
+      <div class="opt" data-ok>Holm, which controls the family-wise error rate</div>
+      <div class="opt" data-why="One test per claim is still five tests">Report only the claim with the smallest p-value</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Each false claim is costly, so control the chance of any: Holm does, with more power than Bonferroni.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="simulate-errors" data-lo="LO5 LO6">
+  <div class="kicker">Block A · measure the errors</div>
+  <h2>Simulate the study many times, with and without an effect, and count rejections</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Generate</b>Data as the study would collect it</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Add</b>No effect, or the effect that matters</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Test</b>Exactly as planned</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Count</b>Rejections: Type I rate, or power</div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>The same loop as weeks 2 and 7, with the planned test inside it. Power by simulating the full planned analysis, with clustering and attrition, is SPC-STA-201; this is the first look the entry asks for.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="power-table" data-lo="LO5">
+  <div class="kicker">Block A · power grows with n</div>
+  <h2>For a half-standard-deviation effect, 10 per group finds it one time in five</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th class="num">n per group</th><th class="num">Power of the t test, α = 0.05</th></tr>
+      <tr><td class="num">10</td><td class="num">0.185</td></tr>
+      <tr><td class="num">30</td><td class="num">0.478</td></tr>
+      <tr class="hl"><td class="num">100</td><td class="num">0.940</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>Normal data, a difference of 0.5 standard deviations</li>
+      <li>Smaller effects or longer tails need more data</li>
+      <li>The Type I error rate stays at α at every n</li>
+    </ul>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From slide_numbers.py, week 8 (the t-test power formula in statsmodels). The lab measures a permutation test on the skewed baskets by simulation, where no formula is needed.</p></aside>
+</section>
+
+<section class="slide" id="check-power" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does the null result say?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">A pilot with 10 customers per group finds no significant effect of a new menu on spending. A simulation says the test had 18% power for the effect that would matter. What should the report say?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads a weak test's silence as evidence of absence">The new menu does not change spending</div>
+      <div class="opt" data-why="Confuses power with the Type I error rate">The false-finding rate was 82%</div>
+      <div class="opt" data-why="Invents a direction the test did not show">The new menu reduces spending</div>
+      <div class="opt" data-ok>The pilot was too small to tell; it would miss that effect about four times in five</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> With 18% power a real effect usually goes undetected; report the wide interval, not "no effect".</div>
+  </div>
+  <aside class="notes"><p>Answer D.</p></aside>
+</section>
+
+<section class="slide" id="false-share" data-lo="LO2">
+  <div class="kicker">Block B · findings</div>
+  <h2>With few real effects and low power, nearly half the findings are false</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>100 ideas tested, 10 real</th><th class="num">Expected</th></tr>
+      <tr><td>False findings: 90 × 0.05</td><td class="num">4.5</td></tr>
+      <tr><td>True findings: 10 × 0.5 power</td><td class="num">5.0</td></tr>
+      <tr class="hl"><td>Share of findings that are false</td><td class="num">47%</td></tr>
+    </table>
+    <div class="card c-coral"><h4>Not 5%</h4><p class="small mb0">α is the rate among true nulls, not the share of findings that are wrong. That share depends on power and on how many ideas are real.</p></div>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 8. This is FND-MTH-103's base-rate reasoning applied to findings. A frequent LO2 misreading: "p &lt; 0.05, so there is a 5% chance this finding is false".</p></aside>
+</section>
+
+<section class="slide" id="practical" data-lo="LO5">
+  <div class="kicker">Block B · practical significance</div>
+  <h2>Compare the interval with the smallest effect that would change the decision</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Worth it</h4><p class="small mb0">The whole interval is above the threshold.</p></div>
+    <div class="card c-coral"><h4>Not worth it</h4><p class="small mb0">The whole interval is below it, even if p is tiny.</p></div>
+    <div class="card c-purple"><h4>Unclear</h4><p class="small mb0">The interval straddles it: more data, or a decision that accepts the risk.</p></div>
+  </div>
+  <aside class="notes"><p>The threshold comes from the business, before the analysis: the cost of the change divided by what each unit of effect is worth. The lab uses the finance analyst's 1.50 riyals a basket.</p></aside>
+</section>
+
+<section class="slide" id="check-practical" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>Decide</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">A new delivery route must save at least 3 minutes a trip to justify the change. A trial gives a saving of 1.1 minutes, 95% interval 0.6 to 1.6, p &lt; 0.001. What is the decision?</p>
+    <div class="opts">
+      <div class="opt" data-why="Confuses statistical with practical significance">Adopt it: the saving is highly significant</div>
+      <div class="opt" data-ok>Do not adopt it: even the top of the interval is below 3 minutes</div>
+      <div class="opt" data-why="The interval is narrow and wholly below the threshold: nothing is unclear">Unclear: run a larger trial</div>
+      <div class="opt" data-why="Thinks a small p-value means a large saving">Adopt it: p below 0.001 means a large saving</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The effect is real and too small to matter: the interval sits below the threshold.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="honest-report" data-lo="LO3 LO6">
+  <div class="kicker">Block C · honest reporting</div>
+  <h2>Every result travels with its scope, its limits and how it was checked</h2>
+  <table class="t">
+    <tr><th>Part of the note</th><th>What it says</th></tr>
+    <tr><td>Result</td><td>The estimate, its interval, the test, in plain words</td></tr>
+    <tr><td>Checked by</td><td>A hand case, a second method, a rerun with a new seed, a known truth</td></tr>
+    <tr><td>Limits</td><td>Scope, confounding, the number of tests, suppressed groups</td></tr>
+    <tr class="hl"><td>Reviewer</td><td>A second person reruns it before it is used</td></tr>
+  </table>
+  <aside class="notes"><p>The four-part note of every lab is the capstone's standard. The reviewer line is segregation of duties: the analyst who ran it does not sign it off alone.</p></aside>
+</section>
+
+<section class="slide" id="ai-assisted" data-lo="LO3">
+  <div class="kicker">Block C · AI-assisted analysis</div>
+  <h2>In the capstone you may use an AI assistant; record how you checked what it gave you</h2>
+  <ul class="bullets">
+    <li>The capstone is AI-full and defended orally: you must be able to rerun every step yourself</li>
+    <li>For each assisted step: what it produced, how you checked it, what was wrong</li>
+    <li>Only public material goes into a generative AI tool: nothing classified above Public</li>
+  </ul>
+  <div class="callout note mt">Checking assisted analysis run to run is taught in SPC-ANL-202.</div>
+  <aside class="notes"><p>The tests and the first attempt at each problem set stay AI-off. In the oral check the assessor asks for a change to one test and watches the participant rerun it and read the result.</p></aside>
+</section>
+
+<section class="slide" id="capstone-brief" data-lo="LO4 LO5">
+  <div class="kicker">Block C · the capstone</div>
+  <h2>A two-page brief on a public dataset: estimate, interval, test, effect size and limits</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>A public dataset whose licence allows reuse, with no personal data</li>
+      <li>One question, written down with its analysis before you look</li>
+      <li>The notebook reruns; intervals agree with a new seed</li>
+    </ul>
+    <div class="card c-teal"><h4>Then a ten-minute oral check</h4><p class="small mb0">Three minutes on the brief; seven rerunning one test with a change the assessor specifies, and reading the result.</p></div>
+  </div>
+  <aside class="notes"><p>The rubric is on the capstone deck and in the README. The dataset clinic (30 minutes) comes first; the datasets bundled with statsmodels and marked public domain are a ready list.</p></aside>
+</section>
+
+<section class="slide" id="check-report" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>What is missing from this note?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A note says: "Result: the new rota cut overtime by 6 hours a month (interval 2 to 10). Checked by: an assistant wrote the code. Limits: one region. Reviewer: the team lead." What is the weakest part?</p>
+    <div class="opts">
+      <div class="opt" data-ok>"Checked by": it says who wrote the code, not how the result was verified</div>
+      <div class="opt" data-why="The result gives size and interval as it should">"Result": it should give the p-value instead of the interval</div>
+      <div class="opt" data-why="Naming the scope is exactly what the limits line is for">"Limits": a limit should never be stated in a report</div>
+      <div class="opt" data-why="A second person rerunning it is the point of the reviewer line">"Reviewer": the analyst should review their own work</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A check is something run: a hand case, a second method, a rerun. An assistant writing the code is not a check.</div>
+  </div>
+  <aside class="notes"><p>Answer A.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-8-1" data-auto="lab" data-lab="8.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's fifth lab line. Watch for: multiplying the control group as well as the treated; drawing new shuffles inside every simulated trial (slow but valid); forgetting to write the capstone plan before seeing any capstone result. Quick mode runs 200 trials per setting: rates move by a few points.</p></aside>
+</section>
+
+<section class="slide" id="debrief-power" data-lo="LO5 LO6">
+  <div class="kicker">Debrief · lab 8.1</div>
+  <h2>A 10% uplift on baskets: found one time in ten at 50 per group, two in three at 800</h2>
+  <table class="t">
+    <tr><th class="num">n per group</th><th class="num">Type I error rate</th><th class="num">Power, 10% uplift</th></tr>
+    <tr><td class="num">50</td><td class="num">0.050</td><td class="num">0.100</td></tr>
+    <tr><td class="num">200</td><td class="num">0.034</td><td class="num">0.263</td></tr>
+    <tr class="hl"><td class="num">800</td><td class="num">0.035</td><td class="num">0.658</td></tr>
+  </table>
+  <p class="small mt">1,000 simulated trials per cell, Monte Carlo error up to about ±0.03. The test erred at or a little below α.</p>
+  <aside class="notes"><p>From the solution run of lab 8.1. The uplift is 2.19 riyals, 0.12 standard deviations of a long-tailed outcome: small against the spread. Welch's t test gave similar power (0.098, 0.221, 0.671) in the stretch.</p></aside>
+</section>
+
+<section class="slide" id="debrief-decision" data-lo="LO5">
+  <div class="kicker">Debrief · lab 8.1</div>
+  <h2>One trial at 200 per group: +3.46 riyals, interval −0.05 to 7.49, decision unclear</h2>
+  <ul class="bullets">
+    <li>p = 0.08: not below 0.05, and the uplift was real in the simulation</li>
+    <li>The interval straddles the 1.50 threshold: unclear, not "no effect"</li>
+    <li>At 200 per group, 3 trials in 4 would miss this uplift: plan the size first (SPC-STA-201, SPC-EXP-201)</li>
+  </ul>
+  <aside class="notes"><p>From the solution run of lab 8.1. A good place to end the teaching weeks: the data were generated with a true uplift, and an honest report of this one trial still says "unclear".</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 8 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Simulate the plan</h4><p class="small mb0">Count false findings and missed effects before you run the study.</p></div>
+    <div class="card c-coral"><h4>Decide on the interval</h4><p class="small mb0">Against the threshold that matters, not on p.</p></div>
+    <div class="card c-purple"><h4>Note every result</h4><p class="small mb0">Scope, limits, how it was checked, who reran it.</p></div>
   </div>
+  <aside class="notes"><p>Collect the three-line capstone plans from step 7 of the lab. Check each names a licence and fixes the analysis before results.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Capstone: Capstone project presentations</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>The capstone, and the second supervised test</h2>
+  <p class="lead">Problem set 8 (50 minutes, AI off for the first attempt): labs/problem-sets/PS8.ipynb. Then the second test, 90 minutes, AI off, and the capstone brief.</p>
+  <aside class="notes"><p>The second test covers weeks 5 to 8 and holds the LO2 ten-statement sheet and the LO3 one-page critique; its items and keys are in the trainer pack. Capstone: dataset clinic, independent analysis, peer dry run, then the oral checks.</p></aside>
 </section>
