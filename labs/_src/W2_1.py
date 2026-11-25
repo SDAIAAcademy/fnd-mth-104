@@ -19,13 +19,13 @@
 # **Tasks**
 # - [ ] 1 · Set up; the quarter as a known population (10 min)
 # - [ ] 2 · Every sample of a tiny population, by hand (10 min)
-# - [ ] 3 · Two thousand samples at three sizes: the sampling distribution of the mean (20 min)
+# - [ ] 3 · Two thousand samples at three sizes (20 min)
 # - [ ] 4 · The standard error by simulation against s/√n (15 min)
 # - [ ] 5 · The sampling distribution of the median (15 min)
 # - [ ] 6 · A frame of loyalty members only (15 min)
 # - [ ] 7 · The shape of the sampling distribution at n = 10 (10 min)
 # - [ ] 8 · Record how this was checked (10 min)
-# - [ ] ✱ Stretch · Show that four times the sample size halves the standard error of the median too
+# - [ ] ✱ Stretch · Does sixteen times n quarter the median's standard error too?
 
 # %%
 import os, sys, subprocess

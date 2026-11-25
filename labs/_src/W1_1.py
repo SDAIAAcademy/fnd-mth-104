@@ -3,7 +3,7 @@
 # dependencies = ["numpy>=2.1", "scipy>=1.15", "pandas>=2.2", "statsmodels>=0.14"]
 # ///
 # %% [markdown]
-# # Lab 1.1 · Describing the chain's baskets: centre, spread, shape, outliers and missing values
+# # Lab 1.1 · Describing the chain's baskets
 #
 # Week 1 · Session 1 (Centre, spread, shape and missing values) · 105 min. An addition to the
 # catalog entry's lab lines, so that week 1 has a lab.
@@ -18,14 +18,14 @@
 #
 # **Tasks**
 # - [ ] 1 · Set up and load the month of baskets (10 min)
-# - [ ] 2 · Centre by hand, then in code: mean, median, trimmed mean (15 min)
-# - [ ] 3 · Spread: standard deviation, interquartile range and the fences (15 min)
+# - [ ] 2 · Centre: mean, median and trimmed mean (15 min)
+# - [ ] 3 · Spread: SD, IQR and the fences (15 min)
 # - [ ] 4 · Shape: skewness, bins and the log scale (15 min)
 # - [ ] 5 · Two extreme baskets: an error or a real order? (15 min)
-# - [ ] 6 · Missing waits: count them, decode them, find who is missing (20 min)
-# - [ ] 7 · Summaries by branch that state what is missing (10 min)
+# - [ ] 6 · Missing waits: decode and locate them (20 min)
+# - [ ] 7 · Branch summaries with the missing share (10 min)
 # - [ ] 8 · Record how this was checked (5 min)
-# - [ ] ✱ Stretch · Show how the mean wait moves under three ways of handling the missing waits
+# - [ ] ✱ Stretch · The mean wait under three ways of handling missing waits
 
 # %%
 import os, sys, subprocess

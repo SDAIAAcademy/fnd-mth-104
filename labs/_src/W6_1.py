@@ -23,12 +23,12 @@
 # - [ ] 1 · Set up; the two questions and their null models (10 min)
 # - [ ] 2 · Every split of a tiny two-group sample, by hand (15 min)
 # - [ ] 3 · A permutation test for a difference in means (20 min)
-# - [ ] 4 · The effect size with an interval: difference and ratio of means (15 min)
+# - [ ] 4 · The effect size with an interval (15 min)
 # - [ ] 5 · A permutation test for a correlation (15 min)
 # - [ ] 6 · Compare with SciPy's permutation test (10 min)
 # - [ ] 7 · A plain-language reading of each result (10 min)
 # - [ ] 8 · Record how this was checked (10 min)
-# - [ ] ✱ Stretch · Q1 for participants in poor health only, and why it is weaker evidence
+# - [ ] ✱ Stretch · Q1 for poor health only, and why it is weaker
 
 # %%
 import os, sys, subprocess

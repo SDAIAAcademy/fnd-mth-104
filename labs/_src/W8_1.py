@@ -18,13 +18,13 @@
 #
 # **Tasks**
 # - [ ] 1 · Set up; the planned trial and its question (10 min)
-# - [ ] 2 · Type I and Type II errors by hand: a hundred trials (10 min)
+# - [ ] 2 · Type I and II errors by hand (10 min)
 # - [ ] 3 · A fast permutation test with fixed shuffles (15 min)
 # - [ ] 4 · The Type I error rate at 50, 200 and 800 per group (20 min)
 # - [ ] 5 · Power at the same sizes for a 10% uplift (20 min)
 # - [ ] 6 · Effect size and practical significance (15 min)
-# - [ ] 7 · Record how this was checked, and plan your capstone (15 min)
-# - [ ] ✱ Stretch · The power of Welch's t test on the same simulated trials
+# - [ ] 7 · The note, and your capstone plan (15 min)
+# - [ ] ✱ Stretch · Welch's t test on the same trials
 
 # %%
 import os, sys, subprocess

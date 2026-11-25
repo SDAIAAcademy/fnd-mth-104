@@ -1,56 +1,259 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Welcome. This course does inference by simulation before formulas: every week participants draw samples, resample or shuffle, and count. Ask the room: who has reported an average that turned out to mislead? Keep two or three answers for block A. Rhythm of each week: about 105 minutes of teaching in three blocks with a checkpoint after each, then a 105-minute lab, then a problem set at home.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="setup-check">
+  <div class="kicker">Before we start</div>
+  <h2>Check that a lab notebook runs on your machine or in the hosted notebook</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li><b>Hosted:</b> open the pre-work notebook from the course page; its first cell clones the course and installs what it needs</li>
+      <li><b>Local:</b> from <code>labs/</code>, run <code>uv run --with jupyterlab jupyter lab</code></li>
+      <li>The proof: the pre-work notebook runs to its last cell</li>
+    </ul>
+    <div class="card c-teal"><h4>Pre-work</h4><p class="small mb0">Group summaries with a DataFrame library, 60 minutes. Done before today if you have not taken FND-DAT-102.</p></div>
+  </div>
+  <aside class="notes"><p>Give five minutes. Common failures: a hosted session that was not connected before the first cell; a local folder opened one level too high, so the setup cell cannot find labs/. The setup cell walks up to labs/ by itself when the notebook is opened from solutions/.</p></aside>
+</section>
+
+<section class="slide" id="case-intro">
+  <div class="kicker">The case study</div>
+  <h2>All term you are the new analyst of a chain of 24 neighbourhood bakeries</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Branches BR01 to BR24 in five sectors of one city; product lines L01 to L20</li>
+      <li>Four readers ask the questions: the operations manager, the quality lead, the finance analyst and the customer insight lead</li>
+      <li>Every file is synthetic and generated with a fixed seed, so everyone gets the same numbers</li>
+    </ul>
+    <div class="card c-purple"><h4>Why synthetic</h4><p class="small mb0">You can know the truth. In weeks 2, 4 and 8 a whole quarter of baskets plays the population, so every estimate can be checked against it.</p></div>
+  </div>
+  <aside class="notes"><p>The chain, its city and its people have no names on purpose: roles and codes only. Weeks 5 and 6 add two public-domain datasets so that participants also practise on real data.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="mean-median-questions" data-lo="LO1 LO4">
+  <div class="kicker">Block A · centre</div>
+  <h2>The mean and the median answer different questions</h2>
   <div class="cols cols-2">
+    <div>
+      <p>Nine catering orders, in riyals:</p>
+      <p class="lead">40, 45, 50, 52, 55, 58, 60, 75, 400</p>
+      <table class="t small">
+        <tr><th>Summary</th><th class="num">Value</th></tr>
+        <tr><td>Mean</td><td class="num">92.78</td></tr>
+        <tr class="hl"><td>Median</td><td class="num">55.00</td></tr>
+        <tr><td>20% trimmed mean</td><td class="num">56.43</td></tr>
+      </table>
+    </div>
     <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+      <li>The <b>mean</b> is the total shared out equally: useful for budgets</li>
+      <li>The <b>median</b> is the middle order: "a typical order"</li>
+      <li>The <b>trimmed mean</b> drops a share at each end, then averages</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>From labs/_tools/slide_numbers.py, week 1. Ask which number the catering manager should quote as "a typical order" and which the finance analyst needs to forecast revenue. Both are right for their question.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="robust" data-lo="LO1 LO4">
+  <div class="kicker">Block A · robustness</div>
+  <h2>One mistyped value moves the mean and leaves the median alone</h2>
+  <div class="cols cols-2">
+    <div class="stat center"><div class="big">92.78 → 492.78</div><div class="lbl">the mean, when 400 is keyed as 4000</div></div>
+    <div class="stat center"><div class="big">55.00 → 55.00</div><div class="lbl">the median, unchanged</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout tip mt"><b>Robust</b> means one bad row cannot drag the summary far. The median and the trimmed mean are robust; the mean and the standard deviation are not.</div>
+  <aside class="notes"><p>From slide_numbers.py, week 1. The mean moves by the error divided by n: 3,600 / 9 = 400. Robustness is not a virtue in itself: the mean is the right summary for totals, and then the error must be found and fixed, not hidden.</p></aside>
+</section>
+
+<section class="slide" id="long-tail" data-lo="LO4">
+  <div class="kicker">Block A · shape</div>
+  <h2>Money, waits and counts usually have a long right tail</h2>
+  <ul class="bullets">
+    <li>Most values are small; a few are much larger; none are below zero</li>
+    <li>The mean sits above the median, pulled by the tail</li>
+    <li><b>Skewness</b> measures the lean: 0 for a symmetric shape, large and positive for a long right tail</li>
+    <li>On a log scale the tail often becomes nearly symmetric</li>
+  </ul>
+  <div class="callout note mt"><b>For a report.</b> Say which summary you used and why: "median basket" and "mean basket" are different numbers.</div>
+  <aside class="notes"><p>Ask the room for other long-tailed quantities from their own work: invoice values, response times, file sizes. The lab measures the skewness of the baskets before and after taking logarithms.</p></aside>
+</section>
+
+<section class="slide" id="check-centre" data-lo="LO1 LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which summary for this request?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">The finance analyst must forecast next month's total delivery charges from this month's 2,000 deliveries, whose charges have a long right tail. Which summary of this month's charges does the forecast need?</p>
+    <div class="opts">
+      <div class="opt" data-why="Uses the typical value for a total: the median ignores how large the tail is, and the tail is real money">The median charge</div>
+      <div class="opt" data-why="Drops the largest charges, which will be billed again next month">The 20% trimmed mean charge</div>
+      <div class="opt" data-ok>The mean charge</div>
+      <div class="opt" data-why="Confuses spread with level: the interquartile range says nothing about the total">The interquartile range of the charges</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A total is the mean times the count; the tail contributes to the total, so the mean is the summary that adds up.</div>
+  </div>
+  <aside class="notes"><p>Answer C. If many pick the median, return to slide "mean and median answer different questions": the question decides.</p></aside>
+</section>
+
+<section class="slide" id="spread" data-lo="LO4">
+  <div class="kicker">Block B · spread</div>
+  <h2>The interquartile range is the width of the middle half</h2>
+  <div class="cols cols-2">
+    <table class="t">
+      <tr><th>The nine orders</th><th class="num">Value</th></tr>
+      <tr><td>Q1 (25th percentile)</td><td class="num">50.00</td></tr>
+      <tr><td>Q3 (75th percentile)</td><td class="num">60.00</td></tr>
+      <tr class="hl"><td>IQR = Q3 − Q1</td><td class="num">10.00</td></tr>
+      <tr><td>Standard deviation</td><td class="num">115.64</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>The standard deviation is dominated by the one large order</li>
+      <li>The IQR describes the eight ordinary ones</li>
+      <li>Percentiles have several rules; NumPy's default interpolates. Say which you used</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From slide_numbers.py, week 1. NumPy's default places the p-th percentile of n sorted values at position (n − 1)p counting from zero: for nine values Q1 is the third value, 50, and Q3 the seventh, 60. Other software may give slightly different quartiles on small samples.</p></aside>
+</section>
+
+<section class="slide" id="fences" data-lo="LO4">
+  <div class="kicker">Block B · outliers</div>
+  <h2>A fence flags values to look at; it is not a rule for deleting them</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Fence</b>Q3 + 1.5 × IQR = 60 + 15 = 75</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Flag</b>400 is above it</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · Look</b>Is it an error or a real order?</div>
+  </div>
+  <div class="callout warn mt"><b>What goes wrong.</b> In a long right tail many honest values sit above the fence. Deleting them all makes the data look tamer than the business is.</div>
+  <aside class="notes"><p>From slide_numbers.py, week 1. Ask: what evidence would show 400 is a real order? A matching invoice, a catering booking, a plausible number of items. Evidence, not distance from the middle, decides.</p></aside>
+</section>
+
+<section class="slide" id="error-or-real" data-lo="LO4">
+  <div class="kicker">Block B · evidence</div>
+  <h2>Decide "error or real" from evidence in the other columns</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Value per item</h4><p class="small mb0">Ten items for 400 is plausible; three items for 4,000 is not.</p></div>
+    <div class="card c-coral"><h4>Source</h4><p class="small mb0">A till known to repeat a key, a manual entry, an import from another system.</p></div>
+    <div class="card c-purple"><h4>Context</h4><p class="small mb0">A catering booking that day; a branch that was closed; a time outside opening hours.</p></div>
+  </div>
+  <div class="callout tip mt"><b>Rule of the course:</b> remove only what you can show is an error, remove it alone, and say so in the note.</div>
+  <aside class="notes"><p>The lab has one of each: an error and a real order. Do not name them here; the lab asks participants to classify the two largest baskets themselves.</p></aside>
+</section>
+
+<section class="slide" id="check-outlier" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>What do you do with this order?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A month of 3,000 coffee orders has a high fence of 31 riyals. Forty orders lie above it, the largest 96 riyals for 14 drinks at a branch next to an office block. What do you do?</p>
+    <div class="opts">
+      <div class="opt" data-ok>Keep it: value per drink is ordinary, so it is a real large order</div>
+      <div class="opt" data-why="Treats the fence as a deletion rule: it only flags values to inspect">Delete all forty orders above the fence</div>
+      <div class="opt" data-why="Replaces a real value with an invented one, which biases totals downwards">Replace it with the fence value, 31</div>
+      <div class="opt" data-why="Thinks the median needs cleaning first: the median is robust to a few large values anyway">Delete it, because it will distort the median</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> 96 / 14 is under 7 riyals a drink: nothing suggests an error, so it stays.</div>
+  </div>
+  <aside class="notes"><p>Answer A. Ask what evidence would change the answer: three drinks for 96 riyals, or a branch closed that day.</p></aside>
+</section>
+
+<section class="slide" id="missing-cause" data-lo="LO1">
+  <div class="kicker">Block C · missing data</div>
+  <h2>Missing values have a cause, and the cause decides the bias</h2>
+  <table class="t">
+    <tr><th>Why the value is missing</th><th>What dropping the rows does</th></tr>
+    <tr><td>By chance: a form lost at random</td><td>Fewer rows, no bias</td></tr>
+    <tr><td>Linked to something recorded: more gaps on weekends</td><td>Bias, fixable by comparing within the recorded groups</td></tr>
+    <tr class="hl"><td>Linked to the value itself: long waits not logged when staff are busy</td><td>Bias that the data cannot reveal: waits look shorter than they are</td></tr>
+  </table>
+  <aside class="notes"><p>The textbook names are missing completely at random, at random, and not at random; the plain-language version is enough here. Ask: in a satisfaction survey, who is most likely not to answer?</p></aside>
+</section>
+
+<section class="slide" id="missing-codes" data-lo="LO1">
+  <div class="kicker">Block C · codes</div>
+  <h2>A missing value may not look missing: check for codes before you summarise</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Empty cells become NaN when read</li>
+      <li>Some systems write 0, −1, 999 or a date like 1900-01-01 instead</li>
+      <li>A code left as a number quietly enters the mean</li>
+    </ul>
+    <pre class="code" data-file="pandas"><code class="language-python">df["x"].isna().mean()          # share empty
+(df["x"] &lt; 0).sum()             # impossible values
+df.loc[df["x"] &lt; 0, "x"] = np.nan  # decode, then report</code></pre>
+  </div>
+  <aside class="notes"><p>A negative wait is impossible, so it is a code. Ask what a zero wait could mean: a real instant service or an unrecorded one. The data dictionary, or the person who runs the system, decides.</p></aside>
+</section>
+
+<section class="slide" id="report-missing" data-lo="LO1 LO4">
+  <div class="kicker">Block C · reporting</div>
+  <h2>Report the missing share and its likely direction beside every summary</h2>
+  <div class="card c-teal"><h4>A sentence that does the job has four parts</h4><p class="small mb0">The summary of the recorded values; the share not recorded; where the gaps are; and which way they probably move the true value.</p></div>
+  <div class="callout note mt"><b>Every lab ends with a note:</b> the result, how it was checked, its limits, and who reruns it before it is used. The analyst who ran it does not sign it off alone.</div>
+  <aside class="notes"><p>Introduce the four-part note here: participants write one at the end of every lab, and the capstone brief needs one for each result, including any AI-assisted step.</p></aside>
+</section>
+
+<section class="slide" id="check-missing" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which way does the bias run?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">A delivery service logs delivery times by hand. Drivers often skip the log when they are running late. The median of the logged times is 28 minutes. What is the most likely relation to the true median?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes the gaps are random: here they are linked to the value itself">About the same, since a median ignores missing rows</div>
+      <div class="opt" data-why="Gets the direction backwards: the missing times are the long ones">The true median is lower than 28 minutes</div>
+      <div class="opt" data-why="Thinks a robust summary is immune to missing data: robustness is about extreme values, not about who is missing">Impossible to say, because medians are robust</div>
+      <div class="opt" data-ok>The true median is higher than 28 minutes</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Late deliveries are the ones not logged, so the logged times are the shorter ones.</div>
+  </div>
+  <aside class="notes"><p>Answer D. The direction is known even though its size is not: say so in the note.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-1" data-auto="lab" data-lab="1.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only (labs/tutor/TUTOR.md). This lab is an addition to the entry's lab lines. Watch for: percentiles computed with a different rule by hand; the till error deleted together with the real order; dropna before counting the missing share. Participants who did not finish the pre-work can still do the lab: the summaries are written for them step by step.</p></aside>
+</section>
+
+<section class="slide" id="debrief-centre" data-lo="LO4">
+  <div class="kicker">Debrief · lab 1.1</div>
+  <h2>One till error moved the mean by 1.59 riyals and the median not at all</h2>
+  <table class="t">
+    <tr><th>6,278 baskets</th><th class="num">Mean</th><th class="num">Median</th><th class="num">20% trimmed</th></tr>
+    <tr><td>With the till error</td><td class="num">24.79</td><td class="num">18.76</td><td class="num">19.56</td></tr>
+    <tr class="hl"><td>Without it</td><td class="num">23.20</td><td class="num">18.76</td><td class="num">19.55</td></tr>
+  </table>
+  <p class="small mt">The error: 9,999.00 for 3 items. The real order: 612.40 for 140 items. 324 baskets sit above the high fence, all honest.</p>
+  <aside class="notes"><p>From the solution run of lab 1.1 (solutions/answer_key.md). Skewness 7.67 on the raw values, 0.11 on the logarithms.</p></aside>
+</section>
+
+<section class="slide" id="debrief-missing" data-lo="LO1">
+  <div class="kicker">Debrief · lab 1.1</div>
+  <h2>Waits were missing in 21% of the busiest branch's evenings, about 2% elsewhere</h2>
+  <ul class="bullets">
+    <li>Overall only 3.6% of waits are missing: the average hides where they are</li>
+    <li>The busiest branch's median recorded wait (4.1 minutes) is already the longest, and probably understated</li>
+    <li>One branch's till wrote −1 for "not recorded": decoded before any summary</li>
+  </ul>
+  <aside class="notes"><p>From the solution run of lab 1.1. Filling the gaps with the overall median or with the branch-and-band median moves the mean wait only in the second decimal (stretch): the honest report is the missing share and its direction, not a filled number.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 1 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>The question picks the summary</h4><p class="small mb0">Mean for totals, median for "typical"; say which.</p></div>
+    <div class="card c-coral"><h4>Fences flag, evidence decides</h4><p class="small mb0">Remove only proven errors, one at a time.</p></div>
+    <div class="card c-purple"><h4>Missing has a cause</h4><p class="small mb0">Report the share and the direction of the bias.</p></div>
   </div>
+  <aside class="notes"><p>Ask two participants to read their lab note aloud. Check that "checked by" names something they ran.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 2: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 2: Sampling variation</h2>
+  <p class="lead">Problem set 1 (50 minutes, AI off for the first attempt): labs/problem-sets/PS1.ipynb.</p>
+  <aside class="notes"><p>Remind participants that the last cell of the problem set scores it, and that the score counts towards the 20% for problem sets. Next week a whole quarter of baskets becomes a known population.</p></aside>
 </section>

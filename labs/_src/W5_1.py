@@ -22,12 +22,12 @@
 # **AI policy.** AI-tutor: hints, never answers (`labs/tutor/TUTOR.md`).
 #
 # **Tasks**
-# - [ ] 1 · Set up; the two public datasets and their licences (10 min)
+# - [ ] 1 · Set up; the public data and its licence (10 min)
 # - [ ] 2 · Suppress small groups before any table (10 min)
 # - [ ] 3 · Intervals for the mean and the median of visits (15 min)
-# - [ ] 4 · An interval for a difference: free care against 95% coinsurance (20 min)
+# - [ ] 4 · An interval for a difference between plans (20 min)
 # - [ ] 5 · A slope by hand, then in code (10 min)
-# - [ ] 6 · A bootstrap interval for the slope of food spending on income (20 min)
+# - [ ] 6 · A bootstrap interval for a slope (20 min)
 # - [ ] 7 · Rerun with a new seed and compare every interval (10 min)
 # - [ ] 8 · Record how this was checked (10 min)
 # - [ ] ✱ Stretch · The slope on the log scale, and what it means

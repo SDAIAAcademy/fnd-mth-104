@@ -97,8 +97,8 @@
           "minutes": 210,
           "lab": {
             "id": "1.1",
-            "title": "Describing the chain's baskets: centre, spread, shape, outliers and missing values",
-            "summary": "Describe a month of synthetic baskets with summaries that survive a long tail, settle two extreme baskets, and find who is missing from the wait data.",
+            "title": "Describing the chain's baskets",
+            "summary": "Describe a month of baskets with robust summaries, settle two extreme baskets, and find who is missing.",
             "minutes": 105,
             "href": "W1_1.ipynb",
             "steps": [
@@ -107,11 +107,11 @@
                 "minutes": 10
               },
               {
-                "text": "Centre by hand, then in code: mean, median, trimmed mean",
+                "text": "Centre: mean, median and trimmed mean",
                 "minutes": 15
               },
               {
-                "text": "Spread: standard deviation, interquartile range and the fences",
+                "text": "Spread: SD, IQR and the fences",
                 "minutes": 15
               },
               {
@@ -123,11 +123,11 @@
                 "minutes": 15
               },
               {
-                "text": "Missing waits: count them, decode them, find who is missing",
+                "text": "Missing waits: decode and locate them",
                 "minutes": 20
               },
               {
-                "text": "Summaries by branch that state what is missing",
+                "text": "Branch summaries with the missing share",
                 "minutes": 10
               },
               {
@@ -135,7 +135,7 @@
                 "minutes": 5
               }
             ],
-            "stretch": "Show how the mean wait moves under three ways of handling the missing waits"
+            "stretch": "The mean wait under three ways of handling missing waits"
           }
         }
       ],
@@ -162,7 +162,7 @@
           "lab": {
             "id": "2.1",
             "title": "Repeated sampling from a synthetic population",
-            "summary": "Draw thousands of samples from a known synthetic quarter of 40,000 baskets, measure the standard error of the mean and the median, and see what a members-only frame does.",
+            "summary": "Draw thousands of samples from a known quarter of baskets and measure the standard error.",
             "minutes": 105,
             "href": "W2_1.ipynb",
             "steps": [
@@ -175,7 +175,7 @@
                 "minutes": 10
               },
               {
-                "text": "Two thousand samples at three sizes: the sampling distribution of the mean",
+                "text": "Two thousand samples at three sizes",
                 "minutes": 20
               },
               {
@@ -199,7 +199,7 @@
                 "minutes": 10
               }
             ],
-            "stretch": "Show that four times the sample size halves the standard error of the median too"
+            "stretch": "Does sixteen times n quarter the median's standard error too?"
           }
         }
       ],
@@ -227,7 +227,7 @@
           "lab": {
             "id": "3.1",
             "title": "Confounding in the waste records, against a randomised trial",
-            "summary": "Explain why a display shelf chosen by managers looks harmful overall and helpful within each branch size, and read a randomised discount trial beside it.",
+            "summary": "Explain why the display looks worse overall and better within each size, beside a randomised trial.",
             "minutes": 105,
             "href": "W3_1.ipynb",
             "steps": [
@@ -292,7 +292,7 @@
           "lab": {
             "id": "4.1",
             "title": "Bootstrap intervals with coverage checked against a known truth",
-            "summary": "Build percentile bootstrap intervals from one sample, then measure how often they contain the known population mean and median at three sample sizes.",
+            "summary": "Build bootstrap intervals and count how often they contain the known mean and median.",
             "minutes": 105,
             "href": "W4_1.ipynb",
             "steps": [
@@ -353,12 +353,12 @@
           "lab": {
             "id": "5.1",
             "title": "Bootstrap intervals for differences and slopes on public skewed data",
-            "summary": "On two public-domain datasets, build intervals for a mean, a median, a difference in visits between insurance plans and the slope of food spending on income, and check they agree on rerun.",
+            "summary": "Intervals for a mean, a median, a difference and a slope on two public datasets, checked on rerun.",
             "minutes": 105,
             "href": "W5_1.ipynb",
             "steps": [
               {
-                "text": "Set up; the two public datasets and their licences",
+                "text": "Set up; the public data and its licence",
                 "minutes": 10
               },
               {
@@ -370,7 +370,7 @@
                 "minutes": 15
               },
               {
-                "text": "An interval for a difference: free care against 95% coinsurance",
+                "text": "An interval for a difference between plans",
                 "minutes": 20
               },
               {
@@ -378,7 +378,7 @@
                 "minutes": 10
               },
               {
-                "text": "A bootstrap interval for the slope of food spending on income",
+                "text": "A bootstrap interval for a slope",
                 "minutes": 20
               },
               {
@@ -418,7 +418,7 @@
           "lab": {
             "id": "6.1",
             "title": "Permutation tests for a group difference and a correlation on public data",
-            "summary": "Test a difference in visits between insurance plans and a correlation between income and food spending by permutation, and report effect sizes with intervals.",
+            "summary": "Test a group difference and a correlation by permutation, and report effect sizes with intervals.",
             "minutes": 105,
             "href": "W6_1.ipynb",
             "steps": [
@@ -435,7 +435,7 @@
                 "minutes": 20
               },
               {
-                "text": "The effect size with an interval: difference and ratio of means",
+                "text": "The effect size with an interval",
                 "minutes": 15
               },
               {
@@ -455,7 +455,7 @@
                 "minutes": 10
               }
             ],
-            "stretch": "Q1 for participants in poor health only, and why it is weaker evidence"
+            "stretch": "Q1 for poor health only, and why it is weaker"
           }
         }
       ],
@@ -483,7 +483,7 @@
           "lab": {
             "id": "7.1",
             "title": "Twenty tests on pure noise, with and without correction",
-            "summary": "Test twenty product lines with no true effect, then simulate a thousand such dashboards to build the table of false-finding rates with and without correction.",
+            "summary": "Test twenty lines with no true effect, then simulate a thousand dashboards with and without correction.",
             "minutes": 105,
             "href": "W7_1.ipynb",
             "steps": [
@@ -545,7 +545,7 @@
           "lab": {
             "id": "8.1",
             "title": "Type I error rate and power of a permutation test estimated by simulation at three sample sizes",
-            "summary": "Simulate a planned trial thousands of times with and without a 10% uplift to estimate the permutation test's Type I error rate and power at three sample sizes.",
+            "summary": "Simulate a planned trial with and without a 10% uplift to estimate Type I error and power.",
             "minutes": 105,
             "href": "W8_1.ipynb",
             "steps": [
@@ -554,7 +554,7 @@
                 "minutes": 10
               },
               {
-                "text": "Type I and Type II errors by hand: a hundred trials",
+                "text": "Type I and II errors by hand",
                 "minutes": 10
               },
               {
@@ -574,11 +574,11 @@
                 "minutes": 15
               },
               {
-                "text": "Record how this was checked, and plan your capstone",
+                "text": "The note, and your capstone plan",
                 "minutes": 15
               }
             ],
-            "stretch": "The power of Welch's t test on the same simulated trials"
+            "stretch": "Welch's t test on the same trials"
           }
         }
       ],
