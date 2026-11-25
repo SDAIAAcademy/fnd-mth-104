@@ -693,6 +693,18 @@
         {
           "title": "Gelman and Loken (2013), The garden of forking paths: why multiple comparisons can be a problem, even when there is no fishing expedition",
           "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/p_hacking.pdf"
+        },
+        {
+          "title": "American Statistical Association (2016), news release on its Statement on Statistical Significance and P-Values, listing the six principles",
+          "url": "https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3: Bonferroni's method",
+          "url": "https://www.itl.nist.gov/div898/handbook/prc/section4/prc473.htm"
+        },
+        {
+          "title": "SciPy: scipy.stats.false_discovery_control (the Benjamini-Hochberg procedure, citing Benjamini and Hochberg, 1995)",
+          "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.false_discovery_control.html"
         }
       ]
     }

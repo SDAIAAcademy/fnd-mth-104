@@ -56,7 +56,7 @@
     <p class="lead">A regional report tests 40 districts for a change in complaints after a policy, each at α = 0.05. Two districts show a "significant" change. Assume the policy did nothing. How many would you expect?</p>
     <div class="opts">
       <div class="opt" data-why="Thinks α applies to the report as a whole, not to each test">None, since α is only 5%</div>
-      <div class="opt" data-why="Divides instead of multiplying">About 0.05</div>
+      <div class="opt" data-why="Takes the rate α for the count: 0.05 is the share per test, not the number of findings">About 0.05</div>
       <div class="opt" data-ok>About 2</div>
       <div class="opt" data-why="Confuses α with power">About 32</div>
     </div>
@@ -72,17 +72,20 @@
     <div class="card c-teal"><h4>Family-wise error rate</h4><p class="small mb0">The chance of at least one false finding in the family. Bonferroni: reject when p ≤ α / m. Holm: the same guarantee, step by step, more power.</p></div>
     <div class="card c-coral"><h4>False discovery rate</h4><p class="small mb0">The expected share of false findings among all findings. Benjamini-Hochberg: largest k with p₍ₖ₎ ≤ k α / m.</p></div>
   </div>
-  <aside class="notes"><p>Family-wise control suits a few claims that each lead to action; false-discovery control suits screening many candidates for follow-up. Choosing the family and gatekeeping between primary and secondary claims are in SPC-STA-201.</p></aside>
+  <aside class="notes"><p>Family-wise control suits a few claims that each lead to action; false-discovery control suits screening many candidates for follow-up. Choosing the family and gatekeeping between primary and secondary claims are in SPC-STA-201. Sources: NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3, Bonferroni's method; SciPy documentation of scipy.stats.false_discovery_control, which implements the Benjamini-Hochberg procedure and cites Benjamini and Hochberg (1995); statsmodels documentation of multipletests for Holm.</p></aside>
 </section>
 
 <section class="slide" id="six-tests" data-lo="LO6">
   <div class="kicker">Block B · an example</div>
   <h2>Six p-values, three procedures, three answers</h2>
   <table class="t">
-    <tr><th>Sorted p</th><th class="num">0.001</th><th class="num">0.006</th><th class="num">0.012</th><th class="num">0.019</th><th class="num">0.044</th><th class="num">0.31</th></tr>
-    <tr><td>Bonferroni, p ≤ 0.0083</td><td>✓</td><td>✓</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Holm, 0.05 / (6, 5, 4, …)</td><td>✓</td><td>✓</td><td>✓</td><td></td><td></td><td></td></tr>
-    <tr class="hl"><td>BH, k × 0.05 / 6</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+    <tr><th class="num">Sorted p</th><th>Bonferroni, p ≤ 0.0083</th><th>Holm, 0.05 / (6, 5, 4, …)</th><th>BH, k × 0.05 / 6</th></tr>
+    <tr><td class="num">0.001</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td class="num">0.006</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td class="num">0.012</td><td></td><td>✓</td><td>✓</td></tr>
+    <tr class="hl"><td class="num">0.019</td><td></td><td></td><td>✓</td></tr>
+    <tr><td class="num">0.044</td><td></td><td></td><td></td></tr>
+    <tr><td class="num">0.310</td><td></td><td></td><td></td></tr>
   </table>
   <aside class="notes"><p>From slide_numbers.py, week 7, checked against statsmodels. Holm: 0.012 ≤ 0.0125 passes, 0.019 &gt; 0.0167 stops. BH: 0.019 ≤ 0.0333 at k = 4; 0.044 &gt; 0.0417 at k = 5. The lab's hand case uses other p-values.</p></aside>
 </section>
@@ -90,11 +93,15 @@
 <section class="slide" id="corrections-code" data-lo="LO6">
   <div class="kicker">Block B · in code</div>
   <h2>Write the corrections once, then check them against a library</h2>
-  <pre class="code" data-file="statsmodels"><code class="language-python">from statsmodels.stats.multitest import multipletests
-from scipy.stats import false_discovery_control
+  <pre class="code" data-file="statsmodels"><code class="language-python">from scipy import stats
+from statsmodels.stats import (
+    multitest as mt)
 
-reject, p_adj, _, _ = multipletests(p, alpha=0.05, method="holm")
-q = false_discovery_control(p, method="bh")   # adjusted p-values</code></pre>
+r = mt.multipletests(
+    p, alpha=0.05, method="holm")
+reject, p_adj = r[0], r[1]
+# BH-adjusted p-values
+q = stats.false_discovery_control(p)</code></pre>
   <aside class="notes"><p>The lab writes bonferroni, holm and bh by hand and checks them against multipletests. R users: p.adjust. Library names change; the definitions do not.</p></aside>
 </section>
 
@@ -170,7 +177,7 @@ q = false_discovery_control(p, method="bh")   # adjusted p-values</code></pre>
     <tr><td>Holm</td><td class="num">0.035</td></tr>
     <tr><td>Benjamini-Hochberg</td><td class="num">0.035</td></tr>
   </table>
-  <aside class="notes"><p>From the solution run of lab 7.1 (Monte Carlo error about ±0.015 on the 0.627). Theory for 20 independent tests: 0.642. With every line null, any finding is false, so the three corrections coincide. The real dashboard's two findings, L07 (p = 0.030) and L10 (0.048), vanish under every correction.</p></aside>
+  <aside class="notes"><p>From the solution run of lab 7.1 (Monte Carlo error about ±0.03 on the 0.627, two standard errors). Theory for 20 independent tests: 0.642. With every line null, any finding is false, so the family-wise rate and the false discovery rate are the same quantity. Bonferroni and Holm flag exactly the same dashboards (both need the smallest p at or below 0.05 / 20); Benjamini-Hochberg can add a dashboard whose k-th smallest p is below k × 0.05 / 20, which happened in none of these 1,000. The corrected rates sit below 0.05 because the simulation uses 500 shuffles per test: the smallest possible p, 1 / 501, is just under 0.05 / 20, so a line passes Bonferroni only when it beats every shuffle. The real dashboard's two findings, L07 (p = 0.030) and L10 (0.048), vanish under every correction.</p></aside>
 </section>
 
 <section class="slide" id="debrief-forking" data-lo="LO3">

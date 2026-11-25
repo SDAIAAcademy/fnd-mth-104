@@ -238,7 +238,7 @@ res_q1 = stats.permutation_test((free, high), mean_diff, permutation_type="indep
 res_less = stats.permutation_test(([3.0, 5.0], [8.0, 10.0, 12.0]), mean_diff, permutation_type="independent",
                                   n_resamples=np.inf, alternative="less")
 print(f"SciPy tiny case: two-sided p = {res_tiny.pvalue:.4f}, one-sided p = {res_less.pvalue:.4f} (yours {p_tiny:.4f})")
-print(f"SciPy Q1: p = {res_q1.pvalue:.5f} (yours {p_q1:.5f}; each is at its own floor, 1 / (shuffles + 1))")
+print(f"SciPy Q1: p = {res_q1.pvalue:.5f} (yours {p_q1:.5f}; both at their floors: yours 1 / (shuffles + 1), SciPy's two-sided 2 / (shuffles + 1), since it doubles a one-sided p)")
 U.keep("w6_scipy", {"tiny_two_sided": float(res_tiny.pvalue), "tiny_less": float(res_less.pvalue), "q1": float(res_q1.pvalue)})
 U.check(abs(res_less.pvalue - p_tiny) < 1e-9, "your exact count matches SciPy's enumeration")
 

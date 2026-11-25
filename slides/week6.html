@@ -92,7 +92,7 @@ p_value = (count + 1) / (R + 1)</code></pre>
     <tr><td>"The effect is large"</td><td>p mixes size and sample size; report the effect size</td></tr>
     <tr class="hl"><td>"p = 0.06, so there is no effect"</td><td>Not enough evidence at this size is not evidence of none</td></tr>
   </table>
-  <aside class="notes"><p>These four plus the interval misreadings of week 4 make up most of the LO2 ten-statement sheet. Ask participants to find one in a report they have read this year.</p></aside>
+  <aside class="notes"><p>These four plus the interval misreadings of week 4 make up most of the LO2 ten-statement sheet. Ask participants to find one in a report they have read this year. Sources: the American Statistical Association's statement on statistical significance and p-values (2016), principles 2 (a p-value does not measure the probability that the hypothesis is true) and 5 (it does not measure the size of an effect).</p></aside>
 </section>
 
 <section class="slide" id="errors" data-lo="LO2">
@@ -115,7 +115,7 @@ p_value = (count + 1) / (R + 1)</code></pre>
     <div class="opts">
       <div class="opt" data-why="Swaps one reversal for another">"There is a 99% chance the schedule works."</div>
       <div class="opt" data-why="Turns the p-value into an effect size">"The schedule improves the outcome by 1%."</div>
-      <div class="opt" data-ok>"If the schedule had no effect, a difference this large would arise in about 1% of relabellings."</div>
+      <div class="opt" data-ok>"If the schedule had no effect, a difference at least this large would arise in about 1% of relabellings."</div>
       <div class="opt" data-why="Changes the threshold instead of the reading">"The result is significant at the 5% level, so the effect is certain."</div>
     </div>
     <div class="callout tip why"><b>Why.</b> A p-value is computed assuming no effect; it cannot be the probability of that assumption.</div>
@@ -172,7 +172,7 @@ p_value = (count + 1) / (R + 1)</code></pre>
     <tr><td>Ratio of means</td><td class="num">1.48</td><td class="num">1.37 to 1.60</td></tr>
     <tr class="hl"><td>Permutation p, 5,000 shuffles</td><td class="num" colspan="2">0.0002, the floor 1 / 5,001</td></tr>
   </table>
-  <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain).</p>
+  <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain). Rows are person-years resampled and shuffled as if independent, so the interval is too narrow and the p-value too small (week 5).</p>
   <aside class="notes"><p>From the solution run of lab 6.1. Two random halves of the free-care group gave p = 0.84: the test behaves under a known null. In poor health only (stretch), 207 against 40 person-years: −1.56 visits, interval −4.48 to 1.12, p = 0.22: weaker evidence, and a subgroup that should be chosen before looking.</p></aside>
 </section>
 

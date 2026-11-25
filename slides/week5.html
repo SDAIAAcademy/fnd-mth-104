@@ -182,11 +182,12 @@ b = slope(x[i], y[i])</code></pre>
   <h2>Free care: about one more doctor visit a year than 95% coinsurance</h2>
   <table class="t">
     <tr><th>Outpatient visits a year</th><th class="num">Free care</th><th class="num">95% coinsurance</th><th class="num">Difference (95% interval)</th></tr>
-    <tr><td>Mean</td><td class="num">3.12</td><td class="num">2.11</td><td class="num">1.01 (0.83 to 1.19)</td></tr>
+    <tr><td>Mean</td><td class="num">3.12</td><td class="num">2.11</td><td class="num">1.01 (0.83 to 1.18)</td></tr>
     <tr class="hl"><td>Median</td><td class="num">2</td><td class="num">1</td><td class="num">1 (1 to 1)</td></tr>
   </table>
+  <div class="callout warn mt"><b>Limit.</b> Rows are person-years and the subset has no person identifier, so the lab resampled rows, not people: these intervals are too narrow.</div>
   <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain); 10,997 and 2,653 person-years. Three plan-by-health cells under 30 rows were suppressed.</p>
-  <aside class="notes"><p>From the solution run of lab 5.1. Rows are person-years, so the same person counts in several years: the intervals are probably too narrow. Resampling people (a clustered bootstrap) is in SPC-STA-201.</p></aside>
+  <aside class="notes"><p>From the solution run of lab 5.1. Rows are person-years, so the same person counts in several years, and the dataset carries no person identifier: the lab cannot follow the week's own rule of resampling as collected, so it states the limit instead. The intervals are too narrow; the direction of the difference is not in doubt, its width is. Ask the room which way the interval would move if people were resampled. Resampling people (a clustered bootstrap) is in SPC-STA-201. In the capstone, a dataset with an identifier for the repeated unit should be resampled by that unit.</p></aside>
 </section>
 
 <section class="slide" id="debrief-slope" data-lo="LO4">

@@ -462,7 +462,7 @@
       ],
       "explanation": "Suppression removes both the value and the exact count of a small group, which could otherwise identify people.",
       "lo": [
-        "LO2"
+        "LO4"
       ],
       "day": "week5",
       "session": 1,
@@ -475,7 +475,7 @@
       "type": "single",
       "prompt": "A permutation test of a new layout against the old one gives p = 0.03. Which statement is correct?",
       "options": [
-        "If the layout had no effect, a difference this large would appear in about 3% of shuffles",
+        "If the layout had no effect, a difference at least this large would appear in about 3% of shuffles",
         "The new layout improves sales by 3%",
         "97% of customers prefer the new layout",
         "There is a 3% chance that the new layout has no effect"

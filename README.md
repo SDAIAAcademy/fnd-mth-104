@@ -52,7 +52,9 @@ Weeks 5 and 6 also use two public datasets, none copied into this repository:
 | RAND Health Insurance Experiment subset (`randhie`, 20,190 person-years: outpatient visits, randomly assigned coinsurance plan, self-rated health) | Public domain, as stated in the statsmodels documentation | Bundled with statsmodels; read from the installed package, no download |
 | Engel's food expenditure data (`engel`, 235 households: income and food spending) | Public domain, as stated in the statsmodels documentation | Bundled with statsmodels; read from the installed package, no download |
 
-Groups with fewer than 30 rows in public data are suppressed before any table is reported (`labs/sta.py`, `suppress`).
+Groups with fewer than 30 rows in public data are suppressed before any table is reported (`labs/sta.py`, `suppress`). The threshold of 30 is this course's own rule: the catalog entry asks only that small groups be suppressed, and no national standard is cited for the number.
+
+One limit of the health data is stated wherever its intervals appear: a row is a person-year, and the subset has no person identifier, so the labs resample rows rather than people and those intervals are too narrow.
 
 ## Plan and minutes
 
@@ -182,6 +184,9 @@ Each line is a capability; the examples are interchangeable.
 - [SciPy: scipy.stats.permutation_test (two-sided p-value: twice the smaller one-sided p-value)](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html)
 - [statsmodels: multipletests (Bonferroni, Holm, Benjamini-Hochberg)](https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html)
 - [Gelman and Loken (2013), The garden of forking paths: why multiple comparisons can be a problem, even when there is no fishing expedition](https://sites.stat.columbia.edu/gelman/research/unpublished/p_hacking.pdf)
+- [American Statistical Association (2016), news release on its Statement on Statistical Significance and P-Values, listing the six principles](https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf)
+- [NIST/SEMATECH e-Handbook of Statistical Methods, section 7.4.7.3: Bonferroni's method](https://www.itl.nist.gov/div898/handbook/prc/section4/prc473.htm)
+- [SciPy: scipy.stats.false_discovery_control (the Benjamini-Hochberg procedure, citing Benjamini and Hochberg, 1995)](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.false_discovery_control.html)
 <!-- /academy:sources -->
 
 ### National references

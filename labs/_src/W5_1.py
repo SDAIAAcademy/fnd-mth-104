@@ -60,9 +60,16 @@ B = U.pick(2000, 400)
 # ## 1 · The public data
 #
 # Source and licence first, always. Both datasets say "public domain" in their statsmodels
-# documentation. Rows of the health experiment are person-years: the same person appears in
-# several years, which the simple bootstrap here ignores (resampling people rather than rows is
-# taught in SPC-STA-201). Say so in your note.
+# documentation.
+#
+# **A limit to carry into every result of the health data.** A row is a person-year, not a
+# person: the same person appears in several years, and the rows of one person are not
+# independent. The week's rule is to resample the way the data were collected, which here would
+# mean resampling people (a clustered bootstrap, taught in SPC-STA-201). This subset has **no
+# person identifier**, so the lab cannot do that: it resamples rows, and its intervals for the
+# health data are **too narrow**. Read them as a lower bound on the uncertainty, and say so in
+# your note. (Engel's data has one row per household, so the slope's interval has no such
+# problem.)
 
 # %%
 hie = U.health_experiment()
@@ -134,6 +141,7 @@ print("free care: n", len(free), "| mean", round(free.mean(), 3), first["mean_fr
 # ## 4 · A difference between two groups
 #
 # The plans were assigned at random, so a difference between them estimates what the plan did.
+# (Remember the limit of task 1: these rows are person-years, so the interval comes out too narrow.)
 # Write `boot_diff(x, y, stat, B, rng)`: resample **each group separately** (keeping its size)
 # and return the `B` values of `stat(x*) − stat(y*)`. Compute intervals for the difference in
 # mean visits and in median visits, free care minus 95% coinsurance.
@@ -268,7 +276,8 @@ def write_note():
                   f"food spending rises by {b_food:.3f} per unit of income ({first['slope'][0]:.3f} to {first['slope'][1]:.3f}).",
         "checked_by": f"Rerun with new seeds: every end moved by less than {100 * rerun['move_share_of_width'].max():.0f}% of its "
                       "interval's width; slope() agreed with a three-point hand case and the library fit.",
-        "limits": "Rows are person-years, so the same person counts several times and the intervals are probably too narrow; "
+        "limits": "Rows are person-years and the subset has no person identifier, so rows were resampled instead of people: "
+                  "the health-data intervals are too narrow and read as a lower bound on the uncertainty; "
                   f"{n_hidden} plan-by-health cells under 30 rows were suppressed; Engel's households are one old survey.",
         "reviewer": "A second analyst reruns the notebook from a clean environment before the figures are quoted.",
     }
@@ -285,7 +294,9 @@ check_note = U.note(write_note)
 #
 # <details><summary>Answer</summary>Each way copies how the data were collected: two groups of
 # fixed size for the plans; pairs of income and spending that belong together for the slope.
-# Breaking the pairs would destroy the relation the slope measures.</details>
+# Breaking the pairs would destroy the relation the slope measures. For the plans the copy is
+# only partial: the units collected were people, followed for several years, and the rows are
+# person-years, which is why those intervals are too narrow.</details>
 #
 # 2. The median difference interval is 1 to 1. What does that say, and what does it not?
 #

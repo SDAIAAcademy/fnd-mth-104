@@ -117,7 +117,7 @@ low, high = np.percentile(boots, [2.5, 97.5])</code></pre>
     <tr><td>"A wider interval means a worse method"</td><td>Width reflects the data and n; a too-narrow method under-covers</td></tr>
     <tr class="hl"><td>"Two overlapping intervals mean no difference"</td><td>Overlap does not settle it: build an interval for the difference (week 5)</td></tr>
   </table>
-  <aside class="notes"><p>Ask participants to say which misreading they have seen in a report. The overlap rule is wrong in both directions and is common in dashboards.</p></aside>
+  <aside class="notes"><p>Ask participants to say which misreading they have seen in a report. The overlap rule is common in dashboards: overlap does not show that there is no difference, and no overlap, though it does point to a difference, is a needlessly strict test. Week 5 builds the interval for the difference.</p></aside>
 </section>
 
 <section class="slide" id="check-ci" data-lo="LO2">
@@ -219,7 +219,7 @@ stats.bootstrap((x,), np.mean)</code></pre>
     <tr class="hl"><td class="num">100</td><td class="num">0.920</td><td class="num">0.939</td></tr>
   </table>
   <p class="small mt">1,000 samples per row: each figure carries a Monte Carlo error of about ±0.014.</p>
-  <aside class="notes"><p>From the solution run of lab 4.1. The t interval did not do better (stretch: 0.877, 0.917, 0.927). The median's interval held its level better on this population.</p></aside>
+  <aside class="notes"><p>From the solution run of lab 4.1. The t interval did a little better and also fell short at small n (stretch: 0.877, 0.917, 0.927). The median's interval held its level better on this population.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">

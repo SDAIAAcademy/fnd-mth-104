@@ -253,10 +253,10 @@ def write_note():
     # BEGIN SOLUTION
     return {
         "result": f"With a 10% uplift, the permutation test finds it in {100 * power[50]:.0f}% of trials at 50 baskets per group, "
-                  f"{100 * power[200]:.0f}% at 200 and {100 * power[800]:.0f}% at 800, while its false-finding rate stays at or below about 5% "
+                  f"{100 * power[200]:.0f}% at 200 and {100 * power[800]:.0f}% at 800, while its false-finding rate stays near 5% "
                   f"({', '.join(f'{type1[n]:.3f}' for n in SIZES)}).",
         "checked_by": f"{SIMS} simulated trials per setting, Monte Carlo error about ±{2 * res['mc_error'].max():.3f}; the test "
-                      "agreed with SciPy's permutation test on one trial; Type I rates at or a little below α: the test errs on the cautious side.",
+                      "agreed with SciPy's permutation test on one trial; Type I rates near α, within the check's tolerance of 0.03; one set of shuffles serves all the trials of a size, so the rates also move a little with that set.",
         "limits": "The population stands in for the customers; the uplift is multiplicative and the same for everyone; "
                   "baskets are treated as independent, which a trial randomised by branch would not be.",
         "reviewer": "The finance analyst reruns the power table with a new seed before the trial size is agreed.",
