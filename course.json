@@ -9,7 +9,7 @@
     "en": "Statistics by Simulation: Variation, Estimation and Testing",
     "ar": "الإحصاء بالمحاكاة: التفاوت والتقدير والاختبار"
   },
-  "tagline": "REPLACE: one line under the title: what participants can do after the course",
+  "tagline": "Reason about variation, estimates and tests by simulating them, and report effect sizes with intervals, their limits and how each was checked",
   "description": "Participants approach inference by simulation before formulas. They draw repeated samples to see variation, build bootstrap intervals for means, medians, differences and slopes, run permutation tests, and report effect sizes with intervals rather than bare p-values. They find multiple-testing and forking-path problems in reported results. Each lab ends with a note on how the result was checked, and the capstone is an analysis brief on a public dataset, defended orally. Power analysis and study design follow in SPC-STA-201 and SPC-EXP-201.",
   "track": "foundations",
   "level": 100,
@@ -62,8 +62,8 @@
     }
   ],
   "case_study": {
-    "name": "REPLACE: the name of the fictional organisation every lab works on",
-    "summary": "REPLACE: two sentences on the case study and its synthetic data"
+    "name": "The bakery chain (fictional)",
+    "summary": "An unnamed chain of 24 neighbourhood bakeries in one city, with branches coded BR01 to BR24 and product lines L01 to L20; the labs speak to its operations manager, quality lead, finance analyst and customer insight lead by role only. Its data (a month of baskets, a known quarter of 40,000 baskets, waste records, a randomised discount trial and a promotion dashboard) is synthetic, written with seed 104; weeks 5 and 6 add two public-domain datasets bundled with statsmodels, read at run time and never copied into the course."
   },
   "format": "extended",
   "format_note": "Extended: 8 weeks part-time, one session and one lab a week, weekly graded problem sets and a capstone",
@@ -79,221 +79,546 @@
     {
       "id": "week1",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Describing data",
       "deck": "slides/week1.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Centre, spread, shape and missing values",
+          "summary": "Centre and spread with the median and interquartile range, distribution shape and outliers, and missing data in summaries",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Choose between the mean, the median and a trimmed mean for a long-tailed variable and justify the choice",
+            "Compute and read the interquartile range and the fences, and decide whether an extreme value is an error",
+            "Report a summary with the share and the likely direction of missing data"
           ],
-          "lo": [],
+          "lo": [
+            "LO1",
+            "LO4"
+          ],
           "minutes": 210,
           "lab": {
             "id": "1.1",
-            "title": "REPLACE: what participants build in lab 1.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Describing the chain's baskets: centre, spread, shape, outliers and missing values",
+            "summary": "Describe a month of synthetic baskets with summaries that survive a long tail, settle two extreme baskets, and find who is missing from the wait data.",
             "minutes": 105,
-            "href": "W1_1.ipynb"
+            "href": "W1_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up and load the month of baskets",
+                "minutes": 10
+              },
+              {
+                "text": "Centre by hand, then in code: mean, median, trimmed mean",
+                "minutes": 15
+              },
+              {
+                "text": "Spread: standard deviation, interquartile range and the fences",
+                "minutes": 15
+              },
+              {
+                "text": "Shape: skewness, bins and the log scale",
+                "minutes": 15
+              },
+              {
+                "text": "Two extreme baskets: an error or a real order?",
+                "minutes": 15
+              },
+              {
+                "text": "Missing waits: count them, decode them, find who is missing",
+                "minutes": 20
+              },
+              {
+                "text": "Summaries by branch that state what is missing",
+                "minutes": 10
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 5
+              }
+            ],
+            "stretch": "Show how the mean wait moves under three ways of handling the missing waits"
           }
         }
-      ]
+      ],
+      "subtitle": "A typical value, its spread, and who is missing from the data"
     },
     {
       "id": "week2",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Sampling variation",
       "deck": "slides/week2.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Populations, samples and standard error",
+          "summary": "Populations, samples and sampling frames, sampling distributions and the standard error by simulation",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Name the population, the sample, the parameter and the statistic of a stated study",
+            "Estimate a standard error by drawing repeated samples and compare it with s/√n",
+            "Explain why a larger sample shrinks the standard error but not the bias of a wrong frame"
           ],
-          "lo": [],
+          "lo": [
+            "LO1"
+          ],
           "minutes": 210,
           "lab": {
             "id": "2.1",
-            "title": "REPLACE: what participants build in lab 2.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Repeated sampling from a synthetic population",
+            "summary": "Draw thousands of samples from a known synthetic quarter of 40,000 baskets, measure the standard error of the mean and the median, and see what a members-only frame does.",
             "minutes": 105,
-            "href": "W2_1.ipynb"
+            "href": "W2_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; the quarter as a known population",
+                "minutes": 10
+              },
+              {
+                "text": "Every sample of a tiny population, by hand",
+                "minutes": 10
+              },
+              {
+                "text": "Two thousand samples at three sizes: the sampling distribution of the mean",
+                "minutes": 20
+              },
+              {
+                "text": "The standard error by simulation against s/√n",
+                "minutes": 15
+              },
+              {
+                "text": "The sampling distribution of the median",
+                "minutes": 15
+              },
+              {
+                "text": "A frame of loyalty members only",
+                "minutes": 15
+              },
+              {
+                "text": "The shape of the sampling distribution at n = 10",
+                "minutes": 10
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 10
+              }
+            ],
+            "stretch": "Show that four times the sample size halves the standard error of the median too"
           }
         }
-      ]
+      ],
+      "subtitle": "The same question, a different sample, a different answer"
     },
     {
       "id": "week3",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Observational and experimental data",
       "deck": "slides/week3.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Confounding and Simpson's paradox",
+          "summary": "Observational versus experimental data, confounding and Simpson's paradox, and what randomisation buys",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Tell observational from experimental data from how the treatment was assigned",
+            "Find a confounder that reverses a comparison (Simpson's paradox) and compare within its levels",
+            "Explain what a randomised assignment guarantees and what it does not"
           ],
-          "lo": [],
+          "lo": [
+            "LO1",
+            "LO3"
+          ],
           "minutes": 210,
           "lab": {
             "id": "3.1",
-            "title": "REPLACE: what participants build in lab 3.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Confounding in the waste records, against a randomised trial",
+            "summary": "Explain why a display shelf chosen by managers looks harmful overall and helpful within each branch size, and read a randomised discount trial beside it.",
             "minutes": 105,
-            "href": "W3_1.ipynb"
+            "href": "W3_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; observational and experimental data",
+                "minutes": 10
+              },
+              {
+                "text": "Simpson's paradox by hand on a small table",
+                "minutes": 15
+              },
+              {
+                "text": "Waste rate by display, all branches together",
+                "minutes": 10
+              },
+              {
+                "text": "Waste rate by display within each branch size",
+                "minutes": 15
+              },
+              {
+                "text": "Who chose the display: the confounder",
+                "minutes": 10
+              },
+              {
+                "text": "The randomised trial: balance and the difference",
+                "minutes": 20
+              },
+              {
+                "text": "Balance of size and sector in the two studies",
+                "minutes": 15
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 10
+              }
+            ],
+            "stretch": "Standardise the display comparison to the chain's mix of branch sizes"
           }
         }
-      ]
+      ],
+      "subtitle": "Who chose the treatment decides what a comparison can show"
     },
     {
       "id": "week4",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "The bootstrap",
       "deck": "slides/week4.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "The bootstrap and its coverage",
+          "summary": "The bootstrap and its assumptions, percentile intervals, and interval coverage checked by simulation",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Build a percentile bootstrap interval for a mean and a median",
+            "Check an interval method's coverage by simulation against a known truth",
+            "Explain why bootstrap intervals under-cover for small samples from a long-tailed population"
           ],
-          "lo": [],
+          "lo": [
+            "LO2",
+            "LO4"
+          ],
           "minutes": 210,
           "lab": {
             "id": "4.1",
-            "title": "REPLACE: what participants build in lab 4.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Bootstrap intervals with coverage checked against a known truth",
+            "summary": "Build percentile bootstrap intervals from one sample, then measure how often they contain the known population mean and median at three sample sizes.",
             "minutes": 105,
-            "href": "W4_1.ipynb"
+            "href": "W4_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; one sample and the truth",
+                "minutes": 10
+              },
+              {
+                "text": "Every resample of a sample of two, by hand",
+                "minutes": 10
+              },
+              {
+                "text": "A percentile bootstrap for any statistic",
+                "minutes": 20
+              },
+              {
+                "text": "Intervals for the mean and the median from one sample of 50",
+                "minutes": 10
+              },
+              {
+                "text": "Coverage by simulation at n = 10, 30 and 100",
+                "minutes": 25
+              },
+              {
+                "text": "Compare with SciPy's bootstrap: percentile and its default method",
+                "minutes": 15
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 15
+              }
+            ],
+            "stretch": "The coverage of the t interval for the mean at the same sizes"
           }
         }
-      ]
+      ],
+      "subtitle": "Resample the sample to see how much an estimate could move"
     },
     {
       "id": "week5",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Intervals for differences and slopes",
       "deck": "slides/week5.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Bootstrap intervals for differences and slopes",
+          "summary": "Intervals for differences between groups and for regression slopes on public skewed data, with small groups suppressed and reruns compared",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Build a bootstrap interval for a difference between two groups by resampling each group",
+            "Build a bootstrap interval for a regression slope by resampling whole rows",
+            "Show that intervals agree on rerun with a new seed, and suppress small groups before reporting"
           ],
-          "lo": [],
+          "lo": [
+            "LO2",
+            "LO4"
+          ],
           "minutes": 210,
           "lab": {
             "id": "5.1",
-            "title": "REPLACE: what participants build in lab 5.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Bootstrap intervals for differences and slopes on public skewed data",
+            "summary": "On two public-domain datasets, build intervals for a mean, a median, a difference in visits between insurance plans and the slope of food spending on income, and check they agree on rerun.",
             "minutes": 105,
-            "href": "W5_1.ipynb"
+            "href": "W5_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; the two public datasets and their licences",
+                "minutes": 10
+              },
+              {
+                "text": "Suppress small groups before any table",
+                "minutes": 10
+              },
+              {
+                "text": "Intervals for the mean and the median of visits",
+                "minutes": 15
+              },
+              {
+                "text": "An interval for a difference: free care against 95% coinsurance",
+                "minutes": 20
+              },
+              {
+                "text": "A slope by hand, then in code",
+                "minutes": 10
+              },
+              {
+                "text": "A bootstrap interval for the slope of food spending on income",
+                "minutes": 20
+              },
+              {
+                "text": "Rerun with a new seed and compare every interval",
+                "minutes": 10
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 10
+              }
+            ],
+            "stretch": "The slope on the log scale, and what it means"
           }
         }
-      ]
+      ],
+      "subtitle": "Resample the way the data were collected"
     },
     {
       "id": "week6",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Permutation tests",
       "deck": "slides/week6.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Null models, p-values and effect sizes",
+          "summary": "Null models and permutation tests, what p-values do not mean, Type I and Type II errors, and effect size with practical significance",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "State the null model of a comparison and test it by permutation",
+            "Read a p-value correctly and correct common misreadings",
+            "Report a result as an effect size with an interval and a plain-language reading"
           ],
-          "lo": [],
+          "lo": [
+            "LO2",
+            "LO5"
+          ],
           "minutes": 210,
           "lab": {
             "id": "6.1",
-            "title": "REPLACE: what participants build in lab 6.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Permutation tests for a group difference and a correlation on public data",
+            "summary": "Test a difference in visits between insurance plans and a correlation between income and food spending by permutation, and report effect sizes with intervals.",
             "minutes": 105,
-            "href": "W6_1.ipynb"
+            "href": "W6_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; the two questions and their null models",
+                "minutes": 10
+              },
+              {
+                "text": "Every split of a tiny two-group sample, by hand",
+                "minutes": 15
+              },
+              {
+                "text": "A permutation test for a difference in means",
+                "minutes": 20
+              },
+              {
+                "text": "The effect size with an interval: difference and ratio of means",
+                "minutes": 15
+              },
+              {
+                "text": "A permutation test for a correlation",
+                "minutes": 15
+              },
+              {
+                "text": "Compare with SciPy's permutation test",
+                "minutes": 10
+              },
+              {
+                "text": "A plain-language reading of each result",
+                "minutes": 10
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 10
+              }
+            ],
+            "stretch": "Q1 for participants in poor health only, and why it is weaker evidence"
           }
         }
-      ]
+      ],
+      "subtitle": "Shuffle the labels to see what chance alone produces"
     },
     {
       "id": "week7",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Many tests and forking paths",
       "deck": "slides/week7.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Multiple testing and false discoveries",
+          "summary": "Multiple testing and false discoveries, family-wise and false-discovery-rate corrections, forking paths and pre-specified analyses",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Measure by simulation how often uncorrected tests produce false findings",
+            "Apply Bonferroni, Holm and Benjamini-Hochberg corrections and say what each controls",
+            "Spot forking paths in a reported analysis and name the pre-specification that prevents them"
           ],
-          "lo": [],
+          "lo": [
+            "LO3",
+            "LO6"
+          ],
           "minutes": 210,
           "lab": {
             "id": "7.1",
-            "title": "REPLACE: what participants build in lab 7.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Twenty tests on pure noise, with and without correction",
+            "summary": "Test twenty product lines with no true effect, then simulate a thousand such dashboards to build the table of false-finding rates with and without correction.",
             "minutes": 105,
-            "href": "W7_1.ipynb"
+            "href": "W7_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; the promotion dashboard",
+                "minutes": 10
+              },
+              {
+                "text": "Bonferroni, Holm and Benjamini-Hochberg by hand on five p-values",
+                "minutes": 15
+              },
+              {
+                "text": "Twenty permutation tests on the dashboard",
+                "minutes": 15
+              },
+              {
+                "text": "The three corrections on the dashboard",
+                "minutes": 10
+              },
+              {
+                "text": "A thousand dashboards of pure noise: the table of false-finding rates",
+                "minutes": 25
+              },
+              {
+                "text": "Forking paths: one line, eight reasonable analyses",
+                "minutes": 15
+              },
+              {
+                "text": "Record how this was checked",
+                "minutes": 15
+              }
+            ],
+            "stretch": "Give four lines a true effect and compare Bonferroni with Benjamini-Hochberg"
           }
         }
-      ]
+      ],
+      "subtitle": "Test enough things and something will look real"
     },
     {
       "id": "week8",
       "kind": "day",
-      "title": "REPLACE: the theme of this unit, in a few words",
+      "title": "Error rates, power and honest reporting",
       "deck": "slides/week8.html",
       "sessions": [
         {
-          "title": "REPLACE: the title of Session 1",
+          "title": "Type I and II errors, power and reporting",
+          "summary": "Type I and Type II errors and a first look at power by simulation, effect size and practical significance, and recording how each result was checked",
           "outcomes": [
-            "REPLACE: what a participant can do after this session; list in lo the course outcomes it serves"
+            "Estimate a test's Type I error rate and power by simulation at several sample sizes",
+            "Judge practical significance by comparing an interval with a threshold that matters",
+            "Write a result with its scope, limits and a record of how it was checked"
           ],
-          "lo": [],
+          "lo": [
+            "LO2",
+            "LO5",
+            "LO6"
+          ],
           "minutes": 210,
           "lab": {
             "id": "8.1",
-            "title": "REPLACE: what participants build in lab 8.1",
-            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 105",
+            "title": "Type I error rate and power of a permutation test estimated by simulation at three sample sizes",
+            "summary": "Simulate a planned trial thousands of times with and without a 10% uplift to estimate the permutation test's Type I error rate and power at three sample sizes.",
             "minutes": 105,
-            "href": "W8_1.ipynb"
+            "href": "W8_1.ipynb",
+            "steps": [
+              {
+                "text": "Set up; the planned trial and its question",
+                "minutes": 10
+              },
+              {
+                "text": "Type I and Type II errors by hand: a hundred trials",
+                "minutes": 10
+              },
+              {
+                "text": "A fast permutation test with fixed shuffles",
+                "minutes": 15
+              },
+              {
+                "text": "The Type I error rate at 50, 200 and 800 per group",
+                "minutes": 20
+              },
+              {
+                "text": "Power at the same sizes for a 10% uplift",
+                "minutes": 20
+              },
+              {
+                "text": "Effect size and practical significance",
+                "minutes": 15
+              },
+              {
+                "text": "Record how this was checked, and plan your capstone",
+                "minutes": 15
+              }
+            ],
+            "stretch": "The power of Welch's t test on the same simulated trials"
           }
         }
-      ]
+      ],
+      "subtitle": "How often a test errs, and how to say what was checked"
     },
     {
       "id": "capstone",
       "kind": "capstone",
-      "title": "Capstone project presentations",
+      "title": "Capstone oral checks",
       "deck": "slides/capstone.html",
-      "subtitle": "REPLACE: the catalog gives 10 minutes for each presentation and nothing about questions; decide whether the questions are inside those minutes, set capstone.talk_minutes and capstone.qa_minutes in course.json and the timers of the now-presenting slide, and remove this line"
+      "subtitle": "Ten minutes each: three to walk through the brief, seven to rerun one test with the assessor's change and read the result"
     }
   ],
   "capstone": {
     "summary": "A two-page analysis brief on a public dataset with estimate, interval, test, effect size and limits, submitted with its notebook and defended in a ten-minute oral check",
-    "submission": "REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code",
-    "talk_minutes": 10,
+    "submission": "A link to a public GitHub repository with the two-page brief, the notebook with its outputs, and the dataset's source and licence; then a ten-minute oral check in which the participant walks through the brief and reruns one test with a change the assessor specifies",
+    "talk_minutes": 3,
     "rubric": [
       {
-        "criterion": "REPLACE: rubric criterion 1 and its weight (the weights add up to 100)",
+        "criterion": "Question, dataset, source and licence, unit and scope stated; groups under 30 rows suppressed",
+        "weight": 15
+      },
+      {
+        "criterion": "Estimate with a bootstrap interval resampled the way the data were collected; the interval agrees on rerun with a new seed",
         "weight": 25
       },
       {
-        "criterion": "REPLACE: rubric criterion 2 and its weight (the weights add up to 100)",
+        "criterion": "Test with its null model stated, a permutation test, the effect size with an interval and a plain-language reading",
         "weight": 25
       },
       {
-        "criterion": "REPLACE: rubric criterion 3 and its weight (the weights add up to 100)",
+        "criterion": "Limits: confounding, multiple comparisons and forking paths named where they apply, and what the analysis cannot show",
         "weight": 20
       },
       {
-        "criterion": "REPLACE: rubric criterion 4 and its weight (the weights add up to 100)",
-        "weight": 20
-      },
-      {
-        "criterion": "REPLACE: rubric criterion 5 and its weight (the weights add up to 100)",
-        "weight": 10
+        "criterion": "Notebook reruns from top to bottom; a record of how each result, and any AI-assisted step, was checked",
+        "weight": 15
       }
-    ]
+    ],
+    "qa_minutes": 7
   },
   "labs": {
     "kind": "notebooks",
@@ -335,5 +660,41 @@
     "sessions_per_day": 1,
     "session_lab": true,
     "lab_minutes": 105
-  }
+  },
+  "sources": [
+    {
+      "group": "Data",
+      "items": [
+        {
+          "title": "statsmodels: the RAND Health Insurance Experiment dataset (randhie), public domain",
+          "url": "https://www.statsmodels.org/stable/datasets/generated/randhie.html"
+        },
+        {
+          "title": "statsmodels: the Engel food expenditure dataset (engel), public domain",
+          "url": "https://www.statsmodels.org/stable/datasets/generated/engel.html"
+        }
+      ]
+    },
+    {
+      "group": "Methods and tools",
+      "items": [
+        {
+          "title": "SciPy: scipy.stats.bootstrap (default method BCa)",
+          "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"
+        },
+        {
+          "title": "SciPy: scipy.stats.permutation_test (two-sided p-value: twice the smaller one-sided p-value)",
+          "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html"
+        },
+        {
+          "title": "statsmodels: multipletests (Bonferroni, Holm, Benjamini-Hochberg)",
+          "url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html"
+        },
+        {
+          "title": "Gelman and Loken (2013), The garden of forking paths: why multiple comparisons can be a problem, even when there is no fishing expedition",
+          "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/p_hacking.pdf"
+        }
+      ]
+    }
+  ]
 }

@@ -1,7 +1,10 @@
 """Convert percent-format Python sources (labs/_src/*.py) into clean notebooks.
 
     uv run python _tools/py2nb.py                 # all sources
-    uv run python _tools/py2nb.py D1_1_two_providers  # one source
+    uv run python _tools/py2nb.py W1_1              # one source
+
+Problem sets: problem-sets/_src/PS<n>.py becomes problem-sets/PS<n>.ipynb only. Their sources
+hold no solution: the worked answers are kept by the trainer, outside this repository.
 
 Cell markers:
     # %% [markdown]   -> markdown cell; leading "# " is stripped from each line
@@ -23,6 +26,7 @@ from pathlib import Path
 
 LABS = Path(__file__).resolve().parents[1]
 SRC = LABS / "_src"
+PS_SRC = LABS / "problem-sets" / "_src"
 
 
 def strip_solutions(lines: list[str], student: bool) -> list[str]:
@@ -88,7 +92,10 @@ def convert(src: Path, student: bool) -> Path:
     }
     for i, c in enumerate(nb["cells"]):
         c["id"] = f"{src.stem[:20].lower().replace('_', '-')}-{i:03d}"
-    out_dir = LABS if student else LABS / "solutions"
+    if src.parent == PS_SRC:
+        out_dir = LABS / "problem-sets"
+    else:
+        out_dir = LABS if student else LABS / "solutions"
     out_dir.mkdir(exist_ok=True)
     out = out_dir / f"{src.stem}.ipynb"
     out.write_text(json.dumps(nb, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
@@ -98,6 +105,13 @@ def convert(src: Path, student: bool) -> Path:
 if __name__ == "__main__":
     names = sys.argv[1:]
     sources = [SRC / f"{n}.py" for n in names] if names else sorted(SRC.glob("*.py"))
+    if not names:
+        sources += sorted(PS_SRC.glob("*.py"))
     for s in sources:
+        if s.parent == PS_SRC:
+            if "BEGIN SOLUTION" in s.read_text(encoding="utf-8"):
+                raise SystemExit(f"{s.name}: a problem set source must hold no solution")
+            print("wrote", convert(s, True).relative_to(LABS))
+            continue
         for student in (True, False):
             print("wrote", convert(s, student).relative_to(LABS))

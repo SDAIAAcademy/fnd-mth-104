@@ -1,0 +1,15 @@
+[project]
+name = "fnd-mth-104-labs"
+version = "2027.1.0"
+description = "Labs of Statistics by Simulation: Variation, Estimation and Testing (SDAIA Academy, FND-MTH-104)"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.1",
+    "scipy>=1.15",
+    "pandas>=2.2",
+    "statsmodels>=0.14",
+    "ipykernel>=6.29",
+]
+
+[tool.uv]
+package = false
