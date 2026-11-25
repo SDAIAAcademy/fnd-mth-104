@@ -65,8 +65,10 @@
 <section class="slide" id="percentile-interval" data-lo="LO4">
   <div class="kicker">Block A · the interval</div>
   <h2>A 95% percentile interval keeps the middle 95% of the bootstrap statistics</h2>
-  <pre class="code" data-file="numpy"><code class="language-python">idx = rng.integers(0, len(x), size=(B, len(x)))   # B resamples at once
-boots = np.mean(x[idx], axis=1)
+  <pre class="code" data-file="numpy"><code class="language-python">n = len(x)
+# B resamples at once
+idx = rng.integers(0, n, size=(B, n))
+boots = x[idx].mean(axis=1)
 low, high = np.percentile(boots, [2.5, 97.5])</code></pre>
   <ul class="bullets mt">
     <li>Works for any statistic: swap np.mean for np.median</li>
@@ -167,8 +169,11 @@ low, high = np.percentile(boots, [2.5, 97.5])</code></pre>
   <div class="kicker">Block C · libraries</div>
   <h2>Check which interval a library returns: SciPy's default is not the percentile method</h2>
   <pre class="code" data-file="scipy"><code class="language-python">from scipy import stats
-stats.bootstrap((x,), np.mean, method="percentile")   # what you build in the lab
-stats.bootstrap((x,), np.mean)                        # default method: BCa</code></pre>
+# what you build in the lab
+stats.bootstrap((x,), np.mean,
+                method="percentile")
+# the default method: BCa
+stats.bootstrap((x,), np.mean)</code></pre>
   <div class="callout note mt">BCa (bias-corrected and accelerated) adjusts the ends; why it does is in SPC-STA-201. Name the method in every report.</div>
   <aside class="notes"><p>Sources: SciPy documentation of scipy.stats.bootstrap, which gives method 'BCa' as the default. In R the infer package and the boot package have their own defaults; the habit is the same: read the documentation of the version you use.</p></aside>
 </section>

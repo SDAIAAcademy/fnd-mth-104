@@ -57,10 +57,11 @@
   <h2>With many rows, shuffle a few thousand times instead of listing every split</h2>
   <pre class="code" data-file="numpy"><code class="language-python">obs = x.mean() - y.mean()
 pooled = np.concatenate([x, y])
-count = 0
+k, count = len(x), 0
 for _ in range(R):
     p = rng.permutation(pooled)
-    count += abs(p[:len(x)].mean() - p[len(x):].mean()) >= abs(obs)
+    d = p[:k].mean() - p[k:].mean()
+    count += abs(d) >= abs(obs)
 p_value = (count + 1) / (R + 1)</code></pre>
   <aside class="notes"><p>The +1 counts the observed labelling as one of the possible ones: the p-value is never zero, and its floor is 1 / (R + 1). Report R. SciPy's permutation_test does the same; its two-sided p-value doubles the smaller one-sided p-value, which can differ from counting |difference| on a lopsided null. The lab compares the two.</p></aside>
 </section>
