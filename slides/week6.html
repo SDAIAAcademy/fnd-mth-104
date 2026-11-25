@@ -1,56 +1,206 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Week 5 estimated how big a difference is. This week asks whether chance alone could have produced it, and how to report the answer without the misreadings that fill reports.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
+
+<section class="slide" id="review-week5" data-lo="LO4">
+  <div class="kicker">Review · week 5</div>
+  <h2>Which interval answers the question?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2 LO4">
+    <p class="lead">Two warehouses' mean picking times have 95% intervals 11.0 to 13.0 and 12.5 to 14.5 minutes. A manager concludes there is no difference because the intervals overlap. What should the analyst do?</p>
+    <div class="opts">
+      <div class="opt" data-why="Accepts the overlap rule, which does not settle a difference">Agree: overlapping intervals mean no difference</div>
+      <div class="opt" data-why="Thinks a wider level makes overlap less likely: it does the opposite">Recompute both intervals at 99% to remove the overlap</div>
+      <div class="opt" data-ok>Build a bootstrap interval for the difference itself</div>
+      <div class="opt" data-why="Pooling the warehouses removes the very difference in question">Pool both warehouses and build one interval</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The question is about the difference: estimate it, with its own interval.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="null-model" data-lo="LO5">
+  <div class="kicker">Block A · the null model</div>
+  <h2>A null model says how the data would look if nothing were going on</h2>
   <div class="cols cols-2">
     <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+      <li>Groups assigned at random, no effect: the labels could have been any relabelling</li>
+      <li>Two columns with no relation: any pairing is as likely as the observed one</li>
+      <li>A permutation test builds the null by <b>shuffling</b>, and counts</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-teal"><h4>The question it answers</h4><p class="small mb0">If the labels did not matter, how often would a shuffle give a difference at least as large as ours?</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Contrast with week 5: the bootstrap resamples each group to estimate; the permutation test pools and shuffles to build "no effect".</p></aside>
 </section>
 
-<section class="slide" id="s1-steps">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="shuffle-example" data-lo="LO5">
+  <div class="kicker">Block A · by hand</div>
+  <h2>Three against three: twenty splits, two as extreme as the data</h2>
+  <div class="cols cols-2">
+    <div>
+      <p>Old layout: 3, 4, 6 sales. New layout: 7, 9, 11.</p>
+      <p>Observed difference: 9 − 4.33 = <b>4.67</b></p>
+      <p class="small">Choose any 3 of the 6 values as "old": 20 splits. Two give |difference| ≥ 4.67: the real one and its mirror.</p>
+    </div>
+    <div class="stat center"><div class="big">p = 2 / 20 = 0.10</div><div class="lbl">two-sided, from every split</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From slide_numbers.py, week 6. With six values even the most extreme split gives p = 0.10: small samples cannot give small p-values. The lab does the same by hand with different values first.</p></aside>
+</section>
+
+<section class="slide" id="shuffle-code" data-lo="LO5">
+  <div class="kicker">Block A · at scale</div>
+  <h2>With many rows, shuffle a few thousand times instead of listing every split</h2>
+  <pre class="code" data-file="numpy"><code class="language-python">obs = x.mean() - y.mean()
+pooled = np.concatenate([x, y])
+count = 0
+for _ in range(R):
+    p = rng.permutation(pooled)
+    count += abs(p[:len(x)].mean() - p[len(x):].mean()) >= abs(obs)
+p_value = (count + 1) / (R + 1)</code></pre>
+  <aside class="notes"><p>The +1 counts the observed labelling as one of the possible ones: the p-value is never zero, and its floor is 1 / (R + 1). Report R. SciPy's permutation_test does the same; its two-sided p-value doubles the smaller one-sided p-value, which can differ from counting |difference| on a lopsided null. The lab compares the two.</p></aside>
+</section>
+
+<section class="slide" id="check-null" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>What do you shuffle?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">Thirty stores were randomly given a new price label; thirty kept the old one. To test whether weekly sales differ, what does each permutation do?</p>
+    <div class="opts">
+      <div class="opt" data-why="That is a bootstrap, which estimates rather than builds the null">Resample each group with replacement</div>
+      <div class="opt" data-ok>Shuffle the 60 stores' labels and split them 30 and 30</div>
+      <div class="opt" data-why="Sorting creates the largest possible difference, not the null">Sort the sales and give the top 30 the new label</div>
+      <div class="opt" data-why="Changes the data instead of the labels">Add random noise to each store's sales</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Under no effect the labels are exchangeable; shuffling them keeps the group sizes and the data.</div>
+  </div>
+  <aside class="notes"><p>Answer B.</p></aside>
+</section>
+
+<section class="slide" id="p-not-mean" data-lo="LO2">
+  <div class="kicker">Block B · misreadings</div>
+  <h2>What a p-value does not mean</h2>
+  <table class="t">
+    <tr><th>Misreading of p = 0.03</th><th>Correction</th></tr>
+    <tr><td>"A 3% chance that there is no effect"</td><td>p assumes no effect; it is not the probability of that assumption</td></tr>
+    <tr><td>"A 97% chance that the effect is real"</td><td>The same reversal, stated the other way</td></tr>
+    <tr><td>"The effect is large"</td><td>p mixes size and sample size; report the effect size</td></tr>
+    <tr class="hl"><td>"p = 0.06, so there is no effect"</td><td>Not enough evidence at this size is not evidence of none</td></tr>
+  </table>
+  <aside class="notes"><p>These four plus the interval misreadings of week 4 make up most of the LO2 ten-statement sheet. Ask participants to find one in a report they have read this year.</p></aside>
+</section>
+
+<section class="slide" id="errors" data-lo="LO2">
+  <div class="kicker">Block B · two errors</div>
+  <h2>A test can err two ways: a false finding and a missed effect</h2>
+  <table class="t">
+    <tr><th></th><th>The test rejects</th><th>The test does not reject</th></tr>
+    <tr><td><b>No real effect</b></td><td class="hl">Type I error: a false finding, at rate α</td><td>Correct</td></tr>
+    <tr><td><b>A real effect</b></td><td>Correct: the rate is the <b>power</b></td><td class="hl">Type II error: a missed effect</td></tr>
+  </table>
+  <div class="callout note mt">α = 0.05 is a convention, not a law. Week 8 estimates both rates by simulation.</div>
+  <aside class="notes"><p>Defined here with p-values, as the topic list orders them; measured in week 8, which keeps the entry's lab order. Ask: which error is worse for the bakery's offer, launching something useless or missing something good? It depends on cost.</p></aside>
+</section>
+
+<section class="slide" id="check-pvalue" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Correct the sentence</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">A report says: "p = 0.01, so there is only a 1% chance that the new schedule has no effect." Which correction is right?</p>
+    <div class="opts">
+      <div class="opt" data-why="Swaps one reversal for another">"There is a 99% chance the schedule works."</div>
+      <div class="opt" data-why="Turns the p-value into an effect size">"The schedule improves the outcome by 1%."</div>
+      <div class="opt" data-ok>"If the schedule had no effect, a difference this large would arise in about 1% of relabellings."</div>
+      <div class="opt" data-why="Changes the threshold instead of the reading">"The result is significant at the 5% level, so the effect is certain."</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A p-value is computed assuming no effect; it cannot be the probability of that assumption.</div>
+  </div>
+  <aside class="notes"><p>Answer C.</p></aside>
+</section>
+
+<section class="slide" id="effect-size" data-lo="LO5">
+  <div class="kicker">Block C · effect size</div>
+  <h2>Report how big the effect is, with an interval, then the test</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Difference</h4><p class="small mb0">In the outcome's own units: minutes, riyals, visits.</p></div>
+    <div class="card c-coral"><h4>Ratio</h4><p class="small mb0">"48% more": useful when the level differs between settings.</p></div>
+    <div class="card c-purple"><h4>Correlation</h4><p class="small mb0">For two numeric columns: from −1 to 1, with its interval.</p></div>
+  </div>
+  <div class="callout tip mt"><b>Practical significance:</b> compare the interval with the smallest effect that would change a decision.</div>
+  <aside class="notes"><p>The interval for each comes from the week 5 bootstrap. With thousands of rows a tiny, useless effect gets a tiny p-value; the effect size and its interval show that it is tiny.</p></aside>
+</section>
+
+<section class="slide" id="plain-reading" data-lo="LO5">
+  <div class="kicker">Block C · the reading</div>
+  <h2>A plain-language reading states the size, the uncertainty and what chance can explain</h2>
+  <div class="card c-teal"><h4>Template</h4><p class="small mb0">"[Group A] [did more/less] [outcome] than [group B]: [difference] ([interval]). Shuffling the labels gave a gap this large in [p as a share] of [R] shuffles. [What this does and does not show.]"</p></div>
+  <div class="callout warn mt"><b>Avoid:</b> "proves", "significant" on its own, "the probability that the null is true", and causal words for observational data.</div>
+  <aside class="notes"><p>The brackets are the parts of the sentence participants fill; the lab's step 7 writes one reading per question. For Engel's data the honest verb is "went with", not "caused".</p></aside>
+</section>
+
+<section class="slide" id="check-report" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which report meets the standard?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">A permutation test of two packing methods on 400 boxes gives p = 0.004. Which report follows the course's standard?</p>
+    <div class="opts">
+      <div class="opt" data-why="A bare verdict hides size, direction and uncertainty">"Method B is significantly better (p &lt; 0.05)."</div>
+      <div class="opt" data-why="Claims proof, which no test gives">"p = 0.004 proves method B is better."</div>
+      <div class="opt" data-why="Turns p into a probability of the hypothesis">"Method B is better with 99.6% probability."</div>
+      <div class="opt" data-ok>"B damaged 1.2 fewer boxes per hundred (interval 0.4 to 2.0); shuffles rarely gave a gap this large (p = 0.004)."</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Size in the outcome's units, its interval, then the p-value read correctly.</div>
+  </div>
+  <aside class="notes"><p>Answer D. The numbers in the stem and options are a constructed example, not a computed result.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-6-1" data-auto="lab" data-lab="6.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: hints only. This lab is the catalog entry's third lab line and the evidence for LO5: participants keep the notebook with test code, intervals and plain readings. Watch for: shuffling within one group only; forgetting the +1; reporting p = 0.0000.</p></aside>
+</section>
+
+<section class="slide" id="debrief-q1" data-lo="LO5">
+  <div class="kicker">Debrief · lab 6.1</div>
+  <h2>Q1: free care gave about 48% more visits; no shuffle came close</h2>
+  <table class="t">
+    <tr><th>Free care against 95% coinsurance</th><th class="num">Estimate</th><th class="num">95% interval</th></tr>
+    <tr><td>Difference in mean visits a year</td><td class="num">1.01</td><td class="num">0.82 to 1.18</td></tr>
+    <tr><td>Ratio of means</td><td class="num">1.48</td><td class="num">1.37 to 1.60</td></tr>
+    <tr class="hl"><td>Permutation p, 5,000 shuffles</td><td class="num" colspan="2">0.0002, the floor 1 / 5,001</td></tr>
+  </table>
+  <p class="small mt">Source: RAND Health Insurance Experiment subset bundled with statsmodels (public domain).</p>
+  <aside class="notes"><p>From the solution run of lab 6.1. Two random halves of the free-care group gave p = 0.84: the test behaves under a known null. In poor health only (stretch), 207 against 40 person-years: −1.56 visits, interval −4.48 to 1.12, p = 0.22: weaker evidence, and a subgroup that should be chosen before looking.</p></aside>
+</section>
+
+<section class="slide" id="debrief-q2" data-lo="LO2 LO5">
+  <div class="kicker">Debrief · lab 6.1</div>
+  <h2>Q2: income and food spending went together, r = 0.91; and two p-value conventions</h2>
+  <ul class="bullets">
+    <li>r = 0.91 (95% interval 0.89 to 0.95), p at the floor: an association in one survey, not a cause</li>
+    <li>Tiny case: counting |difference| gave p = 0.1; SciPy's two-sided gave 0.2, twice the smaller one-sided p</li>
+    <li>Neither convention is wrong: state the one you used</li>
+  </ul>
+  <p class="small mt">Source: Engel's food expenditure data bundled with statsmodels (public domain).</p>
+  <aside class="notes"><p>From the solution run of lab 6.1. Sources: SciPy documentation of scipy.stats.permutation_test, which defines the two-sided p-value as twice the smaller one-sided p-value.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Week 6 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Shuffle to build the null</h4><p class="small mb0">Count how often chance does as well.</p></div>
+    <div class="card c-coral"><h4>p is conditional</h4><p class="small mb0">It assumes no effect; it never measures that assumption.</p></div>
+    <div class="card c-purple"><h4>Size first</h4><p class="small mb0">Effect size, interval, then the test, in plain words.</p></div>
   </div>
+  <aside class="notes"><p>Ask two participants to read their plain-language readings; the room checks each against the misreadings table.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Week 7: REPLACE: the theme of this unit, in a few words</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Week 7: Many tests and forking paths</h2>
+  <p class="lead">Problem set 6 (50 minutes, AI off for the first attempt): labs/problem-sets/PS6.ipynb.</p>
+  <aside class="notes"><p>Next week runs twenty tests at once, on data with no effect at all.</p></aside>
 </section>
